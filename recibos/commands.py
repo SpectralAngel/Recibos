@@ -73,6 +73,6 @@ def start():
 	turbogears.update_config(configfile=configfile,
 		modulename="recibos.config")
 
-	from recibos.controllers import Root
+	from recibos.controllers import root
 
-	turbogears.start_server(Root())
+	turbogears.start_server(root.Root())

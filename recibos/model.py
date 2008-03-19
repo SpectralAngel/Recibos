@@ -20,7 +20,9 @@
 from datetime	import datetime
 from elixir		import Entity, Field, OneToMany, ManyToOne, ManyToMany
 from elixir		import options_defaults, using_options, setup_all
-from elixir		import String, Unicode, Integer, DateTime, Boolean, Numeric
+from elixir		import Integer, Boolean, Numeric
+from elixir		import String, Unicode, Text
+from elixir		import DateTime
 from turbogears	import identity
 
 Currency = Numeric
@@ -31,26 +33,26 @@ class Casa(Entity):
 	
 	"""Sucursal del COPEMH
 	
-	Representa un lugar físico donde se encuentra una sede del COPEMH
+	Representa un lugar físico donde se encuentra una sede del COPEMH.
 	"""
 	
 	using_options(tablename='casa')
 	
 	nombre = Field(Unicode(20), required=True)
 	recibos = OneToMany("Recibo", order_by='dia')
-	direccion = Field(Unicode)
+	direccion = Field(Text)
 
 class Afiliado(Entity):
 	
 	"""Datos sobre un miembro
 	
-	Contiene los datos básicos sobre un miembro del COPEMH
+	Contiene los datos básicos sobre un miembro del COPEMH.
 	"""
 	
 	using_options(tablename='affiliate')
 	
-	nombre = Field(Unicode, colname='first_name')
-	apellidos = Field(Unicode, colname='last_name')
+	nombre = Field(Unicode(50), colname='first_name')
+	apellidos = Field(Unicode(50), colname='last_name')
 	
 	cotizacion = Field(String(20))
 
@@ -65,10 +67,10 @@ class Recibo(Entity):
 	using_options(tablename='recibo')
 	
 	casa = ManyToOne("Casa")
-	cliente = Field(Unicode, required=True)
+	cliente = Field(Unicode(100), required=True)
 	dia = Field(DateTime, required=True, default=datetime.now)
 	impreso = Field(Boolean, default=False)
-	ventas = OneToMany("Ventas")
+	ventas = OneToMany("Venta")
 	
 	def total(self):
 		
@@ -85,7 +87,7 @@ class Venta(Entity):
 	
 	recibo = ManyToOne("Recibo")
 	producto = ManyToOne("Producto")
-	descripcion = Field(Unicode)
+	descripcion = Field(Text)
 	cantidad = Field(Integer(3), required=True)
 	# No siempre el precio unitario esta determinado por el precio nominal de un
 	# producto, este puede cambiar como en el caso de los préstamos
@@ -105,14 +107,15 @@ class Organizacion(Entity):
 	
 	using_options(tablename='organizacion')
 	
-	nombre = Field(Unicode, required=True)
+	nombre = Field(Unicode(50), required=True)
 	detalles = OneToMany("Detalle")
 
 class Producto(Entity):
 	
 	using_options(tablename='producto')
 	
-	nombre = Field(Unicode, required=True)
+	nombre = Field(Unicode(100), required=True)
+	descripcion = Field(Text)
 	detalles = OneToMany("Detalle")
 	
 	def valor(self):
@@ -130,7 +133,7 @@ class Detalle(Entity):
 	
 	producto = ManyToOne("Producto")
 	organizacion = ManyToOne("Organizacion")
-	nombre = Field(Unicode)
+	nombre = Field(Unicode(100))
 	valor = Field(Currency, required=True)
 
 # the identity model

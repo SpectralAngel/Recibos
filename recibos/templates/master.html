@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:py="http://genshi.edgewall.org/"
       xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -19,6 +18,12 @@
             text-align: right;
         }
     </style>
+    <script type="text/javascript" src="/static/javascript/jquery"></script>
+    
+	<link rel="stylesheet" type="text/css" media="screen"
+									href="${tg.url('/static/css/style.css')}" />
+	<link rel="stylesheet" type="text/css" media="screen"
+									href="${tg.url('/static/css/form.css')}" />
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
