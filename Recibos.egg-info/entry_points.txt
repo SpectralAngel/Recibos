@@ -1,0 +1,3 @@
+[console_scripts]
+start-recibos = recibos.commands:start
+
