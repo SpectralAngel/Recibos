@@ -20,58 +20,60 @@
 from turbogears	import controllers, identity
 from turbogears	import flash, redirect
 from turbogears	import expose, validators, paginate
-from recibos	import model
 from cherrypy	import request, response
+from recibos	import model
+from detalle	import Detalle
 
-class Detalle(controllers.Controller):
+class Producto(controllers.Controller):
 	
-	@expose()
+	detalle = Detalle()
+	
+	@expose(template="recibos.templates.producto.index")
 	def index(self):
 		
 		return dict()
 	
-	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def default(self, detalle):
+	@expose(template="recibos.templates.producto.producto")
+	@validate(dict(producto=validators.Int()))
+	def default(self, producto):
 		
-		'''Permite mostrar un detalle en el cliente'''
+		'''Muestra una casa en el cliente'''
 		
-		return dict(detalle=model.Detalle.get(detalle))
+		return dict(producto=model.Producto.get(producto))
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def mostrar(self, detalle):
+	@validate(dict(producto=validators.Int()))
+	def mostrar(self, producto):
 		
 		'''
-		Permite utilizar un formulario para mostrar un detalle en el cliente
+		Permite utilizar un formulario para mostrar una casa en el cliente
 		'''
 		
-		return self.default(detalle)
+		return self.default(producto)
+	
+	@paginate()
+	@expose()
+	def todos(self):
+		
+		'''Responde con un listado de todas las casas disponibles'''
+		
+		return dict(productos=model.Producto.query.all())
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def eliminar(self, detalle):
+	def agregar(self, **kw):
 		
-		'''Elimina un detalle de la base de datos'''
+		'''Agrega un producto a la base de datos'''
 		
-		eliminando = model.Detalle.get(detalle)
+		producto = model.Producto(**kw)
+		producto.flush()
+		
+		return self.default(producto.id)
+	
+	@expose()
+	@validate(dict(producto=validators.Int()))
+	def eliminar(self, producto):
+		
+		eliminando = model.Producto.get(producto)
 		eliminando.delete()
 		
-		return dict(detalle=detalle)
-	
-	@expose()
-	@validate(dict(producto=validators.Int(), organizacion=validators.Int()))
-	def agregar(self, producto, organizacion, **kw):
-		
-		'''Agrega un nuevo detalle al producto y la organización especificada'''
-		
-		producto = model.Producto.get(producto)
-		organizacion = model.Organizacion.get(organizacion)
-		
-		detalle = model.Detalle(**kw)
-		
-		producto.detalles.add(detalle)
-		organizacion.detalles.add(detalle)
-		detalle.flush()
-		
-		return self.default(detalle.id)
+		return self.index()

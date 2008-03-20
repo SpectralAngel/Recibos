@@ -31,30 +31,32 @@ options_defaults['autosetup'] = False
 
 class Casa(Entity):
 	
-	"""Sucursal del COPEMH
+	'''Sucursal del COPEMH
 	
 	Representa un lugar físico donde se encuentra una sede del COPEMH.
-	"""
+	'''
 	
 	using_options(tablename='casa')
 	
 	nombre = Field(Unicode(20), required=True)
-	recibos = OneToMany("Recibo", order_by='dia')
 	direccion = Field(Text)
+	telefono = Field(Unicode(11))
+	recibos = OneToMany("Recibo", order_by='dia')
 
 class Afiliado(Entity):
 	
 	"""Datos sobre un miembro
 	
-	Contiene los datos básicos sobre un miembro del COPEMH.
-	"""
+	Contiene los datos básicos sobre un miembro del COPEMH. Estos datos son en
+	realidad parte de otra aplicación y no deben ser modificados por el gestor
+	de recibos."""
 	
 	using_options(tablename='affiliate')
 	
 	nombre = Field(Unicode(50), colname='first_name')
 	apellidos = Field(Unicode(50), colname='last_name')
 	
-	cotizacion = Field(String(20))
+	cotizacion = Field(String(20), colname='payment')
 
 class Recibo(Entity):
 	
@@ -69,6 +71,7 @@ class Recibo(Entity):
 	casa = ManyToOne("Casa")
 	cliente = Field(Unicode(100), required=True)
 	dia = Field(DateTime, required=True, default=datetime.now)
+	# Marca si el recibo ya ha sido impreso
 	impreso = Field(Boolean, default=False)
 	ventas = OneToMany("Venta")
 	
@@ -80,8 +83,7 @@ class Venta(Entity):
 	
 	"""Descripción de Venta
 	
-	Contiene los datos sobre la venta de determinado producto en un recibo.
-	"""
+	Contiene los datos sobre la venta de determinado producto en un recibo."""
 	
 	using_options(tablename='venta')
 	
@@ -102,7 +104,7 @@ class Organizacion(Entity):
 	"""Beneficiario de las Ventas
 	
 	Contiene la información sobre las estructuras organizacionales que se
-	benefician en la venta de determinados productos. 
+	benefician en la venta de determinados productos.
 	"""
 	
 	using_options(tablename='organizacion')
@@ -112,11 +114,18 @@ class Organizacion(Entity):
 
 class Producto(Entity):
 	
+	'''Servicios u Objetos a la venta
+	
+	Guarda los datos de productos que se tienen a la disposición de los
+	afiliados.'''
+	
 	using_options(tablename='producto')
 	
 	nombre = Field(Unicode(100), required=True)
 	descripcion = Field(Text)
 	detalles = OneToMany("Detalle")
+	# Marca si el producto se encuentra disponible para ser facturado
+	activo = Field(Boolean, default=True)
 	
 	def valor(self):
 		
@@ -126,8 +135,7 @@ class Detalle(Entity):
 	
 	"""
 	Expresa a que organización debe adjudicarse parte del valor de la venta de
-	un producto.
-	"""
+	un producto."""
 	
 	using_options(tablename='detalle_producto')
 	

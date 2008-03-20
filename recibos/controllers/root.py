@@ -21,11 +21,15 @@ from turbogears	import controllers, expose, flash
 # from recibos import model
 from turbogears	import identity, redirect
 from cherrypy	import request, response
+from producto	import producto
 # from recibos import json
 # import logging
 # log = logging.getLogger("recibos.controllers")
 
 class Root(controllers.RootController):
+	
+	producto = Producto()
+	
 	@expose(template="recibos.templates.welcome")
 	# @identity.require(identity.in_group("admin"))
 	def index(self):
