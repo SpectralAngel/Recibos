@@ -4,15 +4,24 @@
 	xmlns:py="http://genshi.edgewall.org/"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
+<?python
+	import locale
+	locale.setlocale(locale.LC_ALL, '')
+?>
 <head>
 	<title>Recibo ${recibo.id}</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 </head>
 <body>
-	<div id="sidebar"></div>
+	<div id="sidebar">
+		<a href="${tg.url('impresion/%s' % recibo.id)}">Vista de Impresi&oacute;n y cerrar</a>
+	</div>
 	<div id="getting_started">
 		<h1 py:content="'Recibo ', recibo.id" />
-		<h2 py:content="recibo.afiliado, ' ', recibo.cliente" />
+		<h2>
+			<span py:if="recibo.afiliado != None" py:content="recibo.afiliado" />
+			<span py:content="recibo.cliente" />
+		</h2>
 		<table>
 			<caption>Ventas del Recibo</caption>
 			<colgroup width="20%">
@@ -37,7 +46,7 @@
 					<td py:content="venta.producto.nombre" />
 					<td py:content="venta.descripcion" />
 					<td py:content="venta.unitario" />
-					<td py:content="venta.valor()" />
+					<td py:content="locale.currency(venta.valor(), True, True)" />
 				</tr>
 			</tbody>
 		</table>
@@ -60,7 +69,8 @@
 					<td><input name="descripcion" /></td>
 					<td><input name="unitario" /></td>
 					<td><input type="hidden" value="${recibo.id}" name="recibo" />
-						<input type="submit" value="Agregar" /></td>
+						<input type="submit" value="Agregar" />
+					</td>
 				</tr>
 			</table>
 		</form>

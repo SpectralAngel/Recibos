@@ -3,13 +3,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:py="http://genshi.edgewall.org/"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="master.html" />
+<xi:include href="../master.html" />
+<?python
+	import locale
+	locale.setlocale(locale.LC_ALL, '')
+?>
 <head>
 	<title>Reporte de Ingresos</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 </head>
 <body>
-	<div id="sidebar"></div>
 	<div id="getting_started">
 		<h1>COPEMH</h1>
 		<h2>Reporte Diario de Ingresos</h2>
@@ -25,13 +28,13 @@
 			<tbody>
 				<tr py:for="key in detalles.keys()">
 					<td py:content="key.nombre" />
-					<td py:content="detalles[key]" />
+					<td py:content="locale.currency(detalles[key], True, True)" />
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total de Ingresos</th>
-					<th py:content="sum(detalles[key] for key in detalles.keys())" />
+					<th py:content="locale.currency(sum(detalles[key] for key in detalles.keys()), True, True)" />
 				</tr>
 			</tfoot>
 		</table>
