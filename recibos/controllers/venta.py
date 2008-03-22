@@ -43,7 +43,7 @@ class Venta(controllers.Controller):
 		eliminando = model.Venta.get(venta)
 		eliminando.delete()
 		
-		return dict(venta=venta)
+		redirect(request.path)
 	
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
@@ -52,14 +52,11 @@ class Venta(controllers.Controller):
 				   descripcion=validators.String()))
 	def agregar(self, recibo, producto, **kw):
 		
-		recibo = model.Recibo.get(recibo)
-		producto = model.Producto.get(producto)
-		
 		venta = model.Venta(**kw)
 		
-		venta.producto = producto
-		venta.recibo = recibo
+		venta.producto = model.Recibo.get(recibo)
+		venta.recibo = model.Producto.get(producto)
 		
 		venta.flush()
 		
-		raise redirect('/recibo/%s' % recibo.id)
+		redirect(request.path)

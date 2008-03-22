@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<?python
+	import locale
+	locale.setlocale(locale.LC_ALL, '')
+?>
+<head>
+	<title>Reporte de Ingresos</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body>
+	<div id="sidebar"></div>
+	<div id="getting_started">
+		<h1>COPEMH</h1>
+		<h2>Reporte de Ingresos</h2>
+		<h3>
+			<span py:content="organizacion.nombre" />
+			<span py:content="casa.nombre" />
+		</h3>
+		<table>
+			<caption py:content="dia.strftime('%A %d de %B de %Y').decode('cp1252')" />
+			<thead>
+				<tr>
+					<th>Concepto</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr py:for="key in detalles.keys()">
+					<td py:content="key.nombre" />
+					<td py:content="detalles[key]" />
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th>Total de Ingresos</th>
+					<th py:content="sum(detalles[key] for key in detalles.keys())" />
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</body>
+</html>

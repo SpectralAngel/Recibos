@@ -80,3 +80,4 @@ class Producto(controllers.Controller):
 		eliminando.delete()
 		
 		return self.index()
+	

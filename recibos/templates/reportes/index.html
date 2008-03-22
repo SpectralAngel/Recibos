@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>Gestion de Reportes</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body>
+	<div id="sidebar"></div>
+	<div id="getting_started">
+		<form action="dia">
+			<fieldset>
+				<legend>Reporte de Ingresos D&iacute;a</legend>
+				<ol>
+					<li>
+						<label>D&iacute;a</label>
+						<input name="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
+		<form action="diaCasa">
+			<fieldset>
+				<legend>Reporte de Ingresos de un D&iacute;a y Casa</legend>
+				<ol>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" id="casas">
+							<option py:for="casa in casas" py:content="casa.nombre" value="${casa.id}" />
+						</select>
+					</li>
+					<li>
+						<label>D&iacute;a</label>
+						<input name="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
+		<form action="organizacion">
+			<fieldset>
+				<legend>Reporte de Ingresos de una Organizacion</legend>
+				<ol>
+					<li>
+						<label>Organizaci&oacute;n:</label>
+						<select name="organizacion" id="organizacion">
+							<option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
+						</select>
+					</li>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" id="casas">
+							<option py:for="casa in casas" py:content="casa.nombre" value="${casa.id}" />
+						</select>
+					</li>
+					<li>
+						<label>D&iacute;a</label>
+						<input name="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>

@@ -50,6 +50,8 @@ class Recibo(controllers.Controller):
 	@validate(validators=dict(recibo=validators.Int()))
 	def impresion(self, recibo):
 		
+		'''Muestra la plantilla de impresion de recibos'''
+		
 		recibo=model.Recibo.get(recibo)
 		
 		if not recibo.impreso:
@@ -64,6 +66,8 @@ class Recibo(controllers.Controller):
 	@validate(validators=dict(recibo=validators.Int()))
 	def eliminar(self, recibo):
 		
+		'''Elimina un recibo de la base de datos'''
+		
 		eliminando = model.recibo.gett(recibo)
 		eliminando.delete()
 		
@@ -73,8 +77,11 @@ class Recibo(controllers.Controller):
 	
 	@expose()
 	@validate(validators=dict(casa=validators.Int(),
-							dia=validators.DateTimeConverter(format='%d/%m/%Y')))
+							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+							cliente=validators.String()))
 	def agregar(self, dia, casa, **kw):
+		
+		'''Agrega un nuevo recibo a la base de datos'''
 		
 		if kw['afiliado'] == '':
 			
@@ -94,19 +101,19 @@ class Recibo(controllers.Controller):
 		return self.default(recibo.id)
 	
 	@paginate(var_name="recibos")
-	@expose(template="recibos.templates.recibo.dia")
+	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
 		
 		return dict(recibos=model.Recibo.query.filter_by(dia=dia).all(), dia=dia)
 	
 	@paginate(var_name="recibos")
-	@expose(template="recibos.templates.recibo.dia")
+	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):
 		
 		casa = model.Casa.get(casa)
-		recibos = model.Recibo.query.filter_by(dia=dia).all()
+		recibos = model.Recibo.query.filter_by(dia=dia, casa=casa).all()
 		
 		return dict(recibos=recibos, dia=dia, casa=casa)

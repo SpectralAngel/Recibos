@@ -25,6 +25,7 @@ from producto		import Producto
 from recibo			import Recibo
 from casa			import Casa
 from organizacion	import Organizacion
+from reporte		import Reporte
 # from recibos import json
 # import logging
 # log = logging.getLogger("recibos.controllers")
@@ -35,6 +36,7 @@ class Root(controllers.RootController):
 	producto = Producto()
 	organizacion = Organizacion()
 	casa = Casa()
+	reporte = Reporte()
 	
 	@expose(template="recibos.templates.welcome")
 	# @identity.require(identity.in_group("admin"))
