@@ -31,7 +31,7 @@ class Detalle(controllers.Controller):
 		return dict()
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
+	@validate(validators=dict(detalle=validators.Int()))
 	def default(self, detalle):
 		
 		'''Permite mostrar un detalle en el cliente'''
@@ -39,7 +39,7 @@ class Detalle(controllers.Controller):
 		return dict(detalle=model.Detalle.get(detalle))
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
+	@validate(validators=dict(detalle=validators.Int()))
 	def mostrar(self, detalle):
 		
 		'''
@@ -49,7 +49,7 @@ class Detalle(controllers.Controller):
 		return self.default(detalle)
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
+	@validate(validators=dict(detalle=validators.Int()))
 	def eliminar(self, detalle):
 		
 		'''Elimina un detalle de la base de datos'''
@@ -60,7 +60,10 @@ class Detalle(controllers.Controller):
 		return dict(detalle=detalle)
 	
 	@expose()
-	@validate(dict(producto=validators.Int(), organizacion=validators.Int()))
+	@validate(validators=dict(producto=validators.Int(),
+							organizacion=validators.Int(),
+							nombre=validators.String(),
+							valor=validators.Money()))
 	def agregar(self, producto, organizacion, **kw):
 		
 		'''Agrega un nuevo detalle al producto y la organización especificada'''
@@ -69,9 +72,10 @@ class Detalle(controllers.Controller):
 		organizacion = model.Organizacion.get(organizacion)
 		
 		detalle = model.Detalle(**kw)
+		print detalle
 		
-		producto.detalles.add(detalle)
-		organizacion.detalles.add(detalle)
+		detalle.producto = producto
+		detalle.organizacion = organizacion
 		detalle.flush()
 		
-		return self.default(detalle.id)
+		raise redirect("/producto/%s" % producto.id)

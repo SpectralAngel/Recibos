@@ -39,7 +39,8 @@ class Producto(controllers.Controller):
 		
 		'''Muestra una casa en el cliente'''
 		
-		return dict(producto=model.Producto.get(producto))
+		return dict(producto=model.Producto.get(producto),
+					organizaciones=model.Organizacion.query.all())
 	
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))
@@ -60,6 +61,8 @@ class Producto(controllers.Controller):
 		return dict(productos=model.Producto.query.all())
 	
 	@expose()
+	@validate(validators=dict(nombre=validators.String(),
+							descripcion=validators.String()))
 	def agregar(self, **kw):
 		
 		'''Agrega un producto a la base de datos'''

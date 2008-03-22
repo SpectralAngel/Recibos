@@ -47,7 +47,9 @@ class Venta(controllers.Controller):
 	
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
-				   producto=validators.Int()))
+				   producto=validators.Int(),
+				   unitario=validators.Money(),
+				   descripcion=validators.String()))
 	def agregar(self, recibo, producto, **kw):
 		
 		recibo = model.Recibo.get(recibo)
@@ -55,9 +57,9 @@ class Venta(controllers.Controller):
 		
 		venta = model.Venta(**kw)
 		
-		recibo.ventas.add(venta)
-		producto.ventas.add(venta)
+		venta.producto = producto
+		venta.recibo = recibo
 		
 		venta.flush()
 		
-		return self.default(venta.id)
+		raise redirect('/recibo/%s' % recibo.id)

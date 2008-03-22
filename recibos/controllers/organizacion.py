@@ -57,11 +57,14 @@ class Organizacion(controllers.Controller):
 		return dict(organizaciones=model.Organizacion.query.all())
 	
 	@expose()
-	def agregar(self, **kw):
+	@validate(validators=dict(nombre=validators.String()))
+	def agregar(self, nombre):
 		
 		'''Agrega una organizacion a la base de datos'''
 		
-		organizacion = model.Organizacion(**kw)
+		organizacion = model.Organizacion(nombre=nombre)
 		organizacion.flush()
+		print organizacion.id
 		
+		raise redirect('/organizacion/%s' % organizacion.id)
 		return self.default(organizacion.id)

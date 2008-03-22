@@ -37,7 +37,14 @@ class Recibo(controllers.Controller):
 	@validate(validators=dict(recibo=validators.Int()))
 	def default(self, recibo):
 		
-		return dict(recibo=model.Recibo.get(recibo))
+		return dict(recibo=model.Recibo.get(recibo),
+					productos=model.Producto.query.filter_by(activo=True).all())
+	
+	@expose()
+	@validate(validators=dict(recibo=validators.Int()))
+	def mostrar(self, recibo):
+		
+		return self.default(recibo)
 	
 	@expose(template="recibos.templates.recibo.impresion")
 	@validate(validators=dict(recibo=validators.Int()))
@@ -65,7 +72,8 @@ class Recibo(controllers.Controller):
 		return self.index()
 	
 	@expose()
-	@validate(validators=dict(casa=validators.Int()))
+	@validate(validators=dict(casa=validators.Int(),
+							dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def agregar(self, dia, casa, **kw):
 		
 		if kw['afiliado'] == '':
@@ -77,10 +85,28 @@ class Recibo(controllers.Controller):
 		
 		from datetime import datetime
 		recibo = model.Recibo(**kw)
-		recibo.dia = datetime.strptime(dia, '%d/%m/%Y').date()
+		recibo.dia = dia
 		recibo.flush()
 		
 		casa = model.Casa.get(casa)
 		recibo.casa = casa
 		
 		return self.default(recibo.id)
+	
+	@paginate(var_name="recibos")
+	@expose(template="recibos.templates.recibo.dia")
+	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
+	def dia(self, dia):
+		
+		return dict(recibos=model.Recibo.query.filter_by(dia=dia).all(), dia=dia)
+	
+	@paginate(var_name="recibos")
+	@expose(template="recibos.templates.recibo.dia")
+	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+							casa=validators.Int()))
+	def diaCasa(self, dia, casa):
+		
+		casa = model.Casa.get(casa)
+		recibos = model.Recibo.query.filter_by(dia=dia).all()
+		
+		return dict(recibos=recibos, dia=dia, casa=casa)
