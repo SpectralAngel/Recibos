@@ -17,9 +17,9 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity
+from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validators, paginate
+from turbogears	import expose, paginate, validate
 from cherrypy	import request, response
 from recibos	import model
 
@@ -28,10 +28,11 @@ class Casa(controllers.Controller):
 	@expose(template="recibos.templates.casa.index")
 	def index(self):
 		
-		return dict()
+		return dict(casas=model.Casa.query.all())
 	
-	@expose(template="recibos.templates.casa.casa")
-	@validate(dict(casa=validators.Int()))
+	@expose()
+	#@expose(template="recibos.templates.casa.casa")
+	@validate(validators=dict(casa=validators.Int()))
 	def default(self, casa):
 		
 		'''Muestra un producto en el cliente'''
@@ -39,7 +40,7 @@ class Casa(controllers.Controller):
 		return dict(casa=model.Casa.get(casa))
 	
 	@expose()
-	@validate(dict(casa=validators.Int()))
+	@validate(validators=dict(casa=validators.Int()))
 	def mostrar(self, casa):
 		
 		'''
@@ -48,15 +49,19 @@ class Casa(controllers.Controller):
 		
 		return self.default(casa)
 	
-	@paginate()
-	@expose()
+	@paginate(var_name="casas")
+	@expose(template="recibos.templates.casa.casas")
 	def todos(self):
 		
 		'''Responde con un listado de todos los productos disponibles'''
 		
-		return dict(productos=model.Casa.query.all())
+		casas = model.Casa.query.all()
+		
+		return dict(casas=casas, cantidad=len(casas))
 	
 	@expose()
+	@validate(validators=dict(nombre=validators.String(),
+								descripcion=validators.String()))
 	def agregar(self, **kw):
 		
 		'''Agrega un producto a la base de datos'''

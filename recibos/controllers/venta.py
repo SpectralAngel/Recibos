@@ -20,10 +20,10 @@
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate
-from recibos	import model
 from cherrypy	import request, response
+from recibos	import model
 
-class Detalle(controllers.Controller):
+class Venta(controllers.Controller):
 	
 	@expose()
 	def index(self):
@@ -31,47 +31,33 @@ class Detalle(controllers.Controller):
 		return dict()
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def default(self, detalle):
+	@validate(validators=dict(venta=validators.Int()))
+	def default(self, venta):
 		
-		'''Permite mostrar un detalle en el cliente'''
-		
-		return dict(detalle=model.Detalle.get(detalle))
+		return dict(venta=model.Venta.get(venta))
 	
 	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def mostrar(self, detalle):
+	@validate(validators=dict(venta=validators.Int()))
+	def eliminar(self, venta):
 		
-		'''
-		Permite utilizar un formulario para mostrar un detalle en el cliente
-		'''
-		
-		return self.default(detalle)
-	
-	@expose()
-	@validate(dict(detalle=validators.Int()))
-	def eliminar(self, detalle):
-		
-		'''Elimina un detalle de la base de datos'''
-		
-		eliminando = model.Detalle.get(detalle)
+		eliminando = model.Venta.get(venta)
 		eliminando.delete()
 		
-		return dict(detalle=detalle)
+		return dict(venta=venta)
 	
 	@expose()
-	@validate(dict(producto=validators.Int(), organizacion=validators.Int()))
-	def agregar(self, producto, organizacion, **kw):
+	@validate(validators=dict(recibo=validators.Int(),
+				   producto=validators.Int()))
+	def agregar(self, recibo, producto, **kw):
 		
-		'''Agrega un nuevo detalle al producto y la organización especificada'''
-		
+		recibo = model.Recibo.get(recibo)
 		producto = model.Producto.get(producto)
-		organizacion = model.Organizacion.get(organizacion)
 		
-		detalle = model.Detalle(**kw)
+		venta = model.Venta(**kw)
 		
-		producto.detalles.add(detalle)
-		organizacion.detalles.add(detalle)
-		detalle.flush()
+		recibo.ventas.add(venta)
+		producto.ventas.add(venta)
 		
-		return self.default(detalle.id)
+		venta.flush()
+		
+		return self.default(venta.id)

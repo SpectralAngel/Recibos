@@ -17,18 +17,24 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, expose, flash
+from turbogears		import controllers, expose, flash
 # from recibos import model
-from turbogears	import identity, redirect
-from cherrypy	import request, response
-from producto	import producto
+from turbogears		import identity, redirect
+from cherrypy		import request, response
+from producto		import Producto
+from recibo			import Recibo
+from casa			import Casa
+from organizacion	import Organizacion
 # from recibos import json
 # import logging
 # log = logging.getLogger("recibos.controllers")
 
 class Root(controllers.RootController):
 	
+	recibo = Recibo()
 	producto = Producto()
+	organizacion = Organizacion()
+	casa = Casa()
 	
 	@expose(template="recibos.templates.welcome")
 	# @identity.require(identity.in_group("admin"))

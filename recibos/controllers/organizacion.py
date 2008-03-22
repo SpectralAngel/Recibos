@@ -22,58 +22,46 @@ from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate
 from cherrypy	import request, response
 from recibos	import model
-from detalle	import Detalle
 
-class Producto(controllers.Controller):
+class Organizacion(controllers.Controller):
 	
-	detalle = Detalle()
-	
-	@expose(template="recibos.templates.producto.index")
+	@expose(template="recibos.templates.organizacion.index")
 	def index(self):
 		
 		return dict()
 	
-	@expose(template="recibos.templates.producto.producto")
-	@validate(validators=dict(producto=validators.Int()))
-	def default(self, producto):
+	@expose(template="recibos.templates.organizacion.organizacion")
+	@validate(validators=dict(organizacion=validators.Int()))
+	def default(self, organizacion):
 		
-		'''Muestra una casa en el cliente'''
+		'''Muestra una organizacion en el cliente'''
 		
-		return dict(producto=model.Producto.get(producto))
+		return dict(organizacion=model.Organizacion.get(organizacion))
 	
 	@expose()
-	@validate(validators=dict(producto=validators.Int()))
-	def mostrar(self, producto):
+	@validate(validators=dict(organizacion=validators.Int()))
+	def mostrar(self, organizacion):
 		
 		'''
-		Permite utilizar un formulario para mostrar una casa en el cliente
+		Permite utilizar un formulario para mostrar una organizacion en el cliente
 		'''
 		
-		return self.default(producto)
+		return self.default(organizacion)
 	
-	@paginate(var_name="productos")
-	@expose()
+	@paginate(var_name="organizaciones")
+	@expose(template="recibos.templates.organizacion.organizaciones")
 	def todos(self):
 		
-		'''Responde con un listado de todas las casas disponibles'''
+		'''Responde con un listado de todos los productos disponibles'''
 		
-		return dict(productos=model.Producto.query.all())
+		return dict(organizaciones=model.Organizacion.query.all())
 	
 	@expose()
 	def agregar(self, **kw):
 		
-		'''Agrega un producto a la base de datos'''
+		'''Agrega una organizacion a la base de datos'''
 		
-		producto = model.Producto(**kw)
-		producto.flush()
+		organizacion = model.Organizacion(**kw)
+		organizacion.flush()
 		
-		return self.default(producto.id)
-	
-	@expose()
-	@validate(validators=dict(producto=validators.Int()))
-	def eliminar(self, producto):
-		
-		eliminando = model.Producto.get(producto)
-		eliminando.delete()
-		
-		return self.index()
+		return self.default(organizacion.id)

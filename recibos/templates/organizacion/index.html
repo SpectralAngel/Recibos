@@ -3,33 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:py="http://genshi.edgewall.org/"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
-
 <xi:include href="../master.html" />
-
 <head>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<title>Control de Casas</title>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type"
+															py:replace="''" />
+<title>Control de Organizaciones</title>
 </head>
-
 <body>
 	<div id="sidebar">
-	<h2>Mostrar una Casa</h2>
-		<ul>
-			<li py:for="casa in casas">
-				<a href="${tg.url('/casa/%s' % casa.id)}" py:content="casa.nombre" />
-			</li>
-		</ul>
+		<h2>Learn more</h2>
 	</div>
 	<div id="getting_started">
-		<form action="agregar" method="post">
+		<form action="guardar">
 			<fieldset>
-				<legend>Registrar una Casa</legend>
+				<legend>Crear un Organizaci&oacute;n</legend>
 				<ol>
 					<li><label>Nombre:</label><input name="nombre" /></li>
-					<li>
-						<label>Direcci&oacute;n</label>
-						<textarea name="direccion" rows="3" cols="40"></textarea>
-					</li>
 					<li><input type="submit" value="Guardar" /></li>
 				</ol>
 			</fieldset>

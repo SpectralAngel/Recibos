@@ -6,6 +6,12 @@
       py:strip="">
 
 <head py:match="head" py:attrs="select('@*')">
+    <script type="text/javascript" src="/static/javascript/jquery.js"></script>
+    
+	<link rel="stylesheet" type="text/css" media="screen"
+									href="${tg.url('/static/css/style.css')}" />
+	<link rel="stylesheet" type="text/css" media="screen"
+									href="${tg.url('/static/css/form.css')}" />
     <meta content="text/html; charset=UTF-8" http-equiv="content-type"
     															py:replace="''"/>
     <title py:replace="''">Your title goes here</title>
@@ -20,12 +26,6 @@
             text-align: right;
         }
     </style>
-    <script type="text/javascript" src="/static/javascript/jquery"></script>
-    
-	<link rel="stylesheet" type="text/css" media="screen"
-									href="${tg.url('/static/css/style.css')}" />
-	<link rel="stylesheet" type="text/css" media="screen"
-									href="${tg.url('/static/css/form.css')}" />
 </head>
 
 <body py:match="body" py:attrs="select('@*')">
@@ -50,7 +50,7 @@
     </div>
 	<div id="footer">
 	<img src="${tg.url('/static/images/under_the_hood_blue.png')}" alt="DNI" />
-	<p>Copyright &copy; 2006 Kevin Dangoor</p>
+	<p>Copyright &copy; 2008 Carlos Flores</p>
 	</div>
 </body>
 

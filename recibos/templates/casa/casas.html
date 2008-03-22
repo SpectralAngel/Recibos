@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="../master.html" />
+
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
+		py:replace="''" />
+	<title>Listado de Casas</title>
+</head>
+
+<body>
+	<div id="sidebar">
+		<h2>Learn more</h2>
+	</div>
+	<div id="getting_started">
+		<table>
+			<caption>Casas Registradas</caption>
+			<thead>
+				<tr>
+					<th>Nombre</th>
+					<th>Descripcion</th>
+					<th>Tel&eacute;fono</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="casa-${casa.id}" py:for="casa in casas">
+					<td py:content="casa.nombre" />
+					<td py:content="casa.direccion" />
+					<td py:content="casa.telefono" />
+				</tr>
+			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="2">Total de Casas:</th>
+					<th py:content="len(casas)" />
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</body>
+</html>

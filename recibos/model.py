@@ -69,6 +69,7 @@ class Recibo(Entity):
 	using_options(tablename='recibo')
 	
 	casa = ManyToOne("Casa")
+	afiliado = Field(Integer(6))
 	cliente = Field(Unicode(100), required=True)
 	dia = Field(DateTime, required=True, default=datetime.now)
 	# Marca si el recibo ya ha sido impreso
