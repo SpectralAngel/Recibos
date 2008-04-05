@@ -8,10 +8,20 @@
 	<title>Control de Recibos</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/recibo.js')}"></script>
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			Casas.activas();
+			Casas.todas();
+			Recibo.sinImprimir();
+		});
+	</script>
 </head>
 <body>
 	<div id="sidebar">
 		<h2>Recibos sin Imprimir</h2>
+		<ul class="recibosSinImprimir" />
 	</div>
 	<div id="getting_started">
 		<form action="agregar" method="post">
@@ -20,8 +30,7 @@
 				<ol>
 					<li>
 						<label>Casa:</label>
-						<select name="casa" id="casas">
-							<option py:for="casa in casas" py:content="casa.nombre" value="${casa.id}" />
+						<select name="casa" class="activas">
 						</select>
 					</li>
 					<li>
@@ -70,8 +79,7 @@
 				<ol>
 					<li>
 						<label>Casa:</label>
-						<select name="casa" id="casas">
-							<option py:for="casa in casas" py:content="casa.nombre" value="${casa.id}" />
+						<select name="casa" class="casas">
 						</select>
 					</li>
 					<li>

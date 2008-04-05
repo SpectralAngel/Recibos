@@ -117,3 +117,8 @@ class Recibo(controllers.Controller):
 		recibos = model.Recibo.query.filter_by(dia=dia, casa=casa).all()
 		
 		return dict(recibos=recibos, dia=dia, casa=casa)
+	
+	@expose(template="recibo.templates.recibo.recibos")
+	def porImprimir(self):
+		
+		return dict(recibos=model.Recibo.query.filter_by(impreso=False).all())

@@ -1,4 +1,4 @@
-// Copyright © 2008 Carlos Flores <cafg10@gmail.com>
+// Copyright 2008 © Carlos Flores <cafg10@gmail.com>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -14,17 +14,52 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-function obtener_casas(e)
+var Casas = {
+			activas : function()
+			{
+				$.getJSON('/casa/activas?tg_format=json', function(data)
+				{
+					$.each(data.casas, function(i, casa)
+					{
+						var option = $('<option/>');
+						option.val(casa.id);
+						option.text(casa.nombre);
+						$('.activas').append(option);
+					});
+				});
+			},
+			todas : function()
+			{
+				$.getJSON('/casa/todos?tg_format=json', function(data)
+				{
+					$.each(data.casas, function(i, casa)
+					{
+						var option = $('<option/>');
+						option.val(casa.id);
+						option.text(casa.nombre);
+						$('.casas').append(option);
+					});
+				});
+			},
+			lista : function()
+			{
+				$.getJSON('/casa/todos?tg_format=json', function(data)
+				{
+					$.each(data.casas, function(i, casa)
+					{
+						var li = $('<li/>');
+						var a = $('<a/>');
+						a.attr('href', '/casa/' + casa.id);
+						a.text(casa.nombre);
+						li.append(a);
+						$('.listaCasas').append(li);
+					});
+				});
+			}
+		};
+
+function desactivarCasa(evento)
 {
-	e.preventDefault();
-	$.getJSON('/casa/todos?tg_format=json', function(json)
-	{
-		var i = 0;
-		while(i < json.cantidad)
-		{
-			$('#casas').createC('option').val(json.casas[i].id);
-			json.casas
-			i += 1;
-		}
-	});
+	evento.preventDefault();
+	
 }
