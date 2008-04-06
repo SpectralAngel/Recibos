@@ -42,6 +42,7 @@ class Casa(Entity):
 	direccion = Field(Text)
 	telefono = Field(Unicode(11))
 	recibos = OneToMany("Recibo", order_by='dia')
+	activa = Field(Boolean, default=True)
 
 class Afiliado(Entity):
 	

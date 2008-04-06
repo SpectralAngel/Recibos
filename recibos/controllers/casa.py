@@ -28,7 +28,7 @@ class Casa(controllers.Controller):
 	@expose(template="recibos.templates.casa.index")
 	def index(self):
 		
-		return dict(casas=model.Casa.query.all())
+		return dict()
 	
 	@expose()
 	#@expose(template="recibos.templates.casa.casa")
@@ -59,6 +59,14 @@ class Casa(controllers.Controller):
 		
 		return dict(casas=casas, cantidad=len(casas))
 	
+	@paginate(var_name="casas")
+	@expose(template="recibos.templates.casa.casas")
+	def activas(self):
+		
+		'''Muestra un listado de casas disponibles para hacer nuevos recibos'''
+		
+		return dict(casas=model.Casa.query.filter_by(activa=True).all())
+	
 	@expose()
 	@validate(validators=dict(nombre=validators.String(),
 								descripcion=validators.String()))
@@ -69,4 +77,30 @@ class Casa(controllers.Controller):
 		casa = model.Casa(**kw)
 		casa.flush()
 		
+		return self.default(casa.id)
+	
+	@expose()
+	@validate(validators=dict(casa=validators.Int()))
+	def desactivar(self, casa):
+		
+		'''Permite desactivar una casa para evitar su uso en nuevos recibos'''
+		
+		casa = model.Casa.get(casa)
+		casa.activa = False
+		casa.flush()
+		
+		flash("La casa %s ha sido desactivada" % casa.nombre)
+		return self.index()
+	
+	@expose()
+	@validate(validators=dict(casa=validators.Int()))
+	def activar(self, casa):
+		
+		'''Permite activar una casa para usarla en nuevos recibos'''
+		
+		casa = model.Casa.get(casa)
+		casa.activa = False
+		casa.flush()
+		
+		flash("La casa %s ha sido Activada" % casa.nombre)
 		return self.default(casa.id)

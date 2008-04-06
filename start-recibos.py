@@ -1,4 +1,4 @@
-#!C:\Python25\python.exe
+#!/usrbin/env python
 # -*- coding: utf-8 -*-
 """Start script for the Recibos TurboGears project.
 
