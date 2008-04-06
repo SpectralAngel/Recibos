@@ -1,0 +1,25 @@
+@CHARSET "UTF-8";
+
+body
+{
+	font-size: 75%;
+	margin-left: 5px;
+}
+#afiliado, #cliente	{ padding-left: 80px; }
+#afiliado {	padding-top: 70px; }
+
+#cliente { padding-top: 20px; padding-bottom: 40px; }
+
+table { width: 100%; }
+
+#cantidad, #unitario, #valor { width: 50px; }
+
+#producto { width: 450px; }
+
+#descripcion { width: 400px; }
+
+#total, #fecha { position: absolute; }
+
+#total { top: 420px; right: 10px; }
+
+#fecha { top: 440px; left: 100px; }
