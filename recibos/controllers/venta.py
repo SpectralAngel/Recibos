@@ -19,16 +19,19 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate
+from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
 class Venta(controllers.Controller):
 	
 	@expose()
-	def index(self):
+	def index(self,  tg_errors=None):
 		
-		return dict()
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 	
 	@expose()
 	@validate(validators=dict(venta=validators.Int()))

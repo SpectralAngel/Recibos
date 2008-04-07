@@ -15,6 +15,7 @@
 			Casas.activas();
 			Casas.todas();
 			Recibo.sinImprimir();
+			$('.dia').attachDatepicker();
 		});
 	</script>
 </head>
@@ -43,7 +44,7 @@
 					</li>
 					<li>
 						<label>Dia:</label>
-						<input name="dia" />
+						<input name="dia" class="dia" />
 					</li>
 					<li><input type="submit" value="Guardar" /></li>
 				</ol>
@@ -67,7 +68,7 @@
 				<ol>
 					<li>
 						<label>D&iacute;a</label>
-						<input name="dia" />
+						<input name="dia" class="dia" />
 					</li>
 					<li><input type="submit" value="Mostrar" /></li>
 				</ol>
@@ -84,7 +85,7 @@
 					</li>
 					<li>
 						<label>D&iacute;a</label>
-						<input name="dia" />
+						<input name="dia" class="dia" />
 					</li>
 					<li><input type="submit" value="Mostrar" /></li>
 				</ol>

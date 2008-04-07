@@ -19,17 +19,21 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, paginate, validate
+from turbogears	import expose, paginate, validate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
 class Casa(controllers.Controller):
 	
 	@expose(template="recibos.templates.casa.index")
-	def index(self):
+	def index(self,  tg_errors=None):
 		
-		return dict()
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose()
 	#@expose(template="recibos.templates.casa.casa")
 	@validate(validators=dict(casa=validators.Int()))
@@ -39,6 +43,7 @@ class Casa(controllers.Controller):
 		
 		return dict(casa=model.Casa.get(casa))
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(casa=validators.Int()))
 	def mostrar(self, casa):
@@ -49,7 +54,6 @@ class Casa(controllers.Controller):
 		
 		return self.default(casa)
 	
-	@paginate(var_name="casas")
 	@expose(template="recibos.templates.casa.casas")
 	def todos(self):
 		
@@ -59,7 +63,6 @@ class Casa(controllers.Controller):
 		
 		return dict(casas=casas, cantidad=len(casas))
 	
-	@paginate(var_name="casas")
 	@expose(template="recibos.templates.casa.casas")
 	def activas(self):
 		
@@ -67,6 +70,7 @@ class Casa(controllers.Controller):
 		
 		return dict(casas=model.Casa.query.filter_by(activa=True).all())
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(nombre=validators.String(),
 								descripcion=validators.String()))
@@ -79,6 +83,7 @@ class Casa(controllers.Controller):
 		
 		return self.default(casa.id)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(casa=validators.Int()))
 	def desactivar(self, casa):
@@ -92,6 +97,7 @@ class Casa(controllers.Controller):
 		flash("La casa %s ha sido desactivada" % casa.nombre)
 		return self.index()
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(casa=validators.Int()))
 	def activar(self, casa):

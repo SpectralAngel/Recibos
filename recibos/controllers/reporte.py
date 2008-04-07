@@ -19,7 +19,7 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate
+from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
@@ -33,7 +33,7 @@ class Reporte(controllers.Controller):
 		return dict(organizaciones=model.Organizacion.query.all(),
 				casas=model.Casa.query.all())
 	
-	@paginate(var_name="recibos")
+	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
@@ -55,7 +55,7 @@ class Reporte(controllers.Controller):
 		
 		return dict(dia=dia)
 	
-	@paginate(var_name="recibos")
+	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int()))
@@ -79,7 +79,7 @@ class Reporte(controllers.Controller):
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
-	@paginate(var_name="detalles")
+	@error_handler(index)
 	@expose(template="recibos.templates.reportes.organizacion")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int(),

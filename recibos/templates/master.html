@@ -11,6 +11,9 @@
 									href="${tg.url('/static/css/style.css')}" />
 	<link rel="stylesheet" type="text/css" media="screen"
 									href="${tg.url('/static/css/form.css')}" />
+	<script type="text/javascript" src="${tg.url('/static/javascript/ui.datepicker.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/i18n/ui.datepicker-es.js')}"></script>
+	<link rel="stylesheet" type="text/css" href="${tg.url('/static/css/ui.datepicker.css')}" />
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
 															py:replace="''" />
 	<title py:replace="''">Your title goes here</title>
@@ -26,6 +29,7 @@
 		<div id="navegacion">
 			<a href="${tg.url('/recibo')}">Recibos</a> |
 			<a href="${tg.url('/casa')}">Casas</a> |
+			<a href="${tg.url('/reporte')}">Reportes</a> |
 			<a href="${tg.url('/producto')}">Productos</a>
 			<span py:if="tg.identity.anonymous">| <a href="${tg.url('/login')}">Iniciar Sesi&oacute;n</a></span>
 			<span py:if="not tg.identity.anonymous">| Welcome ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
@@ -36,13 +40,16 @@
 			</div>
 		</form>
 	</div>
+	<div id="breadcrumb">
+		<span py:for="url, name in tg.breadcrumbs()">
+			<a class="menu" py:content="name" href="${url}" />
+		</span>
+	</div>
 	<div class="flash" py:if="tg_flash" py:content="tg_flash" />
 	<div id="main_content">
-		<div id="status_block" py:if="tg_flash" class="flash" py:content="tg_flash"></div>
 		<div py:for="js in tg_js_bodytop" py:replace="ET(js.display())" />
 		<div py:replace="select('*|text()')" />
 		<div py:for="js in tg_js_bodybottom" py:replace="ET(js.display())" />
-		<!-- End of main_content -->
 	</div>
 </body>
 

@@ -16,6 +16,7 @@ html, body {
 {
 	height: 55px;
 	position: relative;
+	background: #cec;
 }
 
 #header h1, #header h2
@@ -56,6 +57,20 @@ html, body {
 	padding: 0;
 	margin: 0;
 	vertical-align: middle;
+}
+
+.flash {
+  margin: 0.5em;
+  padding: 15px 10px 15px 55px;
+  background: pink;
+  border: 1px dashed red;
+  width: 450px;
+  font-size: 120%;
+  font-weight: bolder;
+}
+#breadcrumb
+{
+	padding: 5px;
 }
 
 table { width: 100%; }

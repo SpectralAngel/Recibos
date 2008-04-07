@@ -6,3 +6,4 @@ devdata.sqlite
 .project
 .pydevproject
 .settings
+*.gif

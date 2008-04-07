@@ -22,6 +22,7 @@ from turbogears		import controllers, expose, flash
 from turbogears		import identity, redirect
 from cherrypy		import request, response
 from producto		import Producto
+from recibos	   	import breadcrumbs
 from recibo			import Recibo
 from casa			import Casa
 from organizacion	import Organizacion
@@ -40,11 +41,12 @@ class Root(controllers.RootController):
 	
 	@expose(template="recibos.templates.welcome")
 	# @identity.require(identity.in_group("admin"))
-	def index(self):
-		import time
-		# log.debug("Happy TurboGears Controller Responding For Duty")
-		flash("Your application is now running")
-		return dict(now=time.ctime())
+	def index(self,  tg_errors=None):
+		
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 
 	@expose(template="recibos.templates.login")
 	def login(self, forward_url=None, previous_url=None, *args, **kw):

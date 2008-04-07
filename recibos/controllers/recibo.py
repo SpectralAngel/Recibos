@@ -19,7 +19,7 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate
+from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 from venta		import Venta
@@ -29,10 +29,14 @@ class Recibo(controllers.Controller):
 	venta = Venta()
 	
 	@expose(template="recibos.templates.recibo.index")
-	def index(self):
+	def index(self,  tg_errors=None):
 		
-		return dict(casas=model.Casa.query.all())
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose(template="recibos.templates.recibo.recibo")
 	@validate(validators=dict(recibo=validators.Int()))
 	def default(self, recibo):
@@ -40,12 +44,14 @@ class Recibo(controllers.Controller):
 		return dict(recibo=model.Recibo.get(recibo),
 					productos=model.Producto.query.filter_by(activo=True).all())
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(recibo=validators.Int()))
 	def mostrar(self, recibo):
 		
 		return self.default(recibo)
 	
+	@error_handler(index)
 	@expose(template="recibos.templates.recibo.impresion")
 	@validate(validators=dict(recibo=validators.Int()))
 	def impresion(self, recibo):
@@ -62,6 +68,7 @@ class Recibo(controllers.Controller):
 		recibo.flush()
 		return dict(recibo=recibo)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(recibo=validators.Int()))
 	def eliminar(self, recibo):
@@ -75,6 +82,7 @@ class Recibo(controllers.Controller):
 		
 		return self.index()
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(casa=validators.Int(),
 							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
@@ -100,14 +108,14 @@ class Recibo(controllers.Controller):
 		
 		return self.default(recibo.id)
 	
-	@paginate(var_name="recibos")
+	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
 		
 		return dict(recibos=model.Recibo.query.filter_by(dia=dia).all(), dia=dia)
 	
-	@paginate(var_name="recibos")
+	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int()))

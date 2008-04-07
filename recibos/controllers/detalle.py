@@ -19,17 +19,21 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate
+from turbogears	import expose, validate, paginate, error_handler
 from recibos	import model
 from cherrypy	import request, response
 
 class Detalle(controllers.Controller):
 	
 	@expose()
-	def index(self):
+	def index(self,  tg_errors=None):
 		
-		return dict()
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(detalle=validators.Int()))
 	def default(self, detalle):
@@ -38,6 +42,7 @@ class Detalle(controllers.Controller):
 		
 		return dict(detalle=model.Detalle.get(detalle))
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(detalle=validators.Int()))
 	def mostrar(self, detalle):
@@ -48,6 +53,7 @@ class Detalle(controllers.Controller):
 		
 		return self.default(detalle)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(detalle=validators.Int()))
 	def eliminar(self, detalle):
@@ -59,6 +65,7 @@ class Detalle(controllers.Controller):
 		
 		return dict(detalle=detalle)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int(),
 							organizacion=validators.Int(),

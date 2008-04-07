@@ -19,17 +19,21 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate
+from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
 class Organizacion(controllers.Controller):
 	
 	@expose(template="recibos.templates.organizacion.index")
-	def index(self):
+	def index(self,  tg_errors=None):
 		
-		return dict()
+		if tg_errors:
+			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		
+		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose(template="recibos.templates.organizacion.organizacion")
 	@validate(validators=dict(organizacion=validators.Int()))
 	def default(self, organizacion):
@@ -38,6 +42,7 @@ class Organizacion(controllers.Controller):
 		
 		return dict(organizacion=model.Organizacion.get(organizacion))
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(organizacion=validators.Int()))
 	def mostrar(self, organizacion):
@@ -48,6 +53,7 @@ class Organizacion(controllers.Controller):
 		
 		return self.default(organizacion)
 	
+	@error_handler(index)
 	@paginate(var_name="organizaciones")
 	@expose(template="recibos.templates.organizacion.organizaciones")
 	def todos(self):
@@ -56,6 +62,7 @@ class Organizacion(controllers.Controller):
 		
 		return dict(organizaciones=model.Organizacion.query.all())
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(nombre=validators.String()))
 	def agregar(self, nombre):
