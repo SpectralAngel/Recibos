@@ -5,9 +5,16 @@
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-<meta content="text/html; charset=UTF-8" http-equiv="content-type"
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
 															py:replace="''" />
-<title>Control de Organizaciones</title>
+	<title>Control de Organizaciones</title>
+	<script type="text/javascript" src="${tg.url('/static/javascript/organizacion.js')}"></script>
+	<script type="text/javascript">
+	$(document).ready(function()
+	{
+		Organizacion.lista();
+	});
+	</script>
 </head>
 <body>
 	<div id="sidebar">

@@ -11,6 +11,8 @@
 									href="${tg.url('/static/css/style.css')}" />
 	<link rel="stylesheet" type="text/css" media="screen"
 									href="${tg.url('/static/css/form.css')}" />
+	<link rel="stylesheet" type="text/css" media="print"
+									href="${tg.url('/static/css/impresion.css')}" />
 	<script type="text/javascript" src="${tg.url('/static/javascript/ui.datepicker.js')}"></script>
 	<script type="text/javascript" src="${tg.url('/static/javascript/i18n/ui.datepicker-es.js')}"></script>
 	<link rel="stylesheet" type="text/css" href="${tg.url('/static/css/ui.datepicker.css')}" />
@@ -39,7 +41,7 @@
 			<a href="${tg.url('/organizacion')}">Organizaciones</a> |
 			<a href="${tg.url('/producto')}">Productos</a>
 			<span py:if="tg.identity.anonymous">| <a href="${tg.url('/login')}">Iniciar Sesi&oacute;n</a></span>
-			<span py:if="not tg.identity.anonymous">| Welcome ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
+			<span py:if="not tg.identity.anonymous">| Bienvenido ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
 		</div>
 		<form action="${tg.url('/recibo/mostrar')}" id="busqueda">
 			<div>
@@ -58,6 +60,7 @@
 		<div py:replace="select('*|text()')" />
 		<div py:for="js in tg_js_bodybottom" py:replace="ET(js.display())" />
 	</div>
+	<div id="footer"><p class="copyright">Copyright 2008 Carlos Flores</p></div>
 </body>
 
 </html>

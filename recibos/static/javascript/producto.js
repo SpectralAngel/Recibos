@@ -52,6 +52,7 @@ var Producto = {
 			{
 				$('#unitario').val(data.valor);
 			});
+			$('#valor').text($('#unitario').val() * $('#cantidad').val());
 		});
 	}
 }

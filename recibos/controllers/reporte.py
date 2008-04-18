@@ -53,7 +53,7 @@ class Reporte(controllers.Controller):
 					except KeyError:
 						detalles[detalle] = detalle.valor
 		
-		return dict(dia=dia)
+		return dict(dia=dia, detalles=detalles)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")

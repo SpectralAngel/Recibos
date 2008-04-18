@@ -12,11 +12,13 @@
 	<title>Recibo ${recibo.id}</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/venta.js')}"></script>
 	<script type="text/javascript">
 		$(document).ready(function()
 		{
 			Producto.todos();
 			Producto.cambiado();
+			Venta.agregando();
 		});
 	</script>
 </head>
@@ -32,7 +34,7 @@
 		</h2>
 		<table>
 			<caption>Ventas del Recibo</caption>
-			<colgroup width="20%">
+			<colgroup width="16%">
 				<col />
 				<col />
 				<col />
@@ -46,6 +48,7 @@
 					<th>Detalle</th>
 					<th>Precio Unitario</th>
 					<th>Valor</th>
+					<th>Acciones</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -55,18 +58,19 @@
 					<td py:content="venta.descripcion" />
 					<td py:content="locale.currency(venta.unitario, True, True)" />
 					<td py:content="locale.currency(venta.valor(), True, True)" />
+					<td><a href="${tg.url('recibo/venta/eliminar/%s' % venta.id)}">Eliminar</a></td>
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th colspan="4">Total:</th>
-					<th py:content="locale.currency(recibo.total(), True, True)" />
+					<th colspan="4" py:content="locale.currency(recibo.total(), True, True)" />
 				</tr>
 			</tfoot>
 		</table>
 		<form action="venta/agregar">
 			<table>
-				<colgroup width="20%">
+				<colgroup width="16%">
 					<col />
 					<col />
 					<col />
@@ -74,10 +78,11 @@
 					<col />
 				</colgroup>
 				<tr>
-					<td><input name="cantidad" /></td>
+					<td><input name="cantidad" id="cantidad" /></td>
 					<td><select name="producto" class="productos" id="producto" /></td>
 					<td><input name="descripcion" /></td>
 					<td><input name="unitario" id="unitario" /></td>
+					<td id="valor"></td>
 					<td><input type="hidden" value="${recibo.id}" name="recibo" />
 						<input type="submit" value="Agregar" />
 					</td>
