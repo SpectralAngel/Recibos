@@ -49,9 +49,9 @@ class Reporte(controllers.Controller):
 				for detalle in venta.producto.detalles:
 					
 					try:
-						detalles[detalle] += detalle.valor
+						detalles[detalle.nombre] += detalle.valor * venta.cantidad
 					except KeyError:
-						detalles[detalle] = detalle.valor
+						detalles[detalle.nombre] = detalle.valor * venta.cantidad
 		
 		return dict(dia=dia, detalles=detalles)
 	
@@ -73,9 +73,9 @@ class Reporte(controllers.Controller):
 				for detalle in venta.producto.detalles:
 					
 					try:
-						detalles[detalle] += detalle.valor
+						detalles[detalle.nombre] += detalle.valor * venta.cantidad
 					except KeyError:
-						detalles[detalle] = detalle.valor
+						detalles[detalle.nombre] = detalle.valor * venta.cantidad
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
@@ -102,8 +102,8 @@ class Reporte(controllers.Controller):
 					if detalle.organizacion == organizacion:
 					
 						try:
-							detalles[detalle] += detalle.valor
+							detalles[detalle.nombre] += detalle.valor * venta.cantidad
 						except KeyError:
-							detalles[detalle] = detalle.valor
+							detalles[detalle.nombre] = detalle.valor * venta.cantidad
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)

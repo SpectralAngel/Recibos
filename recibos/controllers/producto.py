@@ -84,3 +84,58 @@ class Producto(controllers.Controller):
 		
 		return self.index()
 	
+	@expose()
+	@validate(validators=dict(producto=validators.Int()))
+	def copiar(self, producto):
+		
+		producto = model.Producto.get(producto)
+		
+		kw = {}
+		kw['nombre'] = "Aportacion Retrasada %s" % producto.valor()
+		kw['descripcion'] = producto.descripcion
+		kw['activo'] = producto.activo
+		retrasada = model.Producto(**kw)
+		retrasada.flush()
+		
+		kw = {}
+		kw['producto'] = retrasada
+		for detalle in producto.detalles:
+			
+			kw['nombre'] = detalle.nombre
+			kw['organizacion'] = detalle.organizacion
+			kw['valor'] = detalle.valor
+			nuevo = model.Detalle(**kw)
+			nuevo.flush()
+		
+		flash("Se ha copiado el producto como retrasada")
+		
+		return self.default(retrasada.id)
+	
+	@expose()
+	@validate(validators=dict(producto=validators.Int()))
+	def adelantada(self, producto):
+		
+		producto = model.Producto.get(producto)
+		
+		kw = {}
+		kw['nombre'] = "Aportacion Adelantada %s" % producto.valor()
+		kw['descripcion'] = producto.descripcion
+		kw['activo'] = producto.activo
+		retrasada = model.Producto(**kw)
+		retrasada.flush()
+		
+		kw = {}
+		kw['producto'] = retrasada
+		for detalle in producto.detalles:
+			
+			kw['nombre'] = detalle.nombre
+			kw['organizacion'] = detalle.organizacion
+			kw['valor'] = detalle.valor
+			nuevo = model.Detalle(**kw)
+			nuevo.flush()
+		
+		flash("Se ha copiado el producto como Adelantada")
+		
+		return self.default(retrasada.id)
+			
+	

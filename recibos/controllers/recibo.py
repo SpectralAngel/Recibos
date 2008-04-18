@@ -84,7 +84,8 @@ class Recibo(controllers.Controller):
 	
 	@error_handler(index)
 	@expose()
-	@validate(validators=dict(casa=validators.Int(),
+	@validate(validators=dict(id=validators.Int(),
+							  casa=validators.Int(),
 							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							cliente=validators.String()))
 	def agregar(self, dia, casa, **kw):
@@ -96,7 +97,7 @@ class Recibo(controllers.Controller):
 			del kw['afiliado']
 		else:
 			afiliado = model.Afiliado.get(int(kw['afiliado']))
-			kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellido
+			kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
 		
 		from datetime import datetime
 		recibo = model.Recibo(**kw)
@@ -109,14 +110,14 @@ class Recibo(controllers.Controller):
 		return self.default(recibo.id)
 	
 	@error_handler(index)
-	@expose(template="recibos.templates.reportes.dia")
+	@expose(template="recibos.templates.recibo.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
 		
 		return dict(recibos=model.Recibo.query.filter_by(dia=dia).all(), dia=dia)
 	
 	@error_handler(index)
-	@expose(template="recibos.templates.reportes.dia")
+	@expose(template="recibos.templates.recibo.dia")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):

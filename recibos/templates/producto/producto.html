@@ -21,7 +21,11 @@
 
 <body>
   <div id="sidebar">
-    <h2>Learn more</h2>
+    <h2>Herramientas</h2>
+    <ul>
+    	<li><a href="${tg.url('/producto/copiar/%s' % producto.id)}">Copiar como Retrasada</a></li>
+    	<li><a href="${tg.url('/producto/adelantada/%s' % producto.id)}">Copiar como Adelantada</a></li>
+    </ul>
   </div>
   <div id="getting_started">
     <h1 py:content="producto.nombre" />

@@ -70,7 +70,7 @@ class Detalle(controllers.Controller):
 	@validate(validators=dict(producto=validators.Int(),
 							organizacion=validators.Int(),
 							nombre=validators.String(),
-							valor=validators.Money()))
+							valor=validators.Number()))
 	def agregar(self, producto, organizacion, **kw):
 		
 		'''Agrega un nuevo detalle al producto y la organización especificada'''

@@ -18,8 +18,10 @@ table { width: 100%; }
 
 #descripcion { width: 400px; }
 
-#total, #fecha { position: absolute; }
+#total, #fecha, #recibo { position: absolute; }
 
 #total { top: 420px; right: 10px; }
 
 #fecha { top: 440px; left: 100px; }
+
+#recibo { top: 70px; left: 85px; }

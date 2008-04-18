@@ -30,7 +30,7 @@
 			</thead>
 			<tbody>
 				<tr py:for="key in detalles.keys()">
-					<td py:content="key.nombre" />
+					<td py:content="key" />
 					<td py:content="locale.currency(detalles[key], True, True)" />
 				</tr>
 			</tbody>
