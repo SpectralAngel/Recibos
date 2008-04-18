@@ -42,8 +42,9 @@ class Producto(controllers.Controller):
 		
 		'''Muestra una casa en el cliente'''
 		
-		return dict(producto=model.Producto.get(producto),
-					organizaciones=model.Organizacion.query.all())
+		producto = model.Producto.get(producto)
+		
+		return dict(producto=producto, valor=producto.valor())
 	
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))

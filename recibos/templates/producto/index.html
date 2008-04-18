@@ -6,9 +6,16 @@
 <xi:include href="../master.html" />
 
 <head>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type"
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
     															py:replace="''"/>
 	<title>Control de Productos</title>
+	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			Producto.todos();
+		});
+	</script>
 </head>
 
 <body>
@@ -29,9 +36,19 @@
     				<label>Descripci&oacute;n</label>
     				<textarea name="descripcion" rows="3" cols="40"></textarea>
     			</li>
+    			<li><input type="submit" value="Guardar" /></li>
+    		</ol>
+    	</fieldset>
+    </form>
+    <form action="mostrar">
+    	<fieldset>
+    		<legend>Mostrar un producto</legend>
+    		<ol>
     			<li>
-    				<input type="submit" value="Guardar" />
+    				<label>Producto:</label>
+    				<select name="productos" class="productos" />
     			</li>
+    			<li><input type="submit" value="Mostrar" /></li>
     		</ol>
     	</fieldset>
     </form>

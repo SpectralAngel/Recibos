@@ -33,7 +33,7 @@ def breadcrumbs():
     cherry_trail = cherrypy._cputil.get_object_trail()
     #normalize the root path using tg.url()
     href = tg.url('/')
-    crumbs = [(href, 'home')]
+    crumbs = [(href, 'Inicio')]
     for item in cherry_trail:
         # item[0] is the name you use in the URL to access the controller.
         # item[1] is the actual controller

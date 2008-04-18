@@ -10,6 +10,13 @@
     <meta content="text/html; charset=UTF-8" http-equiv="content-type"
     															py:replace="''"/>
 	<title>Producto &bull; ${producto.nombre}</title>
+	<script type="text/javascript" src="${tg.url('/static/javascript/organizacion.js')}"></script>
+	<script type="text/javascript">
+	$(document).ready(function()
+	{
+		Organizacion.todas();
+	});
+	</script>
 </head>
 
 <body>
@@ -52,9 +59,7 @@
 	    	<tr>
 	    		<td><input name="nombre" /><input name="producto" type="hidden" value="${producto.id}" /></td>
 	    		<td>
-	    			<select name="organizacion">
-	    				<option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
-	    			</select>
+	    			<select name="organizacion" class="organizaciones" />
 	    		</td>
 	    		<td><input name="valor" /><input type="submit" value="Agregar" /></td>
 	    	</tr>

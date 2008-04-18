@@ -11,6 +11,14 @@
 <head>
 	<title>Recibo ${recibo.id}</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
+	<script type="text/javascript">
+		$(document).ready(function()
+		{
+			Producto.todos();
+			Producto.cambiado();
+		});
+	</script>
 </head>
 <body>
 	<div id="sidebar">
@@ -41,14 +49,20 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="venta in recibo.ventas">
+				<tr py:for="venta in recibo.ventas" id="venta-${venta.id}">
 					<td py:content="venta.cantidad" />
 					<td py:content="venta.producto.nombre" />
 					<td py:content="venta.descripcion" />
-					<td py:content="venta.unitario" />
+					<td py:content="locale.currency(venta.unitario, True, True)" />
 					<td py:content="locale.currency(venta.valor(), True, True)" />
 				</tr>
 			</tbody>
+			<tfoot>
+				<tr>
+					<th colspan="4">Total:</th>
+					<th py:content="locale.currency(recibo.total(), True, True)" />
+				</tr>
+			</tfoot>
 		</table>
 		<form action="venta/agregar">
 			<table>
@@ -61,13 +75,9 @@
 				</colgroup>
 				<tr>
 					<td><input name="cantidad" /></td>
-					<td>
-						<select name="producto">
-							<option py:for="producto in productos" py:content="producto.nombre" value="${producto.id}" />
-						</select>
-					</td>
+					<td><select name="producto" class="productos" id="producto" /></td>
 					<td><input name="descripcion" /></td>
-					<td><input name="unitario" /></td>
+					<td><input name="unitario" id="unitario" /></td>
 					<td><input type="hidden" value="${recibo.id}" name="recibo" />
 						<input type="submit" value="Agregar" />
 					</td>

@@ -44,9 +44,10 @@ class Venta(controllers.Controller):
 	def eliminar(self, venta):
 		
 		eliminando = model.Venta.get(venta)
+		recibo = eliminando.recibo
 		eliminando.delete()
 		
-		redirect(request.path)
+		redirect('/recibo/%s' % recibo.id)
 	
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
@@ -57,9 +58,9 @@ class Venta(controllers.Controller):
 		
 		venta = model.Venta(**kw)
 		
-		venta.producto = model.Recibo.get(recibo)
-		venta.recibo = model.Producto.get(producto)
+		venta.producto = model.Producto.get(producto)
+		venta.recibo = model.Recibo.get(recibo)
 		
 		venta.flush()
 		
-		redirect(request.path)
+		redirect('/recibo/%s' % recibo)

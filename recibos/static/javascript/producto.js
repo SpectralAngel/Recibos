@@ -14,32 +14,43 @@
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-var Organizacion = {
-	todas : function()
+var Producto = {
+	todos : function()
 	{
-		$.getJSON('/organizacion/todos?tg_format=json', function(data)
+		$.getJSON('/producto/todos?tg_format=json', function(data)
 		{
-			$.each(data.organizaciones, function(i, organizacion)
+			$.each(data.productos, function(i, producto)
 			{
 				var option = $('<option/>');
-				option.val(organizacion.id);
-				option.text(organizacion.nombre);
-				$('.organizaciones').append(option);
+				option.val(producto.id);
+				option.text(producto.nombre);
+				$('.productos').append(option);
 			});
 		});
 	},
 	lista : function()
 	{
-		$.getJSON('/organizacion/todos?tg_format=json', function(data)
+		$.getJSON('/organizacion/todas?tg_format=json', function(data)
 		{
-			$.each(data.organizaciones, function(i, organizacion)
+			$.each(data.productos, function(i, producto)
 			{
 				var li = $('<li/>');
 				var a = $('<a/>');
-				a.attr('href', '/organizacion/' + organizacion.id);
-				a.text(organizacion.nombre);
+				a.attr('href', '/producto/' + producto.id);
+				a.text(producto.nombre);
 				li.append(a);
-				$('.listaOrganizaciones').append(li);
+				$('.listaProductos').append(option);
+			});
+		});
+	},
+	cambiado: function()
+	{
+		$('#producto').change(function()
+		{
+			var producto = $('#producto option:selected').val();
+			$.getJSON('/producto/' + producto + '?tg_format=json', function(data)
+			{
+				$('#unitario').val(data.valor);
 			});
 		});
 	}
