@@ -64,6 +64,20 @@ class Producto(controllers.Controller):
 		return dict(productos=model.Producto.query.all())
 	
 	@expose()
+	@validate(validators=dict(producto=validators.Int(),
+							  nombre=validators.String(),
+							  descripcion=validators.String()))
+	def editar(self, producto, nombre, descripcion):
+		
+		producto = model.Producto.get(producto)
+		producto.nombre = nombre
+		producto.descripcion = descripcion
+		
+		producto.flush()
+		
+		return self.default(producto.id)
+	
+	@expose()
 	@validate(validators=dict(nombre=validators.String(),
 							descripcion=validators.String()))
 	def agregar(self, **kw):
