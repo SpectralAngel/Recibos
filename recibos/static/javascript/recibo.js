@@ -17,16 +17,21 @@
 var Recibo = {
 	sinImprimir : function()
 	{
-		$.getJSON('/recibo/porImprimir?tg_format=json', function(data)
+		$('#imprimir').change(function()
 		{
-			$.each(data.recibos, function(i, recibo)
+			var casa = $('#imprimir option:selected').val();
+			$.getJSON('/recibo/porImprimir/' + casa, function(data)
 			{
-				var a = $('<a/>');
-				a.attr('href', '/recibo/' + recibo.id);
-				a.text(recibo.id + ' ' + recibo.cliente);
-				var li = $('<li/>');
-				li.append(a);
-				$('.recibosSinImprimir').append(li);
+				$('.recibosSinImprimir').empty();
+				$.each(data.recibos, function(i, recibo)
+				{
+					var a = $('<a/>');
+					a.attr('href', '/recibo/' + recibo.id);
+					a.text(recibo.id + ' ' + recibo.cliente);
+					var li = $('<li/>');
+					li.append(a);
+					$('.recibosSinImprimir').append(li);
+				});
 			});
 		});
 	}

@@ -31,11 +31,9 @@ class Producto(controllers.Controller):
 	@expose(template="recibos.templates.producto.index")
 	def index(self,  tg_errors=None):
 		
-		if tg_errors:
-			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
-		
 		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose(template="recibos.templates.producto.producto")
 	@validate(validators=dict(producto=validators.Int()))
 	def default(self, producto):
@@ -46,6 +44,7 @@ class Producto(controllers.Controller):
 		
 		return dict(producto=producto, valor=producto.valor())
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))
 	def mostrar(self, producto):
@@ -56,6 +55,7 @@ class Producto(controllers.Controller):
 		
 		return self.default(producto)
 	
+	@error_handler(index)
 	@expose()
 	def todos(self):
 		
@@ -63,6 +63,7 @@ class Producto(controllers.Controller):
 		
 		return dict(productos=model.Producto.query.all())
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int(),
 							  nombre=validators.String(),
@@ -77,6 +78,7 @@ class Producto(controllers.Controller):
 		
 		return self.default(producto.id)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(nombre=validators.String(),
 							descripcion=validators.String()))
@@ -89,6 +91,7 @@ class Producto(controllers.Controller):
 		
 		return self.default(producto.id)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))
 	def eliminar(self, producto):
@@ -98,6 +101,7 @@ class Producto(controllers.Controller):
 		
 		return self.index()
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))
 	def copiar(self, producto):
@@ -125,6 +129,7 @@ class Producto(controllers.Controller):
 		
 		return self.default(retrasada.id)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(producto=validators.Int()))
 	def adelantada(self, producto):
@@ -151,5 +156,3 @@ class Producto(controllers.Controller):
 		flash("Se ha copiado el producto como Adelantada")
 		
 		return self.default(retrasada.id)
-			
-	

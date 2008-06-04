@@ -11,6 +11,10 @@
 <head>
 	<title>Recibo ${recibo.id}</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<script type="text/javascript" src="${tg.url('/static/javascript/ui.core.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/ui.draggable.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/ui.resizable.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/ui.dialog.js')}"></script>
 	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
 	<script type="text/javascript" src="${tg.url('/static/javascript/venta.js')}"></script>
 	<script type="text/javascript">
@@ -32,7 +36,7 @@
 			<span py:if="recibo.afiliado != None" py:content="recibo.afiliado" />
 			<span py:content="recibo.cliente" />
 		</h2>
-		<table>
+		<table class="stripe">
 			<caption>Ventas del Recibo</caption>
 			<colgroup width="16%">
 				<col />
@@ -58,7 +62,7 @@
 					<td py:content="venta.descripcion" />
 					<td py:content="locale.currency(venta.unitario, True, True)" />
 					<td py:content="locale.currency(venta.valor(), True, True)" />
-					<td><a href="${tg.url('recibo/venta/eliminar/%s' % venta.id)}">Eliminar</a></td>
+					<td><button onclick="Venta.eliminar('${tg.url('venta/eliminar/%s' % venta.id)}')">Eliminar</button></td>
 				</tr>
 			</tbody>
 			<tfoot>

@@ -25,5 +25,16 @@ var Venta = {
 		{
 			$('#valor').text($('#unitario').val() * $('#cantidad').val());
 		});
+	},
+	eliminar : function(url)
+	{
+		$("<div>Esta seguro de querer eliminar la venta</div>").dialog({
+			title : 'Eliminar Venta',
+			modal : true,
+			buttons : {
+				'Si' : function() { $(this).dialog('close'); window.location.href = url; },
+				'No' : function() { $(this).dialog('close'); }
+			}
+		});
 	}
 }

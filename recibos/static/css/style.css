@@ -72,6 +72,7 @@ html, body {
 	padding: 5px;
 	background: pink;
 }
+.valor { text-align: right; }
 
 table { width: 100%; }
 td, th {padding:3px;border:none;}

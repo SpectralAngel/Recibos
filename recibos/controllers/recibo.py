@@ -29,12 +29,9 @@ class Recibo(controllers.Controller):
 	venta = Venta()
 	
 	@expose(template="recibos.templates.recibo.index")
-	def index(self,  tg_errors=None):
+	def index(self, tg_errors=None, tg_exceptions=None):
 		
-		if tg_errors:
-			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
-		
-		return dict(tg_errors=tg_errors)
+		return dict(tg_errors=tg_errors, exception=tg_exceptions)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.recibo.recibo")
@@ -127,7 +124,9 @@ class Recibo(controllers.Controller):
 		
 		return dict(recibos=recibos, dia=dia, casa=casa)
 	
-	@expose(template="recibo.templates.recibo.recibos")
-	def porImprimir(self):
+	@expose()
+	@validate(validators=dict(casa=validators.Int()))
+	def porImprimir(self, casa):
 		
-		return dict(recibos=model.Recibo.query.filter_by(impreso=False).all())
+		casa = model.Casa.get(casa)
+		return dict(recibos=model.Recibo.query.filter_by(impreso=False).filter_by(casa=casa).all())

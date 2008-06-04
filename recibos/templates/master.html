@@ -5,7 +5,7 @@
 	xmlns:xi="http://www.w3.org/2001/XInclude" py:strip="">
 
 <head py:match="head" py:attrs="select('@*')">
-	<script type="text/javascript" src="/static/javascript/jquery.js"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
 	
 	<link rel="stylesheet" type="text/css" media="screen"
 									href="${tg.url('/static/css/style.css')}" />
@@ -15,11 +15,14 @@
 									href="${tg.url('/static/css/impresion.css')}" />
 	<script type="text/javascript" src="${tg.url('/static/javascript/ui.datepicker.js')}"></script>
 	<script type="text/javascript" src="${tg.url('/static/javascript/i18n/ui.datepicker-es.js')}"></script>
+	<link rel="stylesheet" type="text/css" href="${tg.url('/static/css/themes/flora/flora.all.css')}" />
 	<link rel="stylesheet" type="text/css" href="${tg.url('/static/css/ui.datepicker.css')}" />
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
 		$('.dia').datepicker();
+		$('.stripe tr:odd').addClass("odd");
+		$('.stripe tr:even').addClass("even");
 	});
 	</script>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
@@ -30,7 +33,7 @@
 	<meta py:replace="select('*')" />
 </head>
 
-<body py:match="body" py:attrs="select('@*')">
+<body class="flora" py:match="body" py:attrs="select('@*')">
 	<div id="header">
 		<h1>Gestor de Ingresos</h1>
 		<h2>Caja</h2>

@@ -36,8 +36,9 @@
 			</tbody>
 			<tfoot>
 				<tr>
-					<th colspan="2">Total de recibos:</th>
+					<th>Total de recibos:</th>
 					<th py:content="len(recibos)" />
+					<th py:content="locale.currency(sum(r.total() for r in recibos), True, True)" />
 				</tr>
 			</tfoot>
 		</table>
