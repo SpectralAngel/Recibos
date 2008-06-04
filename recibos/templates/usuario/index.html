@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>Control de Usuarios</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body>
+	<div id="sidebar"></div>
+	<div id="getting_started">
+		<form action="agregar" method="post">
+			<fieldset>
+				<legend>Agregar Usuario</legend>
+				<ol>
+					<li>
+						<label for="user_name">Nombre:</label>
+						<input name="user_name" />
+					</li>
+					<li>
+						<label for="display_name">Nombre en Pantalla</label>
+						<input name="dsplay_name" />
+					</li>
+					<li>
+						<label for="user_email">Correo Electr&oacute;nico</label>
+						<input name="display_name" />
+					</li>
+					<li>
+						<label for="password">Contrase&ntilde;a</label>
+						<input name="password" />
+					</li>
+				</ol>
+			</fieldset>
+		</form>
+		<form action="mostrar">
+			<fieldset>
+				<legend>Mostrar un Usuario</legend>
+				<ol>
+					<li>
+						<label for="usuario">Usuario:</label>
+						<select name="usuario" class="usuarios" />
+					</li>
+				</ol>
+			</fieldset>
+		</form>
+	</div>
+</body>
+</html>
