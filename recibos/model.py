@@ -17,12 +17,12 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from datetime	import datetime
+from datetime	import datetime, date
 from elixir		import Entity, Field, OneToMany, ManyToOne, ManyToMany
 from elixir		import options_defaults, using_options, setup_all
 from elixir		import Integer, Boolean, Numeric
 from elixir		import String, Unicode, Text
-from elixir		import DateTime
+from elixir		import DateTime, Date
 from turbogears	import identity
 
 Currency = Numeric
@@ -72,7 +72,7 @@ class Recibo(Entity):
 	casa = ManyToOne("Casa")
 	afiliado = Field(Integer(6))
 	cliente = Field(Unicode(100), required=True)
-	dia = Field(DateTime, required=True, default=datetime.now)
+	dia = Field(Date, required=True, default=date.today)
 	# Marca si el recibo ya ha sido impreso
 	impreso = Field(Boolean, default=False)
 	ventas = OneToMany("Venta")
@@ -194,7 +194,7 @@ class User(Entity):
 	"""
 	using_options(tablename='tg_user')
 
-	user_id = Field(Integer, primary_key=True)
+	user_id = Field(Integer, primary_key=True,colname="id")
 	user_name = Field(Unicode(16), unique=True)
 	email_address = Field(Unicode(255), unique=True)
 	display_name = Field(Unicode(255))

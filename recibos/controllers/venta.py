@@ -22,6 +22,7 @@ from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
+from decimal	import *
 
 class Venta(controllers.Controller):
 	
@@ -52,10 +53,11 @@ class Venta(controllers.Controller):
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
 				   producto=validators.Int(),
-				   unitario=validators.Money(),
+				   unitario=validators.String(),
 				   descripcion=validators.String()))
 	def agregar(self, recibo, producto, **kw):
 		
+		kw['unitario'] = Decimal(kw['unitario'])
 		venta = model.Venta(**kw)
 		
 		venta.producto = model.Producto.get(producto)

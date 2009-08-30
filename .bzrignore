@@ -1,9 +1,1 @@
-*.png
-*.gif
-*.ico
 devdata.sqlite
-devdata.sqlite
-.project
-.pydevproject
-.settings
-*.gif

@@ -24,7 +24,9 @@ from cherrypy	import request, response
 from recibos	import model
 from detalle	import Detalle
 
-class Producto(controllers.Controller):
+class Producto(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	detalle = Detalle()
 	
@@ -38,7 +40,7 @@ class Producto(controllers.Controller):
 	@validate(validators=dict(producto=validators.Int()))
 	def default(self, producto):
 		
-		'''Muestra una casa en el cliente'''
+		"""Muestra una casa en el cliente"""
 		
 		producto = model.Producto.get(producto)
 		
@@ -49,9 +51,7 @@ class Producto(controllers.Controller):
 	@validate(validators=dict(producto=validators.Int()))
 	def mostrar(self, producto):
 		
-		'''
-		Permite utilizar un formulario para mostrar una casa en el cliente
-		'''
+		"""Permite utilizar un formulario para mostrar una casa en el cliente"""
 		
 		return self.default(producto)
 	

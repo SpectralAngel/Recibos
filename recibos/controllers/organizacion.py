@@ -23,7 +23,9 @@ from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
-class Organizacion(controllers.Controller):
+class Organizacion(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	@expose(template="recibos.templates.organizacion.index")
 	def index(self,  tg_errors=None):

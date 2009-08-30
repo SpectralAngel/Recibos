@@ -23,7 +23,9 @@ from turbogears	import expose, validate, paginate, error_handler
 from recibos	import model
 from cherrypy	import request, response
 
-class Detalle(controllers.Controller):
+class Detalle(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	@expose()
 	def index(self,  tg_errors=None):
@@ -70,12 +72,13 @@ class Detalle(controllers.Controller):
 	@validate(validators=dict(producto=validators.Int(),
 							organizacion=validators.Int(),
 							nombre=validators.String(),
-							valor=validators.Number()))
+							valor=validators.String()))
 	def agregar(self, producto, organizacion, **kw):
 		
 		'''Agrega un nuevo detalle al producto y la organización especificada'''
 		
 		producto = model.Producto.get(producto)
+		kw['valor'] = Decimal(kw['valor'])
 		organizacion = model.Organizacion.get(organizacion)
 		
 		detalle = model.Detalle(**kw)

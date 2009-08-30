@@ -24,7 +24,9 @@ from cherrypy	import request, response
 from recibos	import model
 from venta		import Venta
 
-class Recibo(controllers.Controller):
+class Recibo(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	venta = Venta()
 	
@@ -82,7 +84,7 @@ class Recibo(controllers.Controller):
 	@error_handler(index)
 	@expose()
 	@validate(validators=dict(id=validators.Int(),
-							  casa=validators.Int(),
+							casa=validators.Int(),
 							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							cliente=validators.String()))
 	def agregar(self, dia, casa, **kw):

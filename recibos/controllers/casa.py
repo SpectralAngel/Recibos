@@ -23,10 +23,12 @@ from turbogears	import expose, paginate, validate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
-class Casa(controllers.Controller):
+class Casa(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	@expose(template="recibos.templates.casa.index")
-	def index(self,  tg_errors=None):
+	def index(self,  tg_errors=None, tg_exceptions=None):
 		
 		if tg_errors:
 			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]

@@ -34,26 +34,22 @@ class Reporte(controllers.Controller):
 				casas=model.Casa.query.all())
 	
 	@error_handler(index)
-	@expose(template="recibos.templates.reportes.dia")
+	@expose(template="recibos.templates.reportes.general")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
 		
 		recibos = model.Recibo.query.filter_by(dia=dia).all()
 		
 		# filtrando las ventas por detalle de producto
-		detalles = {}
+		productos = dict()
 		for recibo in recibos:
 			
 			for venta in recibo.ventas:
 				
-				for detalle in venta.producto.detalles:
-					
-					try:
-						detalles[detalle.nombre] += detalle.valor * venta.cantidad
-					except KeyError:
-						detalles[detalle.nombre] = detalle.valor * venta.cantidad
-		
-		return dict(dia=dia, detalles=detalles)
+				if venta.producto in productos: productos[venta.producto] += venta.valor()
+				else: productos[venta.producto] = venta.valor()
+			
+		return dict(dia=dia, productos=productos)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
