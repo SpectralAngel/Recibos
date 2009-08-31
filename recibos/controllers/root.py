@@ -39,6 +39,7 @@ class Root(controllers.RootController):
 	casa = Casa()
 	reporte = Reporte()
 	
+	@identity.require(identity.not_anonymous())
 	@expose(template="recibos.templates.welcome")
 	# @identity.require(identity.in_group("admin"))
 	def index(self,  tg_errors=None):

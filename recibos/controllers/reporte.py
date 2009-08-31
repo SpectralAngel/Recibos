@@ -23,7 +23,9 @@ from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 
-class Reporte(controllers.Controller):
+class Reporte(controllers.Controller, identity.SecureResource):
+	
+	require = identity.not_anonymous()
 	
 	'''Muestra reportes de ingresos por compañia, por dia o por producto'''
 	
@@ -61,17 +63,19 @@ class Reporte(controllers.Controller):
 		recibos = model.Recibo.query.filter_by(dia=dia, casa=casa).all()
 		
 		# filtrando las ventas por detalle de producto
-		detalles = {}
+		detalles = dict()
 		for recibo in recibos:
 			
 			for venta in recibo.ventas:
 				
 				for detalle in venta.producto.detalles:
 					
-					try:
-						detalles[detalle.nombre] += detalle.valor * venta.cantidad
-					except KeyError:
-						detalles[detalle.nombre] = detalle.valor * venta.cantidad
+					if detalle.valor == 0:
+						if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
+						else: detalles[detalle.nombre] = venta.valor()
+					else:
+						if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
+						else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
@@ -88,7 +92,7 @@ class Reporte(controllers.Controller):
 		recibos = model.Recibo.query.filter_by(casa=casa, dia=dia).all()
 		
 		# filtrando las ventas por detalle de producto
-		detalles = {}
+		detalles = dict()
 		for recibo in recibos:
 			
 			for venta in recibo.ventas:
@@ -97,9 +101,12 @@ class Reporte(controllers.Controller):
 					
 					if detalle.organizacion == organizacion:
 					
-						try:
-							detalles[detalle.nombre] += detalle.valor * venta.cantidad
-						except KeyError:
-							detalles[detalle.nombre] = detalle.valor * venta.cantidad
+						if detalle.valor == 0:
+							if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
+							else: detalles[detalle.nombre] = venta.valor()
+						else:
+							if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
+							else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)
+
