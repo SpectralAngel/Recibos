@@ -225,3 +225,4 @@ class Permission(Entity):
 # Set up all Elixir entities declared above
 
 setup_all()
+

@@ -3,25 +3,25 @@
 body
 {
 	font-size: 75%;
-	margin-left: 5px;
 }
 #afiliado, #cliente	{ padding-left: 80px; }
-#afiliado {	padding-top: 70px; }
+#afiliado {	padding-top: 25px; }
 
 #cliente { padding-top: 20px; padding-bottom: 40px; }
 
 table { width: 100%; }
 
-#cantidad, #unitario, #valor { width: 50px; }
+#cantidad, #unitario, #valor { width: 100px; }
 
-#producto { width: 450px; }
+#producto { width: 350px; }
 
-#descripcion { width: 400px; }
+#descripcion { width: 350px; }
 
-#total, #fecha, #recibo { position: absolute; }
+#total, #fecha, #recibo, #cajero { position: absolute; }
 
-#total { top: 420px; right: 10px; }
+#total { top: 400px; right: 10px; }
 
-#fecha { top: 440px; left: 100px; }
+#fecha { top: 400px; left: 100px; }
+#cajero { top: 400px; left: 500px; }
 
-#recibo { top: 70px; left: 85px; }
+#recibo { position: fixed; top: 50px; right: 85px; }

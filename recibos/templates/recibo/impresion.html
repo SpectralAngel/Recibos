@@ -16,7 +16,7 @@
 	</style>
 </head>
 <body>
-	<div py:if="tg_flash" class="flash" py:content="tg_flash" />
+	
 	<div id="recibo" py:content="recibo.id" />
 	<div id="afiliado" py:content="recibo.afiliado" />
 	<div id="cliente" py:content="recibo.cliente" />
@@ -40,5 +40,7 @@
 	</table>
 	<div id="total" py:content="locale.currency(recibo.total(), True, True)" />
 	<div id="fecha" py:content="recibo.dia.strftime('%A %d de %B de %Y').decode('cp1252')" />
+	<div id="cajero" py:content="tg.identity.user.display_name" />
 </body>
 </html>
+
