@@ -112,3 +112,4 @@ class Casa(controllers.Controller, identity.SecureResource):
 		
 		flash("La casa %s ha sido Activada" % casa.nombre)
 		return self.default(casa.id)
+

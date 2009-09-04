@@ -107,3 +107,4 @@ class Grupo(controllers.Controller, identity.SecureResource):
 		flash("Se ha eliminado el usuario %s del grupo" % usuario.display_name)
 		
 		return self.default(grupo.id)
+

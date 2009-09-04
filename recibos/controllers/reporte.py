@@ -25,9 +25,20 @@ from recibos	import model
 
 class Reporte(controllers.Controller, identity.SecureResource):
 	
+	'''Muestra reportes de ingresos por compañia, por dia o por producto'''
+	
 	require = identity.not_anonymous()
 	
-	'''Muestra reportes de ingresos por compañia, por dia o por producto'''
+	def filtrar_detalle(self, detalle, detalles):
+		
+		"""Clasifica los detalles de acuerdo al nombre"""
+
+		if detalle.valor == 0:
+			if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
+			else: detalles[detalle.nombre] = venta.valor()
+		else:
+			if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
+			else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
 	
 	@expose(template="recibos.templates.reportes.index")
 	def index(self):
@@ -39,6 +50,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 	@expose(template="recibos.templates.reportes.general")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
+		
+		"""Muestra los ingresos por concepto de recibos de un dia"""
 		
 		recibos = model.Recibo.query.filter_by(dia=dia).all()
 		
@@ -59,6 +72,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):
 		
+		"""Muestra los ingresos por caja en un dia y una sucursal en especifico"""
+		
 		casa = model.Casa.get(casa)
 		recibos = model.Recibo.query.filter_by(dia=dia, casa=casa).all()
 		
@@ -70,21 +85,18 @@ class Reporte(controllers.Controller, identity.SecureResource):
 				
 				for detalle in venta.producto.detalles:
 					
-					if detalle.valor == 0:
-						if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
-						else: detalles[detalle.nombre] = venta.valor()
-					else:
-						if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
-						else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
+					self.filtrar_detalle(detalle, detalles)
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.reportes.organizacion")
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
-							casa=validators.Int(),
-							organizacion=validators.Int()))
+							casa=validators.Int(), organizacion=validators.Int()))
 	def organizacion(self, dia, casa, organizacion):
+		
+		"""Muestra los ingresos por caja en un dia, una sucursal y una
+		organización en especifico"""
 		
 		casa = model.Casa.get(casa)
 		organizacion = model.Organizacion.get(organizacion)
@@ -101,12 +113,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
 					
 					if detalle.organizacion == organizacion:
 					
-						if detalle.valor == 0:
-							if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
-							else: detalles[detalle.nombre] = venta.valor()
-						else:
-							if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
-							else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
+						self.filtrar_detalle(detalle, detalles)
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)
 

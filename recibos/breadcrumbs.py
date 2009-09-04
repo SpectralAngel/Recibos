@@ -57,3 +57,4 @@ def addvars(tgvars):
 
 # now update the built in TG standard variables
 tg.view.variable_providers.append(addvars)
+

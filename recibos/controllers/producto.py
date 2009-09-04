@@ -70,6 +70,8 @@ class Producto(controllers.Controller, identity.SecureResource):
 							  descripcion=validators.String()))
 	def editar(self, producto, nombre, descripcion):
 		
+		"""Cambia datos del producto especificado"""
+		
 		producto = model.Producto.get(producto)
 		producto.nombre = nombre
 		producto.descripcion = descripcion
@@ -106,16 +108,18 @@ class Producto(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(producto=validators.Int()))
 	def copiar(self, producto):
 		
+		"""Copia un producto como una Aportacion Retrasada"""
+		
 		producto = model.Producto.get(producto)
 		
-		kw = {}
+		kw = dict()
 		kw['nombre'] = "Aportacion Retrasada %s" % producto.valor()
 		kw['descripcion'] = producto.descripcion
 		kw['activo'] = producto.activo
 		retrasada = model.Producto(**kw)
 		retrasada.flush()
 		
-		kw = {}
+		kw = dict()
 		kw['producto'] = retrasada
 		for detalle in producto.detalles:
 			
@@ -134,9 +138,11 @@ class Producto(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(producto=validators.Int()))
 	def adelantada(self, producto):
 		
+		"""Copia un producto como una Aportacion Adelantada"""
+		
 		producto = model.Producto.get(producto)
 		
-		kw = {}
+		kw = dict()
 		kw['nombre'] = "Aportacion Adelantada %s" % producto.valor()
 		kw['descripcion'] = producto.descripcion
 		kw['activo'] = producto.activo
@@ -156,3 +162,4 @@ class Producto(controllers.Controller, identity.SecureResource):
 		flash("Se ha copiado el producto como Adelantada")
 		
 		return self.default(retrasada.id)
+

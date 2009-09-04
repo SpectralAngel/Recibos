@@ -63,9 +63,10 @@ class Detalle(controllers.Controller, identity.SecureResource):
 		'''Elimina un detalle de la base de datos'''
 		
 		eliminando = model.Detalle.get(detalle)
+		producto = eliminando.producto
 		eliminando.delete()
 		
-		return dict(detalle=detalle)
+		raise redirect("/producto/%s" % producto.id)
 	
 	@error_handler(index)
 	@expose()
@@ -78,14 +79,14 @@ class Detalle(controllers.Controller, identity.SecureResource):
 		'''Agrega un nuevo detalle al producto y la organización especificada'''
 		
 		producto = model.Producto.get(producto)
-		kw['valor'] = Decimal(kw['valor'])
 		organizacion = model.Organizacion.get(organizacion)
 		
+		kw['valor'] = Decimal(kw['valor'])
 		detalle = model.Detalle(**kw)
-		print detalle
 		
 		detalle.producto = producto
 		detalle.organizacion = organizacion
 		detalle.flush()
 		
 		raise redirect("/producto/%s" % producto.id)
+

@@ -76,4 +76,4 @@ class Organizacion(controllers.Controller, identity.SecureResource):
 		print organizacion.id
 		
 		raise redirect('/organizacion/%s' % organizacion.id)
-		return self.default(organizacion.id)
+

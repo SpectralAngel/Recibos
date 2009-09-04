@@ -79,6 +79,8 @@ class Recibo(Entity):
 	
 	def total(self):
 		
+		"""Retorna el total de las ventas de un recibo"""
+		
 		return sum(venta.valor() for venta in self.ventas)
 
 class Venta(Entity):
@@ -98,6 +100,8 @@ class Venta(Entity):
 	unitario = Field(Currency, required=True)
 	
 	def valor(self):
+		
+		"""Retorna el total de una venta"""
 		
 		return self.cantidad * self.unitario
 
@@ -130,6 +134,8 @@ class Producto(Entity):
 	activo = Field(Boolean, default=True)
 	
 	def valor(self):
+		
+		"""Retorna el precio real de un producto"""
 		
 		return sum(detalle.valor for detalle in self.detalles)
 

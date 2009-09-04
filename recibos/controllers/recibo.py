@@ -40,6 +40,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(recibo=validators.Int()))
 	def default(self, recibo):
 		
+		"""Muestra un recibo junto con su interfaz para agregar ventas"""
+		
 		return dict(recibo=model.Recibo.get(recibo),
 					productos=model.Producto.query.filter_by(activo=True).all())
 	
@@ -47,6 +49,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@expose()
 	@validate(validators=dict(recibo=validators.Int()))
 	def mostrar(self, recibo):
+		
+		"""Permite utilizar un formulario para mostrar un recibo en el cliente"""
 		
 		return self.default(recibo)
 	
@@ -61,10 +65,10 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		if not recibo.impreso:
 			recibo.impreso = True
+			recibo.flush()
 		else:
 			flash('El recibo ya ha sido impreso')
 		
-		recibo.flush()
 		return dict(recibo=recibo)
 	
 	@error_handler(index)
@@ -74,7 +78,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		'''Elimina un recibo de la base de datos'''
 		
-		eliminando = model.recibo.gett(recibo)
+		eliminando = model.recibo.get(recibo)
 		eliminando.delete()
 		
 		flash('El recibo ha sido eliminado')
@@ -84,6 +88,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@error_handler(index)
 	@expose()
 	@validate(validators=dict(id=validators.Int(),
+							afiliado=validators.Int(),
 							casa=validators.Int(),
 							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							cliente=validators.String()))
@@ -91,11 +96,9 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		'''Agrega un nuevo recibo a la base de datos'''
 		
-		if kw['afiliado'] == '':
-			
-			del kw['afiliado']
+		if kw['afiliado'] == '': del kw['afiliado']
 		else:
-			afiliado = model.Afiliado.get(int(kw['afiliado']))
+			afiliado = model.Afiliado.get(kw['afiliado'])
 			kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
 		
 		from datetime import datetime
@@ -113,6 +116,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
 	def dia(self, dia):
 		
+		"""Muestra los recibos de un dia"""
+		
 		return dict(recibos=model.Recibo.query.filter_by(dia=dia).all(), dia=dia)
 	
 	@error_handler(index)
@@ -120,6 +125,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):
+		
+		"""Muestra los recibos de un dia en una casa"""
 		
 		casa = model.Casa.get(casa)
 		recibos = model.Recibo.query.filter_by(dia=dia, casa=casa).all()
@@ -130,5 +137,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(casa=validators.Int()))
 	def porImprimir(self, casa):
 		
+		"""Muestra los recibos que aun no se han impreso"""
+		
 		casa = model.Casa.get(casa)
-		return dict(recibos=model.Recibo.query.filter_by(impreso=False).filter_by(casa=casa).all())
+		return dict(recibos=model.Recibo.query.filter_by(impreso=False, casa=casa).all())
+
