@@ -2,6 +2,7 @@
 
 body
 {
+	margin-left: 10px;
 	font-size: 75%;
 }
 #afiliado, #cliente	{ padding-left: 80px; }
@@ -25,3 +26,4 @@ table { width: 100%; }
 #cajero { top: 400px; left: 500px; }
 
 #recibo { position: fixed; top: 50px; right: 85px; }
+

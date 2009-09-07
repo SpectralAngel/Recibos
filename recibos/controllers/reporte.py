@@ -29,7 +29,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
 	
 	require = identity.not_anonymous()
 	
-	def filtrar_detalle(self, detalle, detalles):
+	def filtrar_detalle(self, detalle, detalles, venta):
 		
 		"""Clasifica los detalles de acuerdo al nombre"""
 
@@ -85,7 +85,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
 				
 				for detalle in venta.producto.detalles:
 					
-					self.filtrar_detalle(detalle, detalles)
+					self.filtrar_detalle(detalle, detalles, venta)
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
@@ -113,7 +113,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
 					
 					if detalle.organizacion == organizacion:
 					
-						self.filtrar_detalle(detalle, detalles)
+						self.filtrar_detalle(detalle, detalles, venta)
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)
 

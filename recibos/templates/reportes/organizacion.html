@@ -29,15 +29,31 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="key in detalles.keys()">
-					<td py:content="key" />
-					<td py:content="locale.currency(detalles[key], True, True)" />
+				<tr py:for="detalle in detalles" py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones')">
+					<td py:content="detalle" />
+					<td py:content="locale.currency(detalles[detalle], True, True)" />
+				</tr>
+				<tr py:if="'Filiales' in detalles">
+					<td>Filiales</td>
+					<td py:content="locale.currency(detalles['Filiales'], True, True)" />
+				</tr>
+				<tr py:if="'CIAPS' in detalles">
+					<td>CIAPS</td>
+					<td py:content="locale.currency(detalles['CIAPS'], True, True)" />
+				</tr>
+				<tr py:if="'Filiales Departamentales' in detalles">
+					<td>Filiales Departamentales</td>
+					<td py:content="locale.currency(detalles['Filiales Departamentales'], True, True)" />
+				</tr>
+				<tr py:if="'Capacitaciones' in detalles">
+					<td>Capacitaciones</td>
+					<td py:content="locale.currency(detalles['Capacitaciones'], True, True)" />
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total de Ingresos</th>
-					<th py:content="locale.currency(sum(detalles[key] for key in detalles.keys()), True, True)" />
+					<th py:content="locale.currency(sum(detalles[key] for key in detalles), True, True)" />
 				</tr>
 			</tfoot>
 		</table>

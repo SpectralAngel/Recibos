@@ -26,15 +26,15 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="key in detalles.keys()">
-					<td py:content="key" />
-					<td py:content="locale.currency(detalles[key], True, True)" />
+				<tr py:for="detalle in detalles">
+					<td py:content="detalle" />
+					<td py:content="locale.currency(detalles[detalle], True, True)" />
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total de Ingresos</th>
-					<th py:content="locale.currency(sum(detalles[key] for key in detalles.keys()), True, True)" />
+					<th py:content="locale.currency(sum(detalles[key] for key in detalles), True, True)" />
 				</tr>
 			</tfoot>
 		</table>
