@@ -22,8 +22,13 @@ var Producto = {
 			$.each(data.productos, function(i, producto)
 			{
 				var option = $('<option/>');
+				producto_id = "";
+				if(producto.id < 100)
+					producto_id = "0" + producto.id;
+				else
+					producto_id = producto.id;
 				option.val(producto.id);
-				option.text(producto.nombre);
+				option.text(producto_id + ' - ' + producto.nombre);
 				$('.productos').append(option);
 			});
 		});
@@ -54,5 +59,18 @@ var Producto = {
 			});
 			$('#valor').text($('#unitario').val() * $('#cantidad').val());
 		});
+	},
+	obtener : function()
+	{
+		$('#producto').change(function()
+		{
+			var producto = $('#producto').val();
+			$.getJSON('/producto/' + producto + '?tg_format=json', function(data)
+			{
+				$('#unitario').val(data.valor);
+			});
+			$('#valor').text($('#unitario').val() * $('#cantidad').val());
+		});
 	}
 }
+
