@@ -90,7 +90,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(id=validators.Int(),
 							afiliado=validators.Int(),
 							casa=validators.Int(),
-							dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+							dia=validators.DateConverter(month_style="dd/mm/yyyy"),
 							cliente=validators.String()))
 	def agregar(self, dia, casa, **kw):
 		
@@ -113,7 +113,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.recibo.dia")
-	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy")))
 	def dia(self, dia):
 		
 		"""Muestra los recibos de un dia"""
@@ -122,7 +122,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.recibo.dia")
-	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy"),
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):
 		
@@ -145,6 +145,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@expose(template="recibos.templates.recibo.nombre")
 	@validate(validators=dict(nombre=validators.String()))
 	def nombre(self, nombre):
+		
+		"""Realiza una busqueda por nombre del cliente en los recibos"""
 		
 		return dict(recibos=model.Recibo.query.filter(model.Recibo.cliente.like("%" + nombre + "%")))
 

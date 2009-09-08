@@ -46,9 +46,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		return dict(organizaciones=model.Organizacion.query.all(),
 				casas=model.Casa.query.all())
 	
-	@error_handler(index)
 	@expose(template="recibos.templates.reportes.general")
-	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y')))
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy")))
 	def dia(self, dia):
 		
 		"""Muestra los ingresos por concepto de recibos de un dia"""
@@ -66,9 +65,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 			
 		return dict(dia=dia, productos=productos)
 	
-	@error_handler(index)
 	@expose(template="recibos.templates.reportes.dia")
-	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy"),
 							casa=validators.Int()))
 	def diaCasa(self, dia, casa):
 		
@@ -89,9 +87,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		
 		return dict(detalles=detalles, dia=dia, casa=casa)
 	
-	@error_handler(index)
 	@expose(template="recibos.templates.reportes.organizacion")
-	@validate(validators=dict(dia=validators.DateTimeConverter(format='%d/%m/%Y'),
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy"),
 							casa=validators.Int(), organizacion=validators.Int()))
 	def organizacion(self, dia, casa, organizacion):
 		

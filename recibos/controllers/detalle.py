@@ -31,8 +31,7 @@ class Detalle(controllers.Controller, identity.SecureResource):
 	@expose()
 	def index(self,  tg_errors=None):
 		
-		if tg_errors:
-			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
+		if tg_errors: tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
 		
 		return dict(tg_errors=tg_errors)
 	
@@ -50,9 +49,7 @@ class Detalle(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(detalle=validators.Int()))
 	def mostrar(self, detalle):
 		
-		'''
-		Permite utilizar un formulario para mostrar un detalle en el cliente
-		'''
+		'''Permite utilizar un formulario para mostrar un detalle en el cliente'''
 		
 		return self.default(detalle)
 	
