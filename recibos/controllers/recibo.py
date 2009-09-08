@@ -141,4 +141,10 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		casa = model.Casa.get(casa)
 		return dict(recibos=model.Recibo.query.filter_by(impreso=False, casa=casa).all())
+	
+	@expose(template="recibos.templates.recibo.nombre")
+	@validate(validators=dict(nombre=validators.String()))
+	def nombre(self, nombre):
+		
+		return dict(recibos=model.Recibo.query.filter(model.Recibo.cliente.like("%" + nombre + "%")))
 

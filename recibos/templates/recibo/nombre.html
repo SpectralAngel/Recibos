@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:py="http://genshi.edgewall.org/"
+	xmlns:xi="http://www.w3.org/2001/XInclude">
+
+<xi:include href="../master.html" />
+<?python
+	import locale
+	locale.setlocale(locale.LC_ALL, '')
+?>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+	<title>Listado de Recibos</title>
+</head>
+
+<body>
+	<div id="getting_started">
+		<h2 py:content="'Busqueda de Recibos'" />
+		<table>
+			<caption>Recibos Registrados</caption>
+			<thead>
+				<tr>
+					<th>N&uacute;mero</th>
+					<th>Cliente</th>
+					<th>Fecha</th>
+					<th class="valor">Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr id="recibo-${recibo.id}" py:for="recibo in recibos">
+					<td py:content="recibo.id" />
+					<td py:content="recibo.cliente" />
+					<td py:content="recibo.dia" />
+					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
+				</tr>
+			</tbody>
+		</table>
+	</div>
+</body>
+</html>

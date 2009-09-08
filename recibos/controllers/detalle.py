@@ -22,6 +22,7 @@ from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate, error_handler
 from recibos	import model
 from cherrypy	import request, response
+from decimal	import *
 
 class Detalle(controllers.Controller, identity.SecureResource):
 	
