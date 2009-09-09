@@ -27,6 +27,23 @@
 <body>
 	<div id="sidebar" />
 	<div id="getting_started">
+		<form action="${tg.url('/recibo/nuevo')}" method="post">
+			<fieldset>
+				<legend>Crear un Recibo</legend>
+				<ol>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" class="activas">
+						</select>
+					</li>
+					<li>
+						<label>Afiliado:</label>
+						<input name="afiliado" />
+					</li>
+					<li><input type="submit" value="Crear Recibo" /></li>
+				</ol>
+			</fieldset>
+		</form>
 		<form action="${tg.url('/recibo/agregar')}" method="post">
 			<fieldset>
 				<legend>Crear un Recibo</legend>

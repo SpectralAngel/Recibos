@@ -2,8 +2,9 @@
 
 body
 {
-	margin-left: 10px;
+	margin-left: 5px;
 	font-size: 75%;
+	font-weight: bold;
 }
 #afiliado, #cliente	{ padding-left: 80px; }
 #afiliado {	padding-top: 25px; }

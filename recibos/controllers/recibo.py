@@ -168,4 +168,21 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		"""Realiza una busqueda por nombre del cliente en los recibos"""
 		
 		return dict(recibos=model.Recibo.query.filter(model.Recibo.cliente.like("%" + nombre + "%")))
+	
+	@expose()
+	@validate(validators=dict(recibo=validators.Int()))
+	def anular(self, recibo):
+		
+		recibo = model.Recibo.get(recibo)
+		
+		for venta in recibo.ventas:
+			
+			venta.delete()
+		
+		recibo.cliente = "Nulo"
+		recibo.afiliado = None
+		
+		flash('Recibo %s Anulado' % recibo.id)
+		
+		raise redirect('/recibo')
 

@@ -25,6 +25,7 @@
 <body>
 	<div id="sidebar">
 		<a href="${tg.url('impresion/%s' % recibo.id)}">Imprimir y Cerrar</a>
+		<a href="${tg.url('anular/%s' % recibo.id)}">Anular</a>
 	</div>
 	<div id="getting_started">
 		<h1 py:content="'Recibo ', recibo.id" />
