@@ -23,6 +23,7 @@ from turbogears	import expose, validate, paginate, error_handler
 from cherrypy	import request, response
 from recibos	import model
 from venta		import Venta
+from datetime	import date
 
 class Recibo(controllers.Controller, identity.SecureResource):
 	
@@ -101,7 +102,6 @@ class Recibo(controllers.Controller, identity.SecureResource):
 			afiliado = model.Afiliado.get(kw['afiliado'])
 			kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
 		
-		from datetime import datetime
 		recibo = model.Recibo(**kw)
 		recibo.dia = dia
 		recibo.flush()
@@ -110,6 +110,25 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		recibo.casa = casa
 		
 		return self.default(recibo.id)
+	
+	@expose()
+	@validate(validators=dict(afiliado=validators.Int(), casa=validators.Int()))
+	def nuevo(self, casa, afiliado):
+		
+		afiliado = model.Afiliado.get(afiliado)
+		
+		kw = dict()
+		kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
+		kw['afiliado'] = afiliado.id
+		kw['dia'] = date.now()
+		
+		recibo = model.Recibo(**kw)
+		recibo.flush()
+		
+		casa = model.Casa.get(casa)
+		recibo.casa = casa
+		
+		raise redirect('/recibo/%' % recibo.id)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.recibo.dia")
