@@ -120,7 +120,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		kw = dict()
 		kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
 		kw['afiliado'] = afiliado.id
-		kw['dia'] = date.now()
+		kw['dia'] = date.today()
 		
 		recibo = model.Recibo(**kw)
 		recibo.flush()
