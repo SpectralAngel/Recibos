@@ -95,7 +95,11 @@ class Recibo(controllers.Controller, identity.SecureResource):
 							cliente=validators.String()))
 	def agregar(self, dia, casa, **kw):
 		
-		'''Agrega un nuevo recibo a la base de datos'''
+		"""Agrega un nuevo recibo a la base de datos
+		
+		Es necesario especificar el numero de afiliacion.
+		
+		Se utiliza para corregir problemas con la numeracion de los recibos"""
 		
 		if kw['afiliado'] == '': del kw['afiliado']
 		else:
@@ -114,6 +118,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@expose()
 	@validate(validators=dict(afiliado=validators.Int(), casa=validators.Int()))
 	def nuevo(self, casa, afiliado):
+		
+		"""Agrega un nuevo recibo con solo especificar el numero de Afiliacion"""
 		
 		afiliado = model.Afiliado.get(afiliado)
 		
@@ -173,6 +179,11 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(recibo=validators.Int()))
 	def anular(self, recibo):
 		
+		"""Anula un recibo en la base de Datos
+		
+		Especificamente coloca el afiliado como 0, el cliente en NULO y elimina
+		cualquier venta realizada en el mismo"""
+		
 		recibo = model.Recibo.get(recibo)
 		
 		for venta in recibo.ventas:
@@ -189,6 +200,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@expose()
 	@validate(validators=dict(cliente=validators.String(), casa=validators.Int()))
 	def cliente(self, casa, cliente):
+		
+		"""Agrega un recibo para una persona que no es afiliado"""
 		
 		kw = dict()
 		kw['cliente'] = cliente
