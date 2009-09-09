@@ -190,8 +190,6 @@ class Recibo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(cliente=validators.String(), casa=validators.Int()))
 	def cliente(self, casa, cliente):
 		
-		afiliado = model.Afiliado.get(afiliado)
-		
 		kw = dict()
 		kw['cliente'] = cliente
 		kw['afiliado'] = 0
