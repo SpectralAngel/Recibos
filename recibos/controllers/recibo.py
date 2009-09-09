@@ -128,7 +128,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		casa = model.Casa.get(casa)
 		recibo.casa = casa
 		
-		raise redirect('/recibo/%' % recibo.id)
+		raise redirect('/recibo/%s' % recibo.id)
 	
 	@error_handler(index)
 	@expose(template="recibos.templates.recibo.dia")
@@ -185,4 +185,23 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		flash('Recibo %s Anulado' % recibo.id)
 		
 		raise redirect('/recibo')
+	
+	@expose()
+	@validate(validators=dict(cliente=validators.String(), casa=validators.Int()))
+	def cliente(self, casa, cliente):
+		
+		afiliado = model.Afiliado.get(afiliado)
+		
+		kw = dict()
+		kw['cliente'] = cliente
+		kw['afiliado'] = 0
+		kw['dia'] = date.today()
+		
+		recibo = model.Recibo(**kw)
+		recibo.flush()
+		
+		casa = model.Casa.get(casa)
+		recibo.casa = casa
+		
+		raise redirect('/recibo/%s' % recibo.id)
 
