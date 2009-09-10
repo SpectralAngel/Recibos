@@ -11,19 +11,15 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<link rel="stylesheet" href="${tg.url('/static/css/recibo.css')}" />
 	<style type="text/css" media="print">
-		.flash { display: none; }
+		.flash, a { display: none; }
 	</style>
 	<script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
 	<script type="text/javascript">
-		$(document).ready(function()
-		{
-			print();
-			back();
-		});
 	</script>
 </head>
 <body>
-	
+	<a href="javascript:print();" class="noimprimir">Imprimir</a>&nbsp;&nbsp;&nbsp;
+	<a href="javascript:back();" class="noimprimir">Atras</a>
 	<div id="recibo" py:content="recibo.id" />
 	<div id="afiliado" py:content="recibo.afiliado" />
 	<div id="cliente" py:content="recibo.cliente" />
