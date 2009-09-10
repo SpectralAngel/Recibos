@@ -23,20 +23,22 @@
 			<thead>
 				<tr>
 					<th>N&uacute;mero</th>
+					<th>Afiliaci&oacute;n</th>
 					<th>Cliente</th>
 					<th class="valor">Valor</th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr id="recibo-${recibo.id}" py:for="recibo in recibos">
-					<td py:content="recibo.id" />
+					<td><a href="${tg.url('/recibo/%s' % recibo.id)}" py:content="recibo.id" /></td>
+					<td py:content="recibo.afiliado" />
 					<td py:content="recibo.cliente" />
 					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
-					<th>Total de recibos:</th>
+					<th colspan="2">Total de recibos:</th>
 					<th py:content="len(recibos)" />
 					<th py:content="locale.currency(sum(r.total() for r in recibos), True, True)" class="valor" />
 				</tr>
