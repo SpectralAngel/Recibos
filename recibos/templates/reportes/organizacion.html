@@ -28,7 +28,19 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr py:for="detalle in detalles" py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones')">
+				<tr py:if="'Leyes Educativas' in detalles">
+					<td>Leyes Educativas</td>
+					<td py:content="locale.currency(detalles['Leyes Educativas'], True, True)" />
+				</tr>
+				<tr py:if="'Alquiler Fondo AutoSeguro' in detalles">
+					<td>Alquiler Fondo AutoSeguro</td>
+					<td py:content="locale.currency(detalles['Alquiler Fondo AutoSeguro'], True, True)" />
+				</tr>
+				<tr py:if="'Impuesto sobre Ventas' in detalles">
+					<td>Impuesto sobre Ventas</td>
+					<td py:content="locale.currency(detalles['Alquiler Fondo AutoSeguro'], True, True)" />
+				</tr>
+				<tr py:for="detalle in detalles" py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones', 'Fondo de Emergencia', 'Fondo AutoSeguro', 'Defensa Legal', 'Aseguradora Hondureña', 'Beneficio de Sobrevivencia', 'Alquiler Fondo AutoSeguro', 'Leyes Educativas', 'Impuesto sobre Ventas')">
 					<td py:content="detalle" />
 					<td py:content="locale.currency(detalles[detalle], True, True)" />
 				</tr>
@@ -47,6 +59,26 @@
 				<tr py:if="'Capacitaciones' in detalles">
 					<td>Capacitaciones</td>
 					<td py:content="locale.currency(detalles['Capacitaciones'], True, True)" />
+				</tr>
+				<tr py:if="'Fondo AutoSeguro' in detalles">
+					<td>Fondo AutoSeguro</td>
+					<td py:content="locale.currency(detalles['Fondo AutoSeguro'], True, True)" />
+				</tr>
+				<tr py:if="'Fondo de Emergencia' in detalles">
+					<td>Fondo de Emergencia</td>
+					<td py:content="locale.currency(detalles['Fondo de Emergencia'], True, True)" />
+				</tr>
+				<tr py:if="'Beneficio de Sobrevivencia' in detalles">
+					<td>Beneficio de Sobrevivencia</td>
+					<td py:content="locale.currency(detalles['Beneficio de Sobrevivencia'], True, True)" />
+				</tr>
+				<tr py:if="'Defensa Legal' in detalles">
+					<td>Defensa Legal</td>
+					<td py:content="locale.currency(detalles['Defensa Legal'], True, True)" />
+				</tr>
+				<tr py:if="'Aseguradora Hondureña' in detalles">
+					<td>Aseguradora Hondureña</td>
+					<td py:content="locale.currency(detalles['Aseguradora Hondureña'], True, True)" />
 				</tr>
 			</tbody>
 			<tfoot>
