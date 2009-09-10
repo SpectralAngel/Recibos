@@ -30,14 +30,14 @@
 				<tr id="recibo-${recibo.id}" py:for="recibo in recibos">
 					<td py:content="recibo.id" />
 					<td py:content="recibo.cliente" />
-					<td py:content="locale.currency(recibo.total(), True, True)" />
+					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
 				</tr>
 			</tbody>
 			<tfoot>
 				<tr>
 					<th>Total de recibos:</th>
 					<th py:content="len(recibos)" />
-					<th py:content="locale.currency(sum(r.total() for r in recibos), True, True)" />
+					<th py:content="locale.currency(sum(r.total() for r in recibos), True, True)" class="valor" />
 				</tr>
 			</tfoot>
 		</table>
