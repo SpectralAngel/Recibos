@@ -101,7 +101,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		Se utiliza para corregir problemas con la numeracion de los recibos"""
 		
-		if kw['afiliado'] == '': del kw['afiliado']
+		if kw['afiliado'] == '' or kw['afiliado'] == None: del kw['afiliado']
 		else:
 			afiliado = model.Afiliado.get(kw['afiliado'])
 			kw['cliente'] = afiliado.nombre + ' ' + afiliado.apellidos
