@@ -37,7 +37,7 @@
 				</tr>
 				<tr py:if="'Impuesto sobre Ventas' in detalles">
 					<td>Impuesto sobre Ventas</td>
-					<td py:content="locale.currency(detalles['Alquiler Fondo AutoSeguro'], True, True)" class="valor" />
+					<td py:content="locale.currency(detalles['Impuesto sobre Ventas'], True, True)" class="valor" />
 				</tr>
 				<tr py:for="detalle in detalles" py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones', 'Fondo de Emergencia', 'Fondo AutoSeguro', 'Defensa Legal', 'Aseguradora Hondureña', 'Beneficio de Sobrevivencia', 'Alquiler Fondo AutoSeguro', 'Leyes Educativas', 'Impuesto sobre Ventas')">
 					<td py:content="detalle" />
