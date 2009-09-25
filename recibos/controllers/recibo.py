@@ -79,7 +79,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		
 		'''Elimina un recibo de la base de datos'''
 		
-		eliminando = model.recibo.get(recibo)
+		eliminando = model.Recibo.get(recibo)
 		eliminando.delete()
 		
 		flash('El recibo ha sido eliminado')
