@@ -111,10 +111,14 @@ class Recibo(controllers.Controller, identity.SecureResource):
 			recibo = model.Recibo(**kw)
 		else:
 			recibo = model.Recibo.get(id)
-			if 'afiliado' in kw: recibo.afiliado = kw['afiliado']
-			recibo.cliente = kw['cliente']
 		
-		if recibo is None: recibo = model.Recibo(**kw)
+		if recibo is None:
+			recibo = model.Recibo(**kw)
+		
+		
+		if 'afiliado' in kw:
+			recibo.afiliado = kw['afiliado']
+		recibo.cliente = kw['cliente']
 		
 		recibo.dia = dia
 		recibo.flush()
