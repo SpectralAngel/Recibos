@@ -113,4 +113,22 @@ class Reporte(controllers.Controller, identity.SecureResource):
 						self.filtrar_detalle(detalle, detalles, venta)
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)
+	
+	@expose(template="recibos.templates.reportes.ventas")
+	@validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+						fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+						producto=validators.Int()))
+	def ventas(self, inicio, fin, producto):
+		
+		"""Muestra los movimientos de un producto en un determinado periodo"""
+		
+		producto = model.Producto.get(producto)
+		recibos = model.Recibo.query.filter(model.Recibo.dia>=inicio).filter(model.Recibo.dia<=fin).all()
+		ventas = list()
+		
+		for recibo in recibos:
+			
+			ventas.extend(venta for venta in recibo.ventas if venta.producto == producto)
+		
+		return dict(ventas=ventas, inicio=inicio, fin=fin, producto=producto)
 

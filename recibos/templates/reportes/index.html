@@ -9,11 +9,13 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<script type="text/javascript" src="${tg.url('/static/javascript/organizacion.js')}"></script>
 	<script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
+	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
 		Casas.todas();
 		Organizacion.todas();
+		Producto.todos();
 	});
 	</script>
 </head>
@@ -48,23 +50,21 @@
 				</ol>
 			</fieldset>
 		</form>
-		<form action="organizacion">
+		<form action="ventas">
 			<fieldset>
-				<legend>Reporte de Ingresos de una Organizacion</legend>
+				<legend>Reporte de Movimientos en una Cuenta</legend>
 				<ol>
 					<li>
-						<label>Organizaci&oacute;n:</label>
-						<select name="organizacion" id="organizacion">
-							<option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
-						</select>
+						<label>Cuenta:</label>
+						<select name="producto" class="productos" id="producto" />
 					</li>
 					<li>
-						<label>Casa:</label>
-						<select name="casa" class="casas" />
+						<label>Fecha Inicial</label>
+						<input name="inicio" class="dia" />
 					</li>
 					<li>
-						<label>D&iacute;a</label>
-						<input name="dia" class="dia" />
+						<label>Fecha Final</label>
+						<input name="fin" class="dia" />
 					</li>
 					<li><input type="submit" value="Mostrar" /></li>
 				</ol>
