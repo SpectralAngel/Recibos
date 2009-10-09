@@ -50,6 +50,28 @@
 				</ol>
 			</fieldset>
 		</form>
+		<form action="organizacion">
+			<fieldset>
+				<legend>Reporte de Ingresos de una Organizacion</legend>
+				<ol>
+					<li>
+						<label>Organizaci&oacute;n:</label>
+						<select name="organizacion" id="organizacion">
+							<option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
+						</select>
+					</li>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" class="casas" />
+					</li>
+					<li>
+						<label>D&iacute;a</label>
+						<input name="dia" class="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
 		<form action="ventas">
 			<fieldset>
 				<legend>Reporte de Movimientos en una Cuenta</legend>
