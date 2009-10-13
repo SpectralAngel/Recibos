@@ -1,5 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-							"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:py="http://genshi.edgewall.org/"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
@@ -50,6 +49,26 @@
 				</ol>
 			</fieldset>
 		</form>
+		<form action="periodo">
+			<fieldset>
+				<legend>Reporte de Ingresos de una Casa por Periodo</legend>
+				<ol>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" class="casas" />
+					</li>
+					<li>
+						<label>Fecha Inicial</label>
+						<input name="inicio" class="dia" />
+					</li>
+					<li>
+						<label>Fecha Final</label>
+						<input name="fin" class="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
 		<form action="organizacion">
 			<fieldset>
 				<legend>Reporte de Ingresos de una Organizacion</legend>
@@ -67,6 +86,32 @@
 					<li>
 						<label>D&iacute;a</label>
 						<input name="dia" class="dia" />
+					</li>
+					<li><input type="submit" value="Mostrar" /></li>
+				</ol>
+			</fieldset>
+		</form>
+		<form action="organizacionPeriodo">
+			<fieldset>
+				<legend>Reporte de Ingresos de una Organizacion por Periodo</legend>
+				<ol>
+					<li>
+						<label>Organizaci&oacute;n:</label>
+						<select name="organizacion" id="organizacion">
+							<option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
+						</select>
+					</li>
+					<li>
+						<label>Casa:</label>
+						<select name="casa" class="casas" />
+					</li>
+					<li>
+						<label>Fecha Inicial</label>
+						<input name="inicio" class="dia" />
+					</li>
+					<li>
+						<label>Fecha Final</label>
+						<input name="fin" class="dia" />
 					</li>
 					<li><input type="submit" value="Mostrar" /></li>
 				</ol>

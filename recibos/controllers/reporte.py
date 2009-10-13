@@ -65,6 +65,30 @@ class Reporte(controllers.Controller, identity.SecureResource):
 			
 		return dict(dia=dia, productos=productos)
 	
+	@expose(template="recibos.templates.reportes.generalPeriodo")
+	@validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+							  fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+							casa=validators.Int()))
+	def periodo(self, inicio, fin, casa):
+		
+		"""Muestra los ingresos por concepto de recibos de un dia"""
+		
+		casa = model.Casa.get(casa)
+		recibos = model.Recibo.query.filter_by(casa=casa).filter(model.Recibo.dia>=inicio).filter(model.Recibo.dia<=fin).all()
+		
+		# filtrando las ventas por detalle de producto
+		productos = dict()
+		for recibo in recibos:
+			
+			for venta in recibo.ventas:
+				
+				if venta.producto in productos:
+					productos[venta.producto] += venta.valor()
+				else:
+					productos[venta.producto] = venta.valor()
+			
+		return dict(inicio=inicio, fin=fin, productos=productos)
+	
 	@expose(template="recibos.templates.reportes.dia")
 	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy"),
 							casa=validators.Int()))
@@ -113,6 +137,34 @@ class Reporte(controllers.Controller, identity.SecureResource):
 						self.filtrar_detalle(detalle, detalles, venta)
 		
 		return dict(detalles=detalles, dia=dia, organizacion=organizacion, casa=casa)
+	
+	@expose(template="recibos.templates.reportes.organizacionPeriodo")
+	@validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+							  fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+							casa=validators.Int(), organizacion=validators.Int()))
+	def organizacionPeriodo(self, inicio, fin, casa, organizacion):
+		
+		"""Muestra los ingresos por caja en un dia, una sucursal y una
+		organización en especifico"""
+		
+		casa = model.Casa.get(casa)
+		organizacion = model.Organizacion.get(organizacion)
+		
+		recibos = model.Recibo.query.filter_by(casa=casa).filter(model.Recibo.dia>=inicio).filter(model.Recibo.dia<=fin).all()
+		
+		# filtrando las ventas por detalle de producto
+		detalles = dict()
+		for recibo in recibos:
+			
+			for venta in recibo.ventas:
+				
+				for detalle in venta.producto.detalles:
+					
+					if detalle.organizacion == organizacion:
+					
+						self.filtrar_detalle(detalle, detalles, venta)
+		
+		return dict(detalles=detalles, inicio=inicio, fin=fin, organizacion=organizacion, casa=casa)
 	
 	@expose(template="recibos.templates.reportes.ventas")
 	@validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
