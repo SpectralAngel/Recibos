@@ -32,13 +32,17 @@ class Reporte(controllers.Controller, identity.SecureResource):
 	def filtrar_detalle(self, detalle, detalles, venta):
 		
 		"""Clasifica los detalles de acuerdo al nombre"""
-
+		print venta.id, detalle.nombre
 		if detalle.valor == 0:
-			if detalle.nombre in detalles: detalles[detalle.nombre] += venta.valor()
-			else: detalles[detalle.nombre] = venta.valor()
+			if detalle.nombre in detalles:
+				detalles[detalle.nombre] += venta.valor()
+			else:
+				detalles[detalle.nombre] = venta.valor()
 		else:
-			if detalle.nombre in detalles: detalles[detalle.nombre] += detalle.valor * venta.cantidad
-			else: detalles[detalle.nombre] = detalle.valor * venta.cantidad
+			if detalle.nombre in detalles:
+				detalles[detalle.nombre] += detalle.valor * venta.cantidad
+			else:
+				detalles[detalle.nombre] = detalle.valor * venta.cantidad
 	
 	@expose(template="recibos.templates.reportes.index")
 	def index(self):
@@ -129,7 +133,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		for recibo in recibos:
 			
 			for venta in recibo.ventas:
-				
+				print 'Revisando venta', venta.id, venta.valor()
 				for detalle in venta.producto.detalles:
 					
 					if detalle.organizacion == organizacion:

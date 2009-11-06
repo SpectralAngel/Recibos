@@ -24,6 +24,7 @@
 				<tr>
 					<th>Recibo</th>
 					<th>Producto</th>
+					<th>Cantidad</th>
 					<th class="valor">Valor</th>
 				</tr>
 			</thead>
@@ -31,6 +32,7 @@
 				<tr id="venta-${venta.id}" py:for="venta in ventas">
 					<td><a href="${tg.url('/recibo/%s' % venta.recibo.id)}" py:content="venta.recibo.id" /></td>
 					<td py:content="venta.producto.nombre" />
+					<td py:content="venta.cantidad" />
 					<td py:content="locale.currency(venta.valor(), True, True)" class="valor" />
 				</tr>
 			</tbody>

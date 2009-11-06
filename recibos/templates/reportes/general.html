@@ -27,7 +27,7 @@
 			<tbody>
 				<tr py:for="producto in productos">
 					<td py:content="producto.nombre" />
-					<td py:content="locale.currency(productos[producto], True, True)" />
+					<td py:content="locale.currency(productos[producto], False, True)" />
 				</tr>
 			</tbody>
 			<tfoot>

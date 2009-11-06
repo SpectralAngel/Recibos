@@ -27,7 +27,7 @@
 			<tbody>
 				<tr py:for="detalle in detalles">
 					<td py:content="detalle" />
-					<td py:content="locale.currency(detalles[detalle], True, True)" class="valor" />
+					<td py:content="locale.currency(detalles[detalle], False, True)" class="valor" />
 				</tr>
 			</tbody>
 			<tfoot>
