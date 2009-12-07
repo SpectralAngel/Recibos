@@ -23,7 +23,7 @@
 					<th>N&uacute;mero</th>
 					<th>Cliente</th>
 					<th>Fecha</th>
-					<td py:content="recibo.dia" />
+					<th>Detalle</th>
 					<th class="valor">Valor</th>
 				</tr>
 			</thead>
@@ -32,7 +32,8 @@
 					<td><a href="${tg.url('/recibo/%s' % recibo.id)}" py:content="recibo.id" /></td>
 					<td py:content="recibo.cliente" />
 					<td py:content="recibo.dia" />
-					<td>${recibo.detalles[0]}</td>
+					<td><p py:for="venta in recibo.ventas" py:content="venta.descripcion" />
+					</td>
 					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
 				</tr>
 			</tbody>
