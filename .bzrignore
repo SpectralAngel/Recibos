@@ -1,2 +1,5 @@
 devdata.sqlite
 dev.cfg
+.pydevproject
+.project
+.settings

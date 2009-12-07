@@ -223,4 +223,10 @@ class Recibo(controllers.Controller, identity.SecureResource):
 		recibo.casa = casa
 		
 		raise redirect('/recibo/%s' % recibo.id)
-
+	
+	@expose(template='recibos.template.recibo.nombreDetalle')
+	@validate(validators=dict(dia=validators.DateConverter(month_style="dd/mm/yyyy"),
+							nombre=validators.String()))
+	def detalleNombre(self, dia, nombre):
+		
+		return dict(recibos=model.Recibo.query.filter(model.Recibo.cliente.like("%" + nombre + "%")).filter(dia=dia))
