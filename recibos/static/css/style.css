@@ -186,3 +186,8 @@ span.code {
     color: red;
     font-weight: bold;
 }
+
+.oneliner
+{
+	display: block;
+}
