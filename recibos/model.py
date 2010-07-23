@@ -24,6 +24,7 @@ from elixir		import Integer, Boolean, Numeric
 from elixir		import String, Unicode, Text
 from elixir		import DateTime, Date
 from turbogears	import identity
+from decimal import Decimal
 
 Currency = Numeric
 
@@ -31,15 +32,15 @@ options_defaults['autosetup'] = False
 
 class Casa(Entity):
 	
-	'''Sucursal del COPEMH
+	"""Sucursal del COPEMH
 	
 	Representa un lugar físico donde se encuentra una sede del COPEMH.
-	'''
+	"""
 	
 	using_options(tablename='casa')
 	
 	nombre = Field(Unicode(20), required=True)
-	direccion = Field(Text)
+	direccion = Field(Unicode(100))
 	telefono = Field(Unicode(11))
 	recibos = OneToMany("Recibo", order_by='dia')
 	activa = Field(Boolean, default=True)
@@ -76,6 +77,7 @@ class Recibo(Entity):
 	# Marca si el recibo ya ha sido impreso
 	impreso = Field(Boolean, default=False)
 	ventas = OneToMany("Venta")
+	alquileres = OneToMany('Alquiler')
 	
 	def total(self):
 		
@@ -93,7 +95,7 @@ class Venta(Entity):
 	
 	recibo = ManyToOne("Recibo")
 	producto = ManyToOne("Producto")
-	descripcion = Field(Text)
+	descripcion = Field(Unicode(200))
 	cantidad = Field(Integer(3), required=True)
 	# No siempre el precio unitario esta determinado por el precio nominal de un
 	# producto, este puede cambiar como en el caso de los préstamos
@@ -152,6 +154,42 @@ class Detalle(Entity):
 	nombre = Field(Unicode(100))
 	valor = Field(Currency, required=True)
 
+class Cubiculo(Entity):
+	
+	using_options(tablename='cubiculo')
+	
+	nombre = Field(Unicode(255))
+	inquilino = Field(Unicode(255))
+	precio = Field(Currency, required=True)
+	alquileres = OneToMany('Alquiler')
+	enee = Field(Unicode(100), required=True)
+	intereses = Field(Numeric, required=True, default=Decimal("0.02"))
+	
+	def impuesto(self):
+		
+		return self.precio * Decimal('0.12')
+	
+	def interesMoratorio(self):
+		
+		return self.intereses
+	
+	def calcularInteres(self, meses):
+		
+		return self.intereses * self.precio * meses / Decimal('100') 
+
+class Alquiler(Entity):
+	
+	using_options(tablename='alquiler')
+	
+	cubiculo = ManyToOne('Cubiculo')
+	dia = Field(Date, required=True)
+	descripcion = Field(Unicode(255))
+	inquilino = Field(Unicode(100))
+	recibo = ManyToOne('Recibo')
+	monto = Field(Currency, required=True)
+	mora = Field(Currency, default=0)
+	impuesto = Field(Currency, default=0)
+
 # the identity model
 
 class Visit(Entity):
@@ -168,7 +206,6 @@ class Visit(Entity):
 	def lookup_visit(cls, visit_key):
 		return Visit.get(visit_key)
 
-
 class VisitIdentity(Entity):
 	"""
 	A Visit that is link to a User object
@@ -177,7 +214,6 @@ class VisitIdentity(Entity):
 
 	visit_key = Field(String(40), primary_key=True)
 	user = ManyToOne('User', colname='user_id', use_alter=True)
-
 
 class Group(Entity):
 	"""
@@ -191,7 +227,6 @@ class Group(Entity):
 	created = Field(DateTime, default=datetime.now)
 	users = ManyToMany('User', tablename='user_group')
 	permissions = ManyToMany('Permission', tablename='group_permission')
-
 
 class User(Entity):
 	"""
@@ -215,7 +250,6 @@ class User(Entity):
 			perms |= set(g.permissions)
 		return perms
 
-
 class Permission(Entity):
 	"""
 	A relationship that determines what each Group can do
@@ -227,8 +261,6 @@ class Permission(Entity):
 	description = Field(Unicode(255))
 	groups = ManyToMany('Group', tablename='group_permission')
 
-
 # Set up all Elixir entities declared above
 
 setup_all()
-

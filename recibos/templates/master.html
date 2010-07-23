@@ -18,9 +18,8 @@
 		$('.stripe tr:even').addClass("even");
 	});
 	</script>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
-															py:replace="''" />
-	<title py:replace="''">Your title goes here</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
+	<title py:replace="''">Sistema Gestor de Ingresos</title>
 	<link py:for="css in tg_css" py:replace="ET(css.display())" />
 	<link py:for="js in tg_js_head" py:replace="ET(js.display())" />
 	<meta py:replace="select('*')" />
@@ -36,7 +35,8 @@
 			<a href="${tg.url('/casa')}">Casas</a> |
 			<a href="${tg.url('/reporte')}">Reportes</a> |
 			<a href="${tg.url('/organizacion')}">Organizaciones</a> |
-			<a href="${tg.url('/producto')}">Productos</a>
+			<a href="${tg.url('/producto')}">Productos</a> |
+			<a href="${tg.url('/cubiculo')}">Alquileres</a>
 			<span py:if="tg.identity.anonymous">| <a href="${tg.url('/login')}">Iniciar Sesi&oacute;n</a></span>
 			<span py:if="not tg.identity.anonymous">| Bienvenido ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
 		</div>

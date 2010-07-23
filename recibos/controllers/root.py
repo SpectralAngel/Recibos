@@ -17,16 +17,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears		import controllers, expose, flash
+from turbogears		import controllers, expose, url
 # from recibos import model
 from turbogears		import identity, redirect
 from cherrypy		import request, response
 from producto		import Producto
-from recibos	   	import breadcrumbs
 from recibo			import Recibo
 from casa			import Casa
 from organizacion	import Organizacion
 from reporte		import Reporte
+from alquiler       import Cubiculo
+from recibos import breadcrumbs
 # from recibos import json
 # import logging
 # log = logging.getLogger("recibos.controllers")
@@ -38,6 +39,7 @@ class Root(controllers.RootController):
 	organizacion = Organizacion()
 	casa = Casa()
 	reporte = Reporte()
+	cubiculo = Cubiculo()
 	
 	@identity.require(identity.not_anonymous())
 	@expose(template="recibos.templates.welcome")
@@ -68,7 +70,7 @@ class Root(controllers.RootController):
 				   "this resource.")
 		else:
 			msg=_("Please log in.")
-			forward_url= request.headers.get("Referer", "/")
+			forward_url= request.headers.get("Referer", url("/"))
 
 		response.status=403
 		return dict(message=msg, previous_url=previous_url, logging_in=True,
@@ -78,4 +80,4 @@ class Root(controllers.RootController):
 	@expose()
 	def logout(self):
 		identity.current.logout()
-		raise redirect("/")
+		raise redirect(url("/"))

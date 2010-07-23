@@ -17,12 +17,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity, validators
-from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
+from turbogears	import controllers, validators, redirect, url
+from turbogears	import expose, validate, error_handler
 from recibos	import model
-from decimal	import *
+from decimal	import Decimal
 
 class Venta(controllers.Controller):
 	
@@ -34,12 +32,14 @@ class Venta(controllers.Controller):
 		
 		return dict(tg_errors=tg_errors)
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(venta=validators.Int()))
 	def default(self, venta):
 		
 		return dict(venta=model.Venta.get(venta))
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(venta=validators.Int()))
 	def eliminar(self, venta):
@@ -48,13 +48,14 @@ class Venta(controllers.Controller):
 		recibo = eliminando.recibo
 		eliminando.delete()
 		
-		redirect('/recibo/%s' % recibo.id)
+		redirect(url('/recibo/%s' % recibo.id))
 	
+	@error_handler(index)
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
 				   producto=validators.Int(),
 				   unitario=validators.String(),
-				   descripcion=validators.String()))
+				   descripcion=validators.UnicodeString()))
 	def agregar(self, recibo, producto, **kw):
 		
 		kw['unitario'] = Decimal(kw['unitario'])
@@ -65,4 +66,4 @@ class Venta(controllers.Controller):
 		
 		venta.flush()
 		
-		redirect('/recibo/%s' % recibo)
+		redirect(url('/recibo/%s' % recibo))

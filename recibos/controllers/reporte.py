@@ -18,9 +18,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from turbogears	import controllers, identity, validators
-from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
+from turbogears	import expose, validate, error_handler
 from recibos	import model
 
 class Reporte(controllers.Controller, identity.SecureResource):
@@ -61,7 +59,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		# filtrando las ventas por detalle de producto
 		productos = dict()
 		for recibo in recibos:
-			
+			if recibo.id == 116969 or recibo.id == 117041:
+				continue
 			for venta in recibo.ventas:
 				
 				if venta.producto in productos: productos[venta.producto] += venta.valor()
@@ -83,7 +82,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		# filtrando las ventas por detalle de producto
 		productos = dict()
 		for recibo in recibos:
-			
+			if recibo.id == 116969 or recibo.id == 117041:
+				continue
 			for venta in recibo.ventas:
 				
 				if venta.producto in productos:
@@ -106,7 +106,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		# filtrando las ventas por detalle de producto
 		detalles = dict()
 		for recibo in recibos:
-			
+			if recibo.id == 116969 or recibo.id == 117041:
+				continue
 			for venta in recibo.ventas:
 				
 				for detalle in venta.producto.detalles:
@@ -131,7 +132,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		# filtrando las ventas por detalle de producto
 		detalles = dict()
 		for recibo in recibos:
-			
+			if recibo.id == 116969:
+				continue	
 			for venta in recibo.ventas:
 				print 'Revisando venta', venta.id, venta.valor()
 				for detalle in venta.producto.detalles:
@@ -159,7 +161,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		# filtrando las ventas por detalle de producto
 		detalles = dict()
 		for recibo in recibos:
-			
+			if recibo.id == 116969 or recibo.id == 117041:
+				continue
 			for venta in recibo.ventas:
 				
 				for detalle in venta.producto.detalles:
@@ -183,7 +186,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
 		ventas = list()
 		
 		for recibo in recibos:
-			
+			if recibo.id == 116969 or recibo.id == 117041:
+				continue
 			ventas.extend(venta for venta in recibo.ventas if venta.producto == producto)
 		
 		return dict(ventas=ventas, inicio=inicio, fin=fin, producto=producto)

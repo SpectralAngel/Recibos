@@ -20,7 +20,6 @@
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
 from recibos	import model
 
 class Usuario(controllers.Controller, identity.SecureResource):
@@ -86,7 +85,7 @@ class Usuario(controllers.Controller, identity.SecureResource):
 	def agregarGrupo(self, grupo, usuario):
 		
 		usuario = model.User.get(usuario)
-		grupo = model.Grupo.get(grupo)
+		grupo = model.Group.get(grupo)
 		
 		usuario.groups.append(grupo)
 		usuario.flush()
@@ -102,7 +101,7 @@ class Usuario(controllers.Controller, identity.SecureResource):
 	def eliminarGrupo(self, grupo, usuario):
 		
 		usuario = model.User.get(usuario)
-		grupo = model.Grupo.get(grupo)
+		grupo = model.Group.get(grupo)
 		
 		usuario.groups.remove(grupo)
 		usuario.flush()

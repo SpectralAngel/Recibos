@@ -17,10 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity, validators
-from turbogears	import flash, redirect
+from turbogears	import controllers, identity, validators, redirect
 from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
 from recibos	import model
 
 class Organizacion(controllers.Controller, identity.SecureResource):

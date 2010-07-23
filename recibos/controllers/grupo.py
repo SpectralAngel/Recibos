@@ -17,10 +17,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity, validators
-from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
+from turbogears	import controllers, identity, flash, validators
+from turbogears	import expose, validate, error_handler
 from recibos	import model
 
 class Grupo(controllers.Controller, identity.SecureResource):
@@ -41,8 +39,8 @@ class Grupo(controllers.Controller, identity.SecureResource):
 	@validate(validators=dict(grupo=validators.Int()))
 	def default(self, grupo):
 		
-		return dict(grupo=model.Groups.get(grupo))
-	 
+		return dict(grupo=model.Group.get(grupo))
+	
 	@error_handler(index)
 	@expose()
 	@validate(validators=dict(grupo=validators.Int()))
@@ -83,7 +81,7 @@ class Grupo(controllers.Controller, identity.SecureResource):
 	def agregarUsuario(self, grupo, usuario):
 		
 		usuario = model.User.get(usuario)
-		grupo = model.Grupo.get(grupo)
+		grupo = model.Group.get(grupo)
 		
 		usuario.groups.append(grupo)
 		usuario.flush()
@@ -99,7 +97,7 @@ class Grupo(controllers.Controller, identity.SecureResource):
 	def eliminarUsuario(self, grupo, usuario):
 		
 		usuario = model.User.get(usuario)
-		grupo = model.Grupo.get(grupo)
+		grupo = model.Group.get(grupo)
 		
 		usuario.groups.remove(grupo)
 		usuario.flush()

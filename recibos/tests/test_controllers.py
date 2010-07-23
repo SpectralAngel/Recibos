@@ -1,7 +1,7 @@
 import unittest
 import turbogears
 from turbogears import testutil
-from recibos.controllers import Root
+from recibos.controllers.root import Root
 import cherrypy
 
 cherrypy.root = Root()

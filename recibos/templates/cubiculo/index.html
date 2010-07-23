@@ -8,33 +8,35 @@
 <head>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
     															py:replace="''"/>
-	<title>Control de Productos</title>
-	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
-	<script type="text/javascript">
-		$(document).ready(function()
-		{
-			Producto.todos();
-		});
-	</script>
+	<title>Control de Cub&iacute;culos</title>
 </head>
 
 <body>
-	<div id="sidebar">
-		<h2>Learn more</h2>
-	</div>
 	<div id="getting_started">
-		<h1>Productos</h1>
-		<form action="agregar" method="post">
+		<h1>Control de Cub&iacute;culos</h1>
+		<form action="guardar" method="post">
 			<fieldset>
-				<legend>Crear un Producto</legend>
+				<legend>Registrar un Cub&iacute;culo</legend>
 				<ol>
 					<li>
-						<label>Nombre</label>
+						<label>Nombre:</label>
 						<input name="nombre" />
 					</li>
 					<li>
-						<label>Descripci&oacute;n</label>
-						<textarea name="descripcion" rows="3" cols="40"></textarea>
+						<label>Inquilino:</label>
+						<input name="inquilino" />
+					</li>
+					<li>
+					  <label>Recibo de la ENEE:</label>
+					  <input name="enee" />
+					</li>
+          <li>
+            <label>Tasa de Inter&eacute;s Moratorio:</label>
+            <input name="intereses" />
+          </li>
+					<li>
+						<label>Precio:</label>
+						<input name="precio" />
 					</li>
 					<li><input type="submit" value="Guardar" /></li>
 				</ol>
@@ -42,11 +44,13 @@
 		</form>
 		<form action="mostrar">
 			<fieldset>
-				<legend>Mostrar un producto</legend>
+				<legend>Mostrar un Cub&iacute;culo</legend>
 				<ol>
 					<li>
-						<label>Producto:</label>
-						<select name="producto" class="productos" />
+						<label>Cub&iacute;culo:</label>
+						<select name="cubiculo" class="cubiculos">
+						    <option py:for="c in cubiculos" value="${c.id}">${c.nombre}</option>
+						</select>
 					</li>
 					<li><input type="submit" value="Mostrar" /></li>
 				</ol>

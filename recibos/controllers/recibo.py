@@ -19,8 +19,7 @@
 
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
-from turbogears	import expose, validate, paginate, error_handler
-from cherrypy	import request, response
+from turbogears	import expose, validate, error_handler
 from recibos	import model
 from venta		import Venta
 from datetime	import date
@@ -112,8 +111,12 @@ class Recibo(controllers.Controller, identity.SecureResource):
 			
 			recibo = model.Recibo(**kw)
 		else:
-			recibo.afiliado = kw['afiliado']
-			recibo.cliente = kw['cliente']
+			try:
+				recibo.cliente = kw['cliente']
+				recibo.afiliado = kw['afiliado']
+
+			except:
+				pass
 		
 		recibo.dia = dia
 		recibo.flush()

@@ -1,0 +1,95 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<?python import locale ?>
+<head>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
+	<title>Control de Cub&iacute;culos</title>
+  <script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
+  <script type="text/javascript">
+    $(document).ready(function()
+    {
+      Casas.activas();
+      Producto.todos();
+    });
+  </script>
+</head>
+<body>
+	<div id="getting_started">
+		<h1>Cubiculo ${cubiculo.nombre}</h1>
+    <ul>
+      <li>Inquilino: ${cubiculo.inquilino}</li>
+      <li>Precio de Alquiler: ${locale.currency(cubiculo.precio, True, True)}</li>
+      <li>Impuesto: ${locale.currency(cubiculo.impuesto(), True, True)}</li>
+      <li>Recibo ENEE: ${cubiculo.enee}</li>
+      <li>Intereses Moratorios ${cubiculo.interesMoratorio()}%</li>
+      <li>Pago Mensual por Intereses Moratorios: ${locale.currency(cubiculo.calcularInteres(1), True, True)}</li>
+    </ul>
+		<table>
+	    <caption>Historial de Pagos</caption>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Descripci&oacute;n</th>
+          <th>Recibo</th>
+          <th>Inquilino</th>
+          <th>Monto</th>
+          <th>Mora</th>
+          <th>Impuesto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr py:for="pago in cubiculo.alquileres">
+          <td>${pago.dia}</td>
+          <td>${pago.descripcion}</td>
+          <td><a href="${tg.url('/recibo/%s' % pago.recibo)}">${pago.recibo}</a></td>
+          <td>${pago.inquilino}</td>
+          <td>${locale.currency(pago.monto, True, True)}</td>
+          <td>${locale.currency(pago.mora, True, True)}</td>
+          <td>${locale.currency(pago.impuesto, True, True)}</td>
+          <td><a href="${tg.url('/cubiculo/pago/eliminar/%s' % pago.id)}">Eliminar</a></td>
+        </tr>
+      </tbody>
+		</table>
+    <form action="${tg.url('/cubiculo/pago/agregar')}" method="post">
+      <fieldset>
+        <legend>Agregar un Pago</legend>
+        <input type="hidden" value="${cubiculo.id}" name="cubiculo" />
+        <input type="hidden" value="${cubiculo.inquilino}" name="inquilino" />
+        <ul>
+          <li>
+            <label>Casa:</label>
+            <select name="casa" class="activas">
+            </select>
+          </li>
+          <li>
+            <label for="descripcion">Concepto:</label>
+            <input name="descripcion" class="descripcion" />
+          </li>
+          <li>
+            <label for="retraso">Meses en Mora:</label>
+            <input id="retraso" />
+          </li>
+          <li>
+            <label>Cuenta para Impuestos:</label>
+            <select name="isv" class="productos" />
+          </li>
+          <li>
+            <label>Cuenta para Alquileres:</label>
+            <select name="alquiler" class="productos" />
+          </li>
+          <li>
+            <label>Cuenta para Mora:</label>
+            <select name="mora" class="productos" />
+          </li>
+          <li>
+            <input type="submit" value="Crear Recibo" />
+          </li>
+        </ul>
+      </fieldset>
+    </form>
+	</div>
+</body>
+</html>
