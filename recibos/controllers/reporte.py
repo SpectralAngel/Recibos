@@ -191,4 +191,24 @@ class Reporte(controllers.Controller, identity.SecureResource):
 			ventas.extend(venta for venta in recibo.ventas if venta.producto == producto)
 		
 		return dict(ventas=ventas, inicio=inicio, fin=fin, producto=producto)
-
+	
+	@expose(template='recibos.templates.reportes.resumido')
+	@validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+						fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+						casa=validators.Int()))
+	def resumido(self, inicio, fin, casa):
+		
+		casa = model.Casa.get(casa)
+		recibos = model.Recibo.query.filter_by(casa=casa).filter(model.Recibo.dia>=inicio).filter(model.Recibo.dia<=fin).all()
+		
+		dias = dict()
+		
+		for recibo in recibos:
+			
+			if recibo.dia in dias:
+				dias[recibo.dia] += recibo.total()
+				
+			else:
+				dias[recibo.dia] = recibo.total()
+		
+		return dict(dias=dias, inicio=inicio, fin=fin, casa=casa)
