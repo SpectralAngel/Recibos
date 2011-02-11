@@ -12,8 +12,11 @@
 	<script type="text/javascript">
 	$(document).ready(function()
 	{
+	  Casas.url = '${tg.url('/')}';
 		Casas.todas();
+		Organizacion.url = '${tg.url('/')}';
 		Organizacion.todas();
+		Producto.url = '${tg.url('/')}';
 		Producto.todos();
 	});
 	</script>

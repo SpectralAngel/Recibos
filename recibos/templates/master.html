@@ -1,63 +1,62 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude" py:strip="">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude" py:strip="">
+<?python
+  import locale
+  locale.setlocale(locale.LC_ALL, 'es_HN.utf8')
+?>
 <head py:match="head" py:attrs="select('@*')">
-	<link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/static/css/style.css')}" />
-	<link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/static/css/form.css')}" />
-	<link rel="stylesheet" type="text/css" media="print" href="${tg.url('/static/css/impresion.css')}" />
-	<link rel="stylesheet" type="text/css" href="${tg.url('/static/css/redmond/jquery-ui.css')}" media="screen" />
-	<script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
-	<script type="text/javascript" src="${tg.url('/static/javascript/jquery-ui.js')}"></script>
-	<script type="text/javascript">
-	$(document).ready(function()
-	{
-		$('.dia').datepicker({ changeMonth: true, changeYear: true, dateFormat:'dd/mm/yy'}, $.datepicker.regional['es']);
-		$('.stripe tr:odd').addClass("odd");
-		$('.stripe tr:even').addClass("even");
-	});
-	</script>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
-	<title py:replace="''">Sistema Gestor de Ingresos</title>
-	<link py:for="css in tg_css" py:replace="ET(css.display())" />
-	<link py:for="js in tg_js_head" py:replace="ET(js.display())" />
-	<meta py:replace="select('*')" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/static/css/style.css')}" />
+  <link rel="stylesheet" type="text/css" media="screen" href="${tg.url('/static/css/form.css')}" />
+  <link rel="stylesheet" type="text/css" media="print" href="${tg.url('/static/css/impresion.css')}" />
+  <link rel="stylesheet" type="text/css" href="${tg.url('/static/css/redmond/jquery-ui.css')}" media="screen" />
+  <script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/javascript/jquery-ui.js')}"></script>
+  <script type="text/javascript">
+    $(document).ready(function()
+    {
+      $('.dia').datepicker({ changeMonth: true, changeYear: true, dateFormat:'dd/mm/yy'}, $.datepicker.regional['es']);
+      $('.stripe tr:odd').addClass("odd");
+      $('.stripe tr:even').addClass("even");
+    });
+  </script>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''" />
+  <title py:replace="''">Sistema Gestor de Ingresos</title>
+  <link py:for="css in tg_css" py:replace="ET(css.display())" />
+  <link py:for="js in tg_js_head" py:replace="ET(js.display())" />
+  <meta py:replace="select('*')" />
 </head>
-
-<body class="flora" py:match="body" py:attrs="select('@*')">
-	<div id="header">
-		<h1>Gestor de Ingresos</h1>
-		<h2>Caja</h2>
-		<div id="navegacion">
-			<a href="http://172.16.10.68:8090"><strong>Volver a Afiliaciones</strong></a> |
-			<a href="${tg.url('/recibo')}">Recibos</a> |
-			<a href="${tg.url('/casa')}">Casas</a> |
-			<a href="${tg.url('/reporte')}">Reportes</a> |
-			<a href="${tg.url('/organizacion')}">Organizaciones</a> |
-			<a href="${tg.url('/producto')}">Productos</a> |
-			<a href="${tg.url('/cubiculo')}">Alquileres</a>
-			<span py:if="tg.identity.anonymous">| <a href="${tg.url('/login')}">Iniciar Sesi&oacute;n</a></span>
-			<span py:if="not tg.identity.anonymous">| Bienvenido ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
-		</div>
-		<form action="${tg.url('/recibo/mostrar')}" id="busqueda">
-			<div>
-				<input name="recibo" /><input type="submit" value="Buscar" />
-			</div>
-		</form>
-	</div>
-	<div id="breadcrumb">
-		<span py:for="url, name in tg.breadcrumbs()">
-			&bull; <a class="menu" py:content="name" href="${url}" />
-		</span>
-	</div>
-	<div class="flash" py:if="tg_flash" py:content="tg_flash" />
-	<div id="main_content">
-		<div py:for="js in tg_js_bodytop" py:replace="ET(js.display())" />
-		<div py:replace="select('*|text()')" />
-		<div py:for="js in tg_js_bodybottom" py:replace="ET(js.display())" />
-	</div>
-	<div id="footer"><p class="copyright">Copyright 2008 Carlos Flores</p></div>
+<body py:match="body" py:attrs="select('@*')">
+  <div id="header">
+    <h1>Gestor de Ingresos</h1>
+    <h2>Caja</h2>
+    <div id="navegacion">
+      <a href="http://172.16.10.68:8090"><strong>Volver a Afiliaciones</strong></a> |
+      <a href="${tg.url('/recibo')}">Recibos</a> |
+      <a href="${tg.url('/casa')}">Casas</a> |
+      <a href="${tg.url('/reporte')}">Reportes</a> |
+      <a href="${tg.url('/organizacion')}">Organizaciones</a> |
+      <a href="${tg.url('/producto')}">Productos</a> |
+      <a href="${tg.url('/cubiculo')}">Alquileres</a>
+      <span py:if="tg.identity.anonymous">| <a href="${tg.url('/login')}">Iniciar Sesi&oacute;n</a></span>
+      <span py:if="not tg.identity.anonymous">| Bienvenido ${tg.identity.user.display_name}. <a href="${tg.url('/logout')}">Cerrar Sesi&oacute;n</a></span>
+    </div>
+    <form action="${tg.url('/recibo/mostrar')}" id="busqueda">
+      <div>
+        <input name="recibo" /><input type="submit" value="Buscar" />
+      </div>
+    </form>
+  </div>
+    <div id="breadcrumb">
+    <span py:for="url, name in tg.breadcrumbs()">
+    &bull; <a class="menu" py:content="name" href="${url}" />
+    </span>
+  </div>
+  <div class="flash" py:if="tg_flash" py:content="tg_flash" />
+  <div id="main_content">
+    <div py:for="js in tg_js_bodytop" py:replace="ET(js.display())" />
+    <div py:replace="select('*|text()')" />
+    <div py:for="js in tg_js_bodybottom" py:replace="ET(js.display())" />
+  </div>
+  <div id="footer"><p class="copyright">Copyright 2008 - 2011 Carlos Flores</p></div>
 </body>
 </html>
-

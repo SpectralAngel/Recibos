@@ -16,7 +16,7 @@ if os.path.isdir('locales'):
 
 setup(
     name="Recibos",
-    version=version,
+    version="1.0",
     # uncomment the following lines if you fill them out in release.py
     #description=description,
     #author=author,

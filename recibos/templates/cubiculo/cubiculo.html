@@ -10,7 +10,9 @@
   <script type="text/javascript">
     $(document).ready(function()
     {
+      Casas.url = '${tg.url('/')}';
       Casas.activas();
+      Producto.url = '${tg.url('/')}';
       Producto.todos();
     });
   </script>
@@ -23,7 +25,7 @@
       <li>Precio de Alquiler: ${locale.currency(cubiculo.precio, True, True)}</li>
       <li>Impuesto: ${locale.currency(cubiculo.impuesto(), True, True)}</li>
       <li>Recibo ENEE: ${cubiculo.enee}</li>
-      <li>Intereses Moratorios ${cubiculo.interesMoratorio()}%</li>
+      <li>Intereses Moratorios ${cubiculo.interes}%</li>
       <li>Pago Mensual por Intereses Moratorios: ${locale.currency(cubiculo.calcularInteres(1), True, True)}</li>
     </ul>
 		<table>
@@ -44,12 +46,12 @@
         <tr py:for="pago in cubiculo.alquileres">
           <td>${pago.dia}</td>
           <td>${pago.descripcion}</td>
-          <td><a href="${tg.url('/recibo/%s' % pago.recibo)}">${pago.recibo}</a></td>
+          <td><a href="${tg.url('/recibo/{0}'.format(pago.recibo))}">${pago.recibo}</a></td>
           <td>${pago.inquilino}</td>
           <td>${locale.currency(pago.monto, True, True)}</td>
           <td>${locale.currency(pago.mora, True, True)}</td>
           <td>${locale.currency(pago.impuesto, True, True)}</td>
-          <td><a href="${tg.url('/cubiculo/pago/eliminar/%s' % pago.id)}">Eliminar</a></td>
+          <td><a href="${tg.url('/cubiculo/pago/eliminar/{0}'.format(pago.id))}">Eliminar</a></td>
         </tr>
       </tbody>
 		</table>
@@ -60,9 +62,8 @@
         <input type="hidden" value="${cubiculo.inquilino}" name="inquilino" />
         <ul>
           <li>
-            <label>Casa:</label>
-            <select name="casa" class="activas">
-            </select>
+          	<label for="recibo">Recibo:</label>
+          	<input name="recibo" />
           </li>
           <li>
             <label for="descripcion">Concepto:</label>
@@ -70,7 +71,7 @@
           </li>
           <li>
             <label for="retraso">Meses en Mora:</label>
-            <input id="retraso" />
+            <input name="retraso" />
           </li>
           <li>
             <label>Cuenta para Impuestos:</label>

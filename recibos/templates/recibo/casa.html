@@ -3,20 +3,14 @@
 	xmlns:py="http://genshi.edgewall.org/"
 	xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<?python
-	import locale
-	locale.setlocale(locale.LC_ALL, '')
-?>
 <head>
-	<title>Recibos de ${casa.nombre} del
-					${dia.strftime('%A %d de %B de %Y').decode('cp1252')}</title>
+	<title>Recibos de ${casa.nombre} del ${dia.strftime('%A %d de %B de %Y').decode('utf8')}</title>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 </head>
 <body>
 	<div id="getting_started">
-		<h1 py:content="casa.nombre" />
-		<h2 py:content="'Recibos del d&iacute;a ',
-						dia.strftime('%A %d de %B de %Y').decode('cp1252')" />
+		<h1>${casa.nombre}</h1>
+		<h2>Recibos del d&iacute;a ${dia.strftime('%A %d de %B de %Y').decode('utf8')}</h2>
 		<table>
 			<caption>Recibos Registrados</caption>
 			<thead>
@@ -28,8 +22,8 @@
 			</thead>
 			<tbody>
 				<tr id="recibo-${recibo.id}" py:for="recibo in recibos">
-					<td py:content="recibo.id" />
-					<td py:content="recibo.cliente" />
+					<td>${recibo.id}</td>
+					<td>${recibo.cliente}</td>
 					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
 				</tr>
 			</tbody>
@@ -37,7 +31,7 @@
 				<tr>
 					<th>Total de recibos:</th>
 					<th py:content="len(recibos)" />
-					<th py:content="locale.currency(sum(r.total() for r in recibos r.id != 116969), True, True)" class="valor" />
+					<th py:content="locale.currency(sum(r.total() for r in recibos), True, True)" class="valor" />
 				</tr>
 			</tfoot>
 		</table>
@@ -45,4 +39,3 @@
 	</div>
 </body>
 </html>
-

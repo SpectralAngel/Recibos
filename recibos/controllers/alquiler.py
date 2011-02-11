@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-# Copyright (c) 2010 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2010, 2011 Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,12 +16,11 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears import controllers, identity, validators, url
-from turbogears import flash, redirect
-from turbogears import expose, validate
-from decimal import Decimal
-from recibos import model
-from datetime import date
+from turbogears    import controllers, identity, validators
+from turbogears    import flash, redirect
+from turbogears    import expose, validate
+from decimal    import Decimal
+from recibos    import model
 
 class Pago(controllers.Controller):
     
@@ -30,74 +28,64 @@ class Pago(controllers.Controller):
     
     @expose()
     @validate(validators=dict(cubiculo=validators.Int(),
+                              dia=validators.DateConverter(month_style="dd/mm/yyyy"),
                               descripcion=validators.UnicodeString(),
-                              inquilino=validators.UnicodeString(),
-                              isv=validators.Int(),
                               retraso=validators.Int(),
-                              casa=validators.Int(),
                               alquiler=validators.Int(),
-                              intereses=validators.Int()))
-    def agregar(self, cubiculo, recibo, intereses, isv, alquiler, casa, retraso, **kw):
+                              isv=validators.Int(),
+                              mora=validators.Int(),
+                              recibo=validators.Int()))
+    def agregar(self, cubiculo, casa, alquiler, mora, recibo, retraso, isv, **kw):
         
-        # Obteniendo la información necesaria desde la base de datos
         cubiculo = model.Cubiculo.get(cubiculo)
-        intereses = model.Producto.get(intereses)
-        isv = model.Producto.get(isv)
         alquiler = model.Producto.get(alquiler)
-        casa = model.Casa.get(casa)
+        recibo = model.Recibo.get(recibo)
+        isv = model.Producto.get(isv)
+        mora = model.Producto.get(mora)
         
+        kw['inquilino'] = cubiculo.inquilino
         kw['mora'] = cubiculo.calcularInteres(retraso)
         kw['impuesto'] = cubiculo.impuesto()
         kw['monto'] = cubiculo.precio
         
-        # Crear el recibo
-        rkw = dict()
-        rkw['cliente'] = kw['inquilino']
-        rkw['dia'] = kw['dia'] = date.today()
-        
-        recibo = model.Recibo(**rkw)
-        recibo.casa = casa
-        recibo.flush()
-        
-        # Crear las ventas necesarias en el recibo
         vkw = dict()
         # Monto por el mes
-        vkw['descripcion'] = kw['descipcion']
         vkw['unitario'] = cubiculo.precio
+        vkw['descripcion'] = kw['descripcion']
         vkw['cantidad'] = 1
-        venta = model.Venta(**kw)
+        venta = model.Venta(**vkw)
         venta.recibo = recibo
         venta.producto = alquiler
         venta.flush()
         
         # Impuesto sobre la venta
-        vkw['descripcion'] = ""
         vkw['unitario'] = cubiculo.impuesto()
+        vkw['descripcion'] = u'Impuesto sobre la venta'
         vkw['cantidad'] = 1
-        venta = model.Venta(**kw)
+        venta = model.Venta(**vkw)
         venta.recibo = recibo
         venta.producto = isv
         venta.flush()
         
         # intereses moratorios
-        if kw['mora'] > 0:
-            vkw['descripcion'] = ""
-            vkw['unitario'] = kw['mora']
-            vkw['cantidad'] = 1
-            venta = model.Venta(**kw)
+        if retraso > 0:
+            vkw['unitario'] = cubiculo.calcularInteres(1)
+            vkw['descripcion'] = u'Intereses Moratorios {0} meses'.format(retraso)
+            vkw['cantidad'] = retraso
+            venta = model.Venta(**vkw)
             venta.recibo = recibo
-            venta.producto = intereses
+            venta.producto = mora
             venta.flush()
         
-        # Registrar el pago del alquiler en el cubiculo
         pago = model.Alquiler(**kw)
         pago.cubiculo = cubiculo
         pago.recibo = recibo
         pago.flush()
         
-        flash('Pago de alquiler el recibo %s se ha creado automaticamente' % recibo.id)
+        flash(u'Se ha registrado el pago del Local {0} en el recibo {1}'.format(
+                                                    cubiculo.nombre, recibo.id))
         
-        raise redirect(url('/cubiculo/%s' % cubiculo.id))
+        raise redirect('/cubiculo/{0}'.format(cubiculo.id))
     
     @expose()
     @validate(validators=dict(pago=validators.Int()))
@@ -109,7 +97,7 @@ class Pago(controllers.Controller):
         
         flash('Agregado el pago al cubiculo')
         
-        raise redirect('/cubiculo/%s' % cubiculo.id)
+        raise redirect('/cubiculo/{0}'.format(cubiculo.id))
 
 class Cubiculo(controllers.Controller):
     
@@ -121,6 +109,11 @@ class Cubiculo(controllers.Controller):
         
         return dict(cubiculos=model.Cubiculo.query.all())
     
+    @validate(validators=dict(cubiculo=validators.Int()))
+    def mostrar(self, cubiculo):
+       
+        raise redirect('/cubiculo/{0}'.format(cubiculo))
+    
     @expose(template='recibos.templates.cubiculo.cubiculo')
     @validate(validators=dict(cubiculo=validators.Int()))
     def default(self, cubiculo):
@@ -128,19 +121,21 @@ class Cubiculo(controllers.Controller):
         return dict(cubiculo=model.Cubiculo.get(cubiculo))
     
     @expose()
-    @validate(validators=dict(cubiculo=validators.Int()))
-    def mostrar(self, cubiculo):
-       
-        raise redirect(url('/cubiculo/%s' % cubiculo))
-    
-    @expose()
     @validate(validators=dict(nombre=validators.UnicodeString(),
                               inquilino=validators.UnicodeString(),
-                              precio=validators.String()))
+                              precio=validators.UnicodeString(),
+                              enee=validators.UnicodeString()))
     def guardar(self, precio, **kw):
         
-        kw['precio'] = Decimal(precio)
-        cubiculo = model.Cubiculo(**kw)
-        cubiculo.flush()
+        kw['precio'] = Decimal(precio.replace(',', ''))
+        if 'id' in kw:
+            cubiculo = model.Cubiculo.get(kw['id'])
+            del kw['id']
+            for key in kw:
+                setattr(cubiculo, key, kw[key])
+            cubiculo.flush()
+        else:
+            cubiculo = model.Cubiculo(**kw)
+            cubiculo.flush()
         
-        raise redirect(url('/cubiculo/%s' % cubiculo.id))
+        raise redirect('/cubiculo/{0}'.format(cubiculo.id))

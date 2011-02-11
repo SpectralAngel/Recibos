@@ -20,6 +20,7 @@
 from turbogears	import controllers, identity, validators
 from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate, error_handler
+from cherrypy	import request, response
 from recibos	import model
 
 class Usuario(controllers.Controller, identity.SecureResource):

@@ -1,7 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
 	<title>Control de Recibos</title>
@@ -11,8 +9,10 @@
 	<script type="text/javascript">
 		$(document).ready(function()
 		{
+		  Casas.url = '${tg.url('/')}';
 			Casas.activas();
 			Casas.todas();
+			Recibo.url = '${tg.url('/')}';
 			Recibo.sinImprimir();
 		});
 	</script>
