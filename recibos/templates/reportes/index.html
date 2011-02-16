@@ -1,25 +1,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
 <head>
-	<title>Gesti&oacute;n de Reportes</title>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<script type="text/javascript" src="${tg.url('/static/javascript/organizacion.js')}"></script>
-	<script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
-	<script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
-	<script type="text/javascript">
-	$(document).ready(function()
-	{
-	  Casas.url = '${tg.url('/')}';
-		Casas.todas();
-		Organizacion.url = '${tg.url('/')}';
-		Organizacion.todas();
-		Producto.url = '${tg.url('/')}';
-		Producto.todos();
-	});
-	</script>
+  <title>Gesti&oacute;n de Reportes</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <script type="text/javascript" src="${tg.url('/static/javascript/organizacion.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
+  <script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
+  <script type="text/javascript">
+  $(document).ready(function()
+  {
+    Casas.url = '${tg.url('/')}';
+    Casas.todas();
+    Organizacion.url = '${tg.url('/')}';
+    Organizacion.todas();
+    Producto.url = '${tg.url('/')}';
+    Producto.todos();
+  });
+  </script>
 </head>
 <body>
 	<div id="sidebar"></div>
@@ -96,7 +94,7 @@
 		</form>
 		<form action="organizacionPeriodo">
 			<fieldset>
-				<legend>Reporte de Ingresos de una Organizacion por Periodo</legend>
+				<legend>Reporte de Ingresos de una Organizaci&oacute;n por Periodo</legend>
 				<ol>
 					<li>
 						<label>Organizaci&oacute;n:</label>
@@ -120,6 +118,32 @@
 				</ol>
 			</fieldset>
 		</form>
+    <form action="organizacionDiario">
+      <fieldset>
+        <legend>Reporte de Ingresos D&iacute;arios de una Organizaci&oacute;n por Periodo</legend>
+        <ol>
+          <li>
+            <label>Organizaci&oacute;n:</label>
+            <select name="organizacion" id="organizacion">
+              <option py:for="organizacion in organizaciones" py:content="organizacion.nombre" value="${organizacion.id}" />
+            </select>
+          </li>
+          <li>
+            <label>Casa:</label>
+            <select name="casa" class="casas" />
+          </li>
+          <li>
+            <label>Fecha Inicial</label>
+            <input name="inicio" class="dia" />
+          </li>
+          <li>
+            <label>Fecha Final</label>
+            <input name="fin" class="dia" />
+          </li>
+          <li><input type="submit" value="Mostrar" /></li>
+        </ol>
+      </fieldset>
+    </form>
 		<form action="ventas">
 			<fieldset>
 				<legend>Reporte de Movimientos en una Cuenta</legend>
@@ -140,7 +164,7 @@
 				</ol>
 			</fieldset>
 		</form>
-		<form action="resumido">
+    <form action="resumido">
       <fieldset>
         <legend>Reporte de Ingresos Resumido de una casa</legend>
         <ol>

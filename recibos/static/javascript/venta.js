@@ -1,4 +1,4 @@
-// Copyright 2008 - 2011 (c) Carlos Flores <cafg10@gmail.com>
+// Copyright 2008 � Carlos Flores <cafg10@gmail.com>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by

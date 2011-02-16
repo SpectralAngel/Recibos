@@ -18,6 +18,14 @@
 
 from turbogears import controllers, identity, validators, expose, validate
 from recibos import model
+from datetime import timedelta
+
+def daterange(start_date, end_date):
+    
+    """Crea un rango de fechas para efectuar cálculos"""
+    
+    for n in range((end_date - start_date).days):
+        yield start_date + timedelta(n)
 
 class Reporte(controllers.Controller, identity.SecureResource):
     
@@ -159,6 +167,35 @@ class Reporte(controllers.Controller, identity.SecureResource):
                         self.filtrar_detalle(detalle, detalles, venta)
         
         return dict(detalles=detalles, inicio=inicio, fin=fin, organizacion=organizacion, casa=casa)
+    
+    @expose(template="recibos.templates.reportes.organizacionDiario")
+    @validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+                              fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+                            casa=validators.Int(), organizacion=validators.Int()))
+    def organizacionDiario(self, inicio, fin, casa, organizacion):
+        
+        casa = model.Casa.get(casa)
+        organizacion = model.Organizacion.get(organizacion)
+        
+        recibos = model.Recibo.query.filter_by(casa=casa).filter(model.Recibo.dia>=inicio).filter(model.Recibo.dia<=fin).all()
+        dias = dict()
+        
+        for dia in daterange(inicio, fin + timedelta(1)):
+            
+            detalles = dict()
+            rec = [r for r in recibos if r.dia == dia]
+            for recibo in rec:
+                for venta in recibo.ventas:
+                    
+                    for detalle in venta.producto.detalles:
+                        
+                        if detalle.organizacion == organizacion:
+                        
+                            self.filtrar_detalle(detalle, detalles, venta)
+            
+            dias[dia] = sum(detalles[d] for d in detalles)
+        
+        return dict(dias=dias, inicio=inicio, fin=fin, organizacion=organizacion, casa=casa)
     
     @expose(template="recibos.templates.reportes.ventas")
     @validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),

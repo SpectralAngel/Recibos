@@ -62,4 +62,4 @@ class Venta(controllers.Controller):
 		
 		venta.flush()
 		
-		raise redirect('/recibo/{0}'.format(recibo.id))
+		raise redirect('/recibo/{0}'.format(venta.recibo.id))

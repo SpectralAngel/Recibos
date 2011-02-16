@@ -1,42 +1,37 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-
 <head>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<title>Control de Casas</title>
-	<script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
-	<script type="text/javascript">
-	$(document).ready(function()
-	{
-	  Casas.url = '${tg.url('/')}';
-		Casas.lista();
-	});
-	</script>
+<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <title>Control de Casas</title>
+  <script type="text/javascript" src="${tg.url('/static/javascript/casa.js')}"></script>
+  <script type="text/javascript">
+    $(document).ready(function()
+    {
+      Casas.url = "${tg.url('/')}";
+    	Casas.lista();
+    });
+  </script>
 </head>
-
 <body>
-	<div id="sidebar">
-	<h2>Mostrar una Casa</h2>
-		<ul class="listaCasas" />
-	</div>
-	<div id="getting_started">
-		<form action="agregar" method="post">
-			<fieldset>
-				<legend>Registrar una Casa</legend>
-				<ol>
-					<li><label>Nombre:</label><input name="nombre" /></li>
-					<li>
-						<label>Direcci&oacute;n</label>
-						<textarea name="direccion" rows="3" cols="40"></textarea>
-					</li>
-					<li><input type="submit" value="Guardar" /></li>
-				</ol>
-			</fieldset>
-		</form>
-	</div>
+  <div id="sidebar">
+    <h2>Mostrar una Casa</h2>
+    <ul class="listaCasas" />
+  </div>
+  <div id="getting_started">
+    <form action="agregar" method="post">
+      <fieldset>
+      <legend>Registrar una Casa</legend>
+      <ol>
+        <li><label>Nombre:</label><input name="nombre" /></li>
+        <li>
+          <label>Direcci&oacute;n</label>
+          <textarea name="direccion" rows="3" cols="40"></textarea>
+        </li>
+        <li><input type="submit" value="Guardar" /></li>
+      </ol>
+    </fieldset>
+  </form>
+  </div>
 </body>
 </html>
