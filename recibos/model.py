@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-# Copyright © 2008 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2008 Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -59,6 +58,7 @@ class Afiliado(Entity):
     apellidos = Field(Unicode(50), colname='last_name')
     
     cotizacion = Field(String(20), colname='payment')
+    consolidaciones = OneToMany("Consolidacion")
 
 class Recibo(Entity):
     
@@ -185,6 +185,17 @@ class Alquiler(Entity):
     monto = Field(Currency, required=True)
     mora = Field(Currency, default=Decimal(0))
     impuesto = Field(Currency, default=Decimal(0))
+
+class Consolidacion(Entity):
+    
+    using_options(tablename='consolidacion')
+    
+    afiliado = ManyToOne('afiliado')
+    cheque = Field(Unicode(100), default=None)
+    monto = Field(Currency, required=True)
+    institucion = Field(Unicode(100), default=None)
+    dia = Field(Date, required=True, default=date.today)
+    recibo = ManyToOne("Recibo")
 
 # the identity model
 
