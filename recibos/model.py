@@ -84,6 +84,14 @@ class Recibo(Entity):
         """Retorna el total de las ventas de un recibo"""
         
         return sum(venta.valor() for venta in self.ventas)
+    
+    def anular(self):
+        
+        self.cliente = "Nulo"
+        self.afiliado = None
+        for venta in self.ventas:
+            
+            venta.delete()
 
 class Venta(Entity):
     
@@ -190,7 +198,7 @@ class Consolidacion(Entity):
     
     using_options(tablename='consolidacion')
     
-    afiliado = ManyToOne('afiliado')
+    afiliado = ManyToOne('Afiliado')
     cheque = Field(Unicode(100), default=None)
     monto = Field(Currency, required=True)
     institucion = Field(Unicode(100), default=None)

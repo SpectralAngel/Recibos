@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from turbogears import (controllers, identity, validators, flash, redirect,
-					    expose, validate, error_handler)
+                        expose, validate, error_handler)
 from recibos import model
 from venta import Venta
 from datetime import date
@@ -195,12 +195,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
         
         recibo = model.Recibo.get(recibo)
         
-        for venta in recibo.ventas:
-            
-            venta.delete()
-        
-        recibo.cliente = "Nulo"
-        recibo.afiliado = None
+        recibo.anular()
         
         flash('Recibo {0} Anulado'.format(recibo.id))
         
@@ -231,3 +226,14 @@ class Recibo(controllers.Controller, identity.SecureResource):
     def detalleNombre(self, dia, nombre):
         
         return dict(recibos=model.Recibo.query.filter(model.Recibo.cliente.like("%{0}%".format(nombre))).filter(dia=dia))
+    
+    @expose()
+    def anularMasa(self):
+        
+        recibos = model.Recibo.query.filter(model.Recibo.id>=149704).filter(model.Recibo.id<=149755).all()
+        for recibo in recibos:
+            recibo.anular()
+        
+        flash('Terminado')
+        
+        raise redirect('/recibo')

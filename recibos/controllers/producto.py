@@ -19,13 +19,13 @@
 from turbogears import (controllers, identity, validators, flash, expose,
                     validate, error_handler)
 from recibos import model
-from detalle import Detalle
+from recibos.controllers import detalle
 
 class Producto(controllers.Controller, identity.SecureResource):
     
     require = identity.not_anonymous()
     
-    detalle = Detalle()
+    detalle = detalle.Detalle()
     
     @expose(template="recibos.templates.producto.index")
     def index(self,  tg_errors=None):
