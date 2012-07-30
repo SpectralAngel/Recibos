@@ -26,8 +26,9 @@ from os.path import dirname, exists, join
 
 import pkg_resources
 try:
-	pkg_resources.require("SQLAlchemy>=0.5.0")
+	pkg_resources.require("SQLAlchemy>=0.6.0")
 except pkg_resources.DistributionNotFound:
+	import sys
 	print >> sys.stderr, """You are required to install SQLAlchemy but appear
 not to have done so. Please run your projects setup.py or run
 `easy_install SQLAlchemy`."""

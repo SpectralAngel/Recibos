@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-# Copyright © 2008 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2008 Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +16,10 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity, validators, redirect
+from turbogears	import controllers, identity, validators
+from turbogears	import flash, redirect
 from turbogears	import expose, validate, paginate, error_handler
+from cherrypy	import request, response
 from recibos	import model
 
 class Organizacion(controllers.Controller, identity.SecureResource):
@@ -73,5 +74,5 @@ class Organizacion(controllers.Controller, identity.SecureResource):
 		organizacion.flush()
 		print organizacion.id
 		
-		raise redirect('/organizacion/%s' % organizacion.id)
+		raise redirect('/organizacion/{0}'.format(organizacion.id))
 

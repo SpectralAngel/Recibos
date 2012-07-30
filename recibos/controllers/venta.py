@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-# Copyright © 2008 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2008 - 2010 Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +16,7 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, validators, redirect, url
-from turbogears	import expose, validate, error_handler
+from turbogears	import controllers, validators, redirect, expose, validate
 from recibos	import model
 from decimal	import Decimal
 
@@ -32,14 +30,12 @@ class Venta(controllers.Controller):
 		
 		return dict(tg_errors=tg_errors)
 	
-	@error_handler(index)
 	@expose()
 	@validate(validators=dict(venta=validators.Int()))
 	def default(self, venta):
 		
 		return dict(venta=model.Venta.get(venta))
 	
-	@error_handler(index)
 	@expose()
 	@validate(validators=dict(venta=validators.Int()))
 	def eliminar(self, venta):
@@ -48,14 +44,14 @@ class Venta(controllers.Controller):
 		recibo = eliminando.recibo
 		eliminando.delete()
 		
-		redirect(url('/recibo/%s' % recibo.id))
+		raise redirect('/recibo/{0}'.format(recibo.id))
 	
-	@error_handler(index)
 	@expose()
 	@validate(validators=dict(recibo=validators.Int(),
 				   producto=validators.Int(),
 				   unitario=validators.String(),
-				   descripcion=validators.UnicodeString()))
+				   descripcion=validators.String(),
+				   cantidad=validators.Int()))
 	def agregar(self, recibo, producto, **kw):
 		
 		kw['unitario'] = Decimal(kw['unitario'])
@@ -66,4 +62,4 @@ class Venta(controllers.Controller):
 		
 		venta.flush()
 		
-		redirect(url('/recibo/%s' % recibo))
+		raise redirect('/recibo/{0}'.format(venta.recibo.id))

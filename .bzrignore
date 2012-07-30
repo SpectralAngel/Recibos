@@ -3,3 +3,6 @@ dev.cfg
 .pydevproject
 .project
 .settings
+recibos/catwalk-session
+recibos/static/css/recibo-1.css
+recibos/templates/recibo/impresion-1.html

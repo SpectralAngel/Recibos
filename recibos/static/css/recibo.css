@@ -3,7 +3,7 @@
 body
 {
 	margin-left: 5px;
-  font-size: 90%;
+	font-size: 75%;
 	font-weight: bold;
 }
 #afiliado, #cliente	{ padding-left: 80px; }
@@ -21,7 +21,7 @@ table { width: 100%; }
 
 #total, #fecha, #recibo, #cajero { position: absolute; }
 
-#total { top: 400px; right: 10px; }
+#total { top: 400px; right: 50px; }
 
 #fecha { top: 400px; left: 100px; }
 #cajero { top: 400px; left: 500px; }

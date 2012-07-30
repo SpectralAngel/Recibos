@@ -1,4 +1,4 @@
-// Copyright 2008 © Carlos Flores <cafg10@gmail.com>
+// Copyright 2008 ï¿½ Carlos Flores <cafg10@gmail.com>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,9 +15,10 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 var Organizacion = {
+  url : '/',
 	todas : function()
 	{
-		$.getJSON('/organizacion/todos?tg_format=json', function(data)
+		$.getJSON(this.url + 'organizacion/todos?tg_format=json', function(data)
 		{
 			$.each(data.organizaciones, function(i, organizacion)
 			{
@@ -30,13 +31,13 @@ var Organizacion = {
 	},
 	lista : function()
 	{
-		$.getJSON('/organizacion/todos?tg_format=json', function(data)
+		$.getJSON(this.url + 'organizacion/todos?tg_format=json', function(data)
 		{
 			$.each(data.organizaciones, function(i, organizacion)
 			{
 				var li = $('<li/>');
 				var a = $('<a/>');
-				a.attr('href', '/organizacion/' + organizacion.id);
+				a.attr('href', this.url + 'organizacion/' + organizacion.id);
 				a.text(organizacion.nombre);
 				li.append(a);
 				$('.listaOrganizaciones').append(li);

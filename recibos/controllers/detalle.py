@@ -1,7 +1,6 @@
-#!/usr/bin/env python
 # -*- coding: utf8 -*-
 #
-# Copyright © 2008 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2008 - 20111 Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,8 +16,8 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, identity, validators, redirect
-from turbogears	import expose, validate, error_handler
+from turbogears	import (controllers, identity, validators, expose, validate,
+						error_handler, redirect)
 from recibos	import model
 from decimal	import Decimal
 
@@ -62,7 +61,7 @@ class Detalle(controllers.Controller, identity.SecureResource):
 		producto = eliminando.producto
 		eliminando.delete()
 		
-		raise redirect("/producto/%s" % producto.id)
+		raise redirect("/producto/{0}".format(producto.id))
 	
 	@error_handler(index)
 	@expose()
@@ -84,5 +83,5 @@ class Detalle(controllers.Controller, identity.SecureResource):
 		detalle.organizacion = organizacion
 		detalle.flush()
 		
-		raise redirect("/producto/%s" % producto.id)
+		raise redirect("/producto/{0}".format(producto.id))
 

@@ -1,49 +1,45 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <?python
-	import locale
-	locale.setlocale(locale.LC_ALL, "")
+  import locale
+  locale.setlocale(locale.LC_ALL, 'es_HN.utf8')
 ?>
 <head>
-	<title>Recibo ${recibo.id}</title>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-	<link rel="stylesheet" href="${tg.url('/static/css/recibo.css')}" />
-	<style type="text/css" media="print">
-		.flash, a { display: none; }
-	</style>
-	<script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
-	<script type="text/javascript">
-	</script>
+  <title>Recibo ${recibo.id}</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+  <link rel="stylesheet" href="${tg.url('/static/css/recibo.css')}" />
+  <style type="text/css" media="print">
+  .flash, a { display: none; }
+  </style>
+  <script type="text/javascript" src="${tg.url('/static/javascript/jquery.js')}"></script>
 </head>
 <body>
-	<span class="noimprimir"><a href="javascript:print();">Imprimir</a>&nbsp;&nbsp;&nbsp;
-	<a href="javascript:back();" >Atras</a></span>
-	<div id="recibo" py:content="recibo.id" />
-	<div id="afiliado" py:content="recibo.afiliado" />
-	<div id="cliente" py:content="recibo.cliente" />
-	<table>
-		<colgroup>
-			<col id="cantidad" />
-			<col id="producto" />
-			<col id="descripcion" />
-			<col id="unitario" />
-			<col id="valor" />
-		</colgroup>
-		<tbody>
-			<tr py:for="venta in recibo.ventas">
-				<td py:content="venta.cantidad" />
-				<td py:content="venta.producto.nombre" />
-				<td py:content="venta.descripcion" />
-				<td py:content="locale.currency(venta.unitario, True, True)" />
-				<td py:content="locale.currency(venta.valor(), True, True)" />
-			</tr>
-		</tbody>
-	</table>
-	<div id="total" py:content="locale.currency(recibo.total(), True, True)" />
-	<div id="fecha" py:content="recibo.dia.strftime('%A %d de %B de %Y').decode('cp1252')" />
-	<div id="cajero" py:content="tg.identity.user.display_name" />
+  <span class="noimprimir"><a href="javascript:print();">Imprimir</a>&nbsp;&nbsp;&nbsp;
+  <a href="javascript:back();" >Atras</a></span>
+  <div id="recibo">${recibo.id}</div>
+  <div id="afiliado">${recibo.afiliado}</div>
+  <div id="cliente">${recibo.cliente}</div>
+    <table>
+      <colgroup>
+        <col id="cantidad" />
+        <col id="producto" />
+        <col id="descripcion" />
+        <col id="unitario" />
+        <col id="valor" />
+      </colgroup>
+      <tbody>
+        <tr py:for="venta in recibo.ventas">
+        <td>${venta.cantidad}</td>
+        <td>${venta.producto.nombre}</td>
+        <td>${venta.descripcion}</td>
+        <td>${locale.currency(venta.unitario, True, True)}</td>
+        <td>${locale.currency(venta.valor(), True, True)}</td>
+      </tr>
+      </tbody>
+    </table>
+  <div id="total">${locale.currency(recibo.total(), True, True)}</div>
+  <div id="fecha">${recibo.dia.strftime('%A %d de %B de %Y %H:%M').decode('utf8')}</div>
+  <div id="cajero">${tg.identity.user.display_name}</div>
 </body>
 </html>
 

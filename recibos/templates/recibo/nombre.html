@@ -1,43 +1,36 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-<?python
-	import locale
-	locale.setlocale(locale.LC_ALL, '')
-?>
 <head>
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 	<title>Listado de Recibos</title>
 </head>
-
 <body>
-	<div id="getting_started">
-		<h2 py:content="'Busqueda de Recibos'" />
-		<table>
-			<caption>Recibos Registrados</caption>
-			<thead>
-				<tr>
-					<th>N&uacute;mero</th>
-					<th>Cliente</th>
-					<th>Fecha</th>
-					<th>Detalle</th>
-					<th class="valor">Valor</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr id="recibo-${recibo.id}" py:for="recibo in recibos">
-					<td><a href="${tg.url('/recibo/%s' % recibo.id)}" py:content="recibo.id" /></td>
-					<td py:content="recibo.cliente" />
-					<td py:content="recibo.dia" />
-					<td><span class="oneliner" py:for="venta in recibo.ventas" py:content="venta.descripcion" />
-					</td>
-					<td py:content="locale.currency(recibo.total(), True, True)" class="valor" />
-				</tr>
-			</tbody>
-		</table>
-	</div>
+  <div id="getting_started">
+    <h2>Busqueda de Recibos</h2>
+    <table>
+      <caption>Recibos Registrados</caption>
+      <thead>
+        <tr>
+          <th>N&uacute;mero</th>
+          <th>Cliente</th>
+          <th>Fecha</th>
+          <th>Detalle</th>
+          <th class="valor">Valor</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr id="recibo-${recibo.id}" py:for="recibo in recibos">
+          <td><a href="${tg.url('/recibo/{0}'.format(recibo.id))}">${recibo.id}</a></td>
+          <td>${recibo.cliente}</td>
+          <td>${recibo.dia}</td>
+          <td>
+            <span class="oneliner" py:for="venta in recibo.ventas">${venta.descripcion}</span>
+          </td>
+          <td class="valor">${locale.currency(recibo.total(), True, True)}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

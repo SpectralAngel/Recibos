@@ -1,4 +1,4 @@
-// Copyright 2008 © Carlos Flores <cafg10@gmail.com>
+// Copyright 2008 ï¿½ Carlos Flores <cafg10@gmail.com>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,18 +15,19 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 var Recibo = {
+  url : '/',
 	sinImprimir : function()
 	{
 		$('#imprimir').change(function()
 		{
 			var casa = $('#imprimir option:selected').val();
-			$.getJSON('/recibo/porImprimir/' + casa, function(data)
+			$.getJSON(this.url + 'recibo/porImprimir/' + casa, function(data)
 			{
 				$('.recibosSinImprimir').empty();
 				$.each(data.recibos, function(i, recibo)
 				{
 					var a = $('<a/>');
-					a.attr('href', '/recibo/' + recibo.id);
+					a.attr('href', this.url + 'recibo/' + recibo.id);
 					a.text(recibo.id + ' ' + recibo.cliente);
 					var li = $('<li/>');
 					li.append(a);

@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html" />
+<head>
+	<title>Reporte de Ingresos D&iacute;ario por Organizaci&oacute;n</title>
+	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+</head>
+<body>
+  <div id="getting_started">
+    <h1>COPEMH</h1>
+    <h2>Reporte Diario de Ingresos</h2>
+    <h3> ${organizacion.nombre} en ${casa.nombre}</h3>
+    <table class="stripe">
+      <caption>del ${inicio.strftime('%A %d de %B de %Y').decode('utf8')} al ${fin.strftime('%A %d de %B de %Y').decode('utf8')}</caption>
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Monto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr py:for="dia in sorted(dias)">
+          <td>${dia.strftime('%A %d de %B de %Y').decode('utf8').capitalize()}</td>
+          <td>${locale.currency(dias[dia], True, True)}</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Total de Ingresos</th>
+          <th class="valor">${locale.currency(sum(dias[dia] for dia in dias), True, True)}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// Copyright 2008 © Carlos Flores <cafg10@gmail.com>
+// Copyright 2008 ï¿½ Carlos Flores <cafg10@gmail.com>
 //
 // This program is free software; you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -15,10 +15,12 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 var Producto = {
+  url : '/',
 	todos : function()
 	{
-		$.getJSON('/producto/todos?tg_format=json', function(data)
+		$.getJSON(this.url + 'producto/todos?tg_format=json', function(data)
 		{
+		  $('.productos').append($('<option/>'));
 			$.each(data.productos, function(i, producto)
 			{
 				var option = $('<option/>');
@@ -35,7 +37,7 @@ var Producto = {
 	},
 	lista : function()
 	{
-		$.getJSON('/organizacion/todas?tg_format=json', function(data)
+		$.getJSON(this.url + 'organizacion/todas?tg_format=json', function(data)
 		{
 			$.each(data.productos, function(i, producto)
 			{
@@ -53,7 +55,7 @@ var Producto = {
 		$('#producto').change(function()
 		{
 			var producto = $('#producto option:selected').val();
-			$.getJSON('/producto/' + producto + '?tg_format=json', function(data)
+			$.getJSON(Producto.url + 'producto/' + producto + '?tg_format=json', function(data)
 			{
 				$('#unitario').val(data.valor);
 			});
@@ -65,7 +67,7 @@ var Producto = {
 		$('#producto').change(function()
 		{
 			var producto = $('#producto').val();
-			$.getJSON('/producto/' + producto + '?tg_format=json', function(data)
+			$.getJSON(this.url + 'producto/' + producto + '?tg_format=json', function(data)
 			{
 				$('#unitario').val(data.valor);
 			});

@@ -1,61 +1,55 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:py="http://genshi.edgewall.org/"
-      xmlns:xi="http://www.w3.org/2001/XInclude">
-
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
 <xi:include href="../master.html" />
-
 <head>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type"
-    															py:replace="''"/>
-	<title>Control de Cub&iacute;culos</title>
+  <title>Control de Cub&iacute;culos</title>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
 </head>
-
 <body>
-	<div id="getting_started">
-		<h1>Control de Cub&iacute;culos</h1>
-		<form action="guardar" method="post">
-			<fieldset>
-				<legend>Registrar un Cub&iacute;culo</legend>
-				<ol>
-					<li>
-						<label>Nombre:</label>
-						<input name="nombre" />
-					</li>
-					<li>
-						<label>Inquilino:</label>
-						<input name="inquilino" />
-					</li>
-					<li>
-					  <label>Recibo de la ENEE:</label>
-					  <input name="enee" />
-					</li>
+  <div id="getting_started">
+    <h1>Control de Cub&iacute;culos</h1>
+    <form action="guardar" method="post">
+      <fieldset>
+        <legend>Registrar un Cub&iacute;culo</legend>
+        <ol>
+          <li>
+            <label>Nombre:</label>
+            <input name="nombre" />
+          </li>
+          <li>
+            <label>Inquilino:</label>
+            <input name="inquilino" />
+          </li>
+          <li>
+            <label>Recibo de la ENEE:</label>
+            <input name="enee" />
+          </li>
           <li>
             <label>Tasa de Inter&eacute;s Moratorio:</label>
             <input name="intereses" />
           </li>
-					<li>
-						<label>Precio:</label>
-						<input name="precio" />
-					</li>
-					<li><input type="submit" value="Guardar" /></li>
-				</ol>
-			</fieldset>
-		</form>
-		<form action="mostrar">
-			<fieldset>
-				<legend>Mostrar un Cub&iacute;culo</legend>
-				<ol>
-					<li>
-						<label>Cub&iacute;culo:</label>
-						<select name="cubiculo" class="cubiculos">
-						    <option py:for="c in cubiculos" value="${c.id}">${c.nombre}</option>
-						</select>
-					</li>
-					<li><input type="submit" value="Mostrar" /></li>
-				</ol>
-			</fieldset>
-		</form>
-	</div>
+          <li>
+            <label>Precio:</label>
+            <input name="precio" />
+          </li>
+          <li><input type="submit" value="Guardar" /></li>
+        </ol>
+      </fieldset>
+    </form>
+    <form action="mostrar">
+      <fieldset>
+        <legend>Mostrar un Cub&iacute;culo</legend>
+        <ol>
+          <li>
+            <label>Cub&iacute;culo:</label>
+            <select name="cubiculo" class="cubiculos">
+              <option py:for="c in cubiculos" value="${c.id}">${c.nombre}</option>
+            </select>
+          </li>
+          <li><input type="submit" value="Mostrar" /></li>
+        </ol>
+      </fieldset>
+    </form>
+  </div>
 </body>
 </html>
