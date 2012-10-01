@@ -20,6 +20,7 @@ from turbogears import controllers, identity, validators, expose, validate
 from recibos import model
 from datetime import timedelta, datetime
 from sqlalchemy.sql.expression import between
+import calendar
 
 def daterange(start_date, end_date):
     
@@ -27,6 +28,23 @@ def daterange(start_date, end_date):
     
     for n in range((end_date - start_date).days):
         yield start_date + timedelta(n)
+
+def obtener_inicio(day):
+    
+    year = day.year
+    month = day.month
+    last = day.day - 1
+    if day.day == 1:
+    
+        month = day.month - 1
+        
+        if day.month == 1:
+            year = year - 1
+            month = 12
+        
+        last = calendar.monthrange(year, month)[1]
+    
+    return datetime(year, month, last, 23, 59)
 
 class Reporte(controllers.Controller, identity.SecureResource):
     
@@ -61,7 +79,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
         
         """Muestra los ingresos por concepto de recibos de un dia"""
         
-        inicio = datetime(dia.year, dia.month, dia.day)
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         recibos = model.Recibo.query.filter(between(model.Recibo.dia, inicio, fin)).all()
@@ -85,7 +103,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
         """Muestra los ingresos por concepto de recibos de un dia"""
         
         casa = model.Casa.get(casa)
-        inicio = datetime(inicio.year, inicio.month, inicio.day)
+        inicio = datetime(inicio.year, inicio.month, inicio.day, 0, 0)
         fin = datetime(fin.year, fin.month, fin.day, 23, 59)
         
         recibos = model.Recibo.query.filter_by(casa=casa).filter(
@@ -111,7 +129,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
         """Muestra los ingresos por caja en un dia y una sucursal en especifico"""
         
         casa = model.Casa.get(casa)
-        inicio = datetime(dia.year, dia.month, dia.day)
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         recibos = model.Recibo.query.filter_by(casa=casa).filter(
                         between(model.Recibo.dia, inicio, fin)).all()
@@ -137,7 +155,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
         
         casa = model.Casa.get(casa)
         organizacion = model.Organizacion.get(organizacion)
-        inicio = datetime(dia.year, dia.month, dia.day)
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         recibos = model.Recibo.query.filter_by(casa=casa).filter(
@@ -166,7 +184,7 @@ class Reporte(controllers.Controller, identity.SecureResource):
         
         casa = model.Casa.get(casa)
         organizacion = model.Organizacion.get(organizacion)
-        inicio = datetime(inicio.year, inicio.month, inicio.day)
+        inicio = datetime(inicio.year, inicio.month, inicio.day, 0, 0)
         fin = datetime(fin.year, fin.month, fin.day, 23, 59)
         
         recibos = model.Recibo.query.filter_by(casa=casa).filter(
@@ -193,17 +211,24 @@ class Reporte(controllers.Controller, identity.SecureResource):
         
         casa = model.Casa.get(casa)
         organizacion = model.Organizacion.get(organizacion)
-        inicio = datetime(inicio.year, inicio.month, inicio.day)
+        
+        inicio = datetime(inicio.year, inicio.month, inicio.day, 0, 0)
         fin = datetime(fin.year, fin.month, fin.day, 23, 59)
         
         recibos = model.Recibo.query.filter_by(casa=casa).filter(
                         between(model.Recibo.dia, inicio, fin)).all()
         dias = dict()
-        
         for dia in daterange(inicio, fin + timedelta(1)):
             
             detalles = dict()
-            rec = [r for r in recibos if r.dia.date() == dia]
+            inicio2 = obtener_inicio(dia)
+            fin2 = datetime(dia.year, dia.month, dia.day, 23, 59)
+            print inicio2
+            print fin2
+            rec = model.Recibo.query.filter_by(casa=casa).filter(
+                        between(model.Recibo.dia, inicio2, fin2)).all()
+            # rec = [r for r in recibos if r.dia.date() == dia]
+            print len(rec)
             for recibo in rec:
                 for venta in recibo.ventas:
                     
@@ -226,8 +251,8 @@ class Reporte(controllers.Controller, identity.SecureResource):
         """Muestra los movimientos de un producto en un determinado periodo"""
         
         producto = model.Producto.get(producto)
-        inicio = datetime(dia.year, dia.month, dia.day)
-        fin = datetime(dia.year, dia.month, dia.day, 23, 59)
+        inicio = datetime(inicio.year, inicio.month, inicio.day, 0, 0)
+        fin = datetime(fin.year, fin.month, fin.day, 23, 59)
         
         recibos = model.Recibo.query.filter(
                         between(model.Recibo.dia, inicio, fin)).all()

@@ -22,6 +22,7 @@ from recibos import model
 from venta import Venta
 from datetime import date, datetime
 from sqlalchemy.sql.expression import between
+from reporte import obtener_inicio
 
 class Recibo(controllers.Controller, identity.SecureResource):
     
@@ -117,7 +118,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
             except:
                 pass
         
-        # recibo.dia = dia
+        recibo.dia = dia
         recibo.flush()
         
         casa = model.Casa.get(casa)
@@ -152,7 +153,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
     def dia(self, dia):
         
         """Muestra los recibos de un dia"""
-        inicio = datetime(dia.year, dia.month, dia.day)
+        
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         return dict(recibos=model.Recibo.query.filter(
@@ -168,7 +170,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
         """Muestra los recibos de un dia en una casa"""
         
         casa = model.Casa.get(casa)
-        inicio = datetime(dia.year, dia.month, dia.day)
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         recibos = model.Recibo.query.filter_by(casa=casa).filter(between(model.Recibo.dia, inicio, fin)).all()
@@ -233,7 +235,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
                             nombre=validators.String()))
     def detalleNombre(self, dia, nombre):
     
-        inicio = datetime(dia.year, dia.month, dia.day)
+        inicio = datetime(dia.year, dia.month, dia.day, 0, 0)
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         return dict(recibos=model.Recibo.query.filter(
