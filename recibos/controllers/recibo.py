@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 #
-# Copyright (c) 2008, 2009 Carlos Flores <cafg10@gmail.com>
+# Copyright (c) 2008 - 2012  Carlos Flores <cafg10@gmail.com>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -20,9 +20,8 @@ from turbogears import (controllers, identity, validators, flash, redirect,
                         expose, validate, error_handler)
 from recibos import model
 from venta import Venta
-from datetime import date, datetime
+from datetime import datetime
 from sqlalchemy.sql.expression import between
-from reporte import obtener_inicio
 
 class Recibo(controllers.Controller, identity.SecureResource):
     
@@ -241,15 +240,3 @@ class Recibo(controllers.Controller, identity.SecureResource):
         return dict(recibos=model.Recibo.query.filter(
                     model.Recibo.cliente.like("%{0}%".format(nombre))
                     ).filter(between(model.Recibo.dia, inicio, fin)).all())
-    
-    @expose()
-    def anularMasa(self):
-        
-        recibos = model.Recibo.query.filter(model.Recibo.id>=149704).filter(model.Recibo.id<=149755).all()
-        for recibo in recibos:
-            recibo.anular()
-        
-        flash('Terminado')
-        
-        raise redirect('/recibo')
-    

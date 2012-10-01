@@ -48,6 +48,3 @@ class Consolidacion(controllers.Controller, identity.SecureResource):
         consolidacion.recibo = model.Recibo.get(recibo)
         
         raise redirect('/consolidacion')
-    
-    @expose(template="recibos.templates.consolidacion.index")
-    
