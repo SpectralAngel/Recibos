@@ -42,10 +42,10 @@ http://docs.turbogears.org/Install and follow the instructions there. If you
 are stuck, visit http://docs.turbogears.org/GettingHelp for support options.""")
     sys.exit(1)
 try:
-    pkg_resources.require("SQLObject>=0.12.5")
+    pkg_resources.require("SQLAlchemy>=0.6.0")
 except pkg_resources.DistributionNotFound:
     from turbogears.util import missing_dependency_error
-    print missing_dependency_error('SQLObject')
+    print missing_dependency_error('SQLAlchemy')
     sys.exit(1)
 
 import cherrypy
@@ -85,12 +85,12 @@ def _read_config(args):
     else:
         try:
             configfile = pkg_resources.resource_filename(
-              pkg_resources.Requirement.parse("turboaffiliate"), "config/default.cfg")
+              pkg_resources.Requirement.parse("recibos"), "config/default.cfg")
         except pkg_resources.DistributionNotFound:
             raise ConfigurationError("Could not find default configuration.")
 
     turbogears.update_config(configfile=configfile,
-        modulename="turboaffiliate.config")
+        modulename="recibos.config")
 
 def bootstrap():
     """Example function for loading bootstrap data into the database
@@ -128,4 +128,4 @@ def start():
     _read_config(sys.argv[1:])
 
     from recibos.controllers import root
-    turbogears.start_server(root.Root())
+    return turbogears.start_server(root.Root())
