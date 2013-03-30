@@ -66,7 +66,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
             recibo.impreso = True
             recibo.flush()
         else:
-            flash('El recibo ya ha sido impreso')
+            flash(u'El recibo ya ha sido impreso')
         
         return dict(recibo=recibo)
     
@@ -103,7 +103,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
             del kw['afiliado']
         else:
             afiliado = model.Afiliado.get(kw['afiliado'])
-            kw['cliente'] = "{0} {1}".format(afiliado.nombre, afiliado.apellidos)
+            kw['cliente'] = u"{0} {1}".format(afiliado.nombre, afiliado.apellidos)
         
         recibo = model.Recibo.get(kw['id'])
         if recibo == None:
@@ -134,7 +134,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
         afiliado = model.Afiliado.get(afiliado)
         
         kw = dict()
-        kw['cliente'] = "{0} {1}".format(afiliado.nombre, afiliado.apellidos)
+        kw['cliente'] = u"{0} {1}".format(afiliado.nombre, afiliado.apellidos)
         kw['afiliado'] = afiliado.id
         kw['dia'] = datetime.now()
         
@@ -206,7 +206,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
         
         recibo.anular()
         
-        flash('Recibo {0} Anulado'.format(recibo.id))
+        flash(u'Recibo {0} Anulado'.format(recibo.id))
         
         raise redirect('/recibo')
     
@@ -238,5 +238,6 @@ class Recibo(controllers.Controller, identity.SecureResource):
         fin = datetime(dia.year, dia.month, dia.day, 23, 59)
         
         return dict(recibos=model.Recibo.query.filter(
-                    model.Recibo.cliente.like("%{0}%".format(nombre))
+                    model.Recibo.cliente.like(u"%{0}%".format(nombre))
                     ).filter(between(model.Recibo.dia, inicio, fin)).all())
+
