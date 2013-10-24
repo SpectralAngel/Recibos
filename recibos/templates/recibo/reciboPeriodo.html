@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html"/>
+<head>
+    <title>Reporte de Ingresos</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+</head>
+<body>
+<div id="sidebar"></div>
+<div id="getting_started">
+    <h1>COPEMH</h1>
+
+    <h2>Reporte General de Ingresos</h2>
+    <table class="stripe">
+        <caption
+                py:content="'del ', inicio.strftime('%A %d de %B de %Y').decode('utf-8').capitalize(), ' al', fin.strftime('%A %d de %B de %Y').decode('utf-8').capitalize()"/>
+        <thead>
+        <tr>
+            <th>N&uacute;mero</th>
+            <th>Afiliaci&oacute;n</th>
+            <th>Cliente</th>
+            <th class="valor">Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr id="recibo-${recibo.id}" py:for="recibo in recibos">
+            <td><a href="${tg.url('/recibo/{0}'.format(recibo.id))}">${recibo.id}</a></td>
+            <td>${recibo.afiliado}</td>
+            <td>${recibo.cliente}</td>
+            <td class="valor">${locale.currency(recibo.total(), True, True)}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th colspan="2">Total de recibos:</th>
+            <th>${len(recibos)}</th>
+            <th class="valor">${locale.currency(sum(r.total() for r in recibos), True, True)}</th>
+        </tr>
+        </tfoot>
+    </table>
+</div>
+</body>
+</html>
