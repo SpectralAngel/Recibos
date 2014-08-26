@@ -48,7 +48,7 @@ def obtener_inicio(day):
 
 class Reporte(controllers.Controller, identity.SecureResource):
     
-    '''Muestra reportes de ingresos por compañia, por dia o por producto'''
+    """Muestra reportes de ingresos por compañia, por dia o por producto"""
     
     require = identity.not_anonymous()
     
