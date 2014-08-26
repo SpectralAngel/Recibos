@@ -68,7 +68,7 @@ class Recibo(Entity):
     ya sea este afiliado o no.
     """
 
-    using_options(tablename='recibo')
+    using_options(tablename='recibo_sps')
 
     casa = ManyToOne("Casa")
     afiliado = Field(Integer)
@@ -96,7 +96,7 @@ class Venta(Entity):
 
     Contiene los datos sobre la venta de determinado producto en un recibo."""
 
-    using_options(tablename='venta')
+    using_options(tablename='venta_sps')
 
     recibo = ManyToOne("Recibo")
     producto = ManyToOne("Producto")
