@@ -30,14 +30,14 @@ Currency = Numeric
 options_defaults['autosetup'] = False
 
 class Casa(Entity):
-    
+
     '''Sucursal del COPEMH
-    
+
     Representa un lugar físico donde se encuentra una sede del COPEMH.
     '''
-    
+
     using_options(tablename='casa')
-    
+
     nombre = Field(Unicode(20), required=True)
     direccion = Field(Text)
     telefono = Field(Unicode(11))
@@ -45,31 +45,31 @@ class Casa(Entity):
     activa = Field(Boolean, default=True)
 
 class Afiliado(Entity):
-    
+
     """Datos sobre un miembro
-    
+
     Contiene los datos básicos sobre un miembro del COPEMH. Estos datos son en
     realidad parte de otra aplicación y no deben ser modificados por el gestor
     de recibos."""
-    
+
     using_options(tablename='affiliate')
-    
+
     nombre = Field(Unicode(50), colname='first_name')
     apellidos = Field(Unicode(50), colname='last_name')
-    
+
     cotizacion = Field(String(20), colname='payment')
     consolidaciones = OneToMany("Consolidacion")
 
 class Recibo(Entity):
-    
+
     """Recibo extendido a un cliente
-    
+
     Contiene los datos sobre  un recibo que haya sido extendido a un cliente,
     ya sea este afiliado o no.
     """
-    
+
     using_options(tablename='recibo')
-    
+
     casa = ManyToOne("Casa")
     afiliado = Field(Integer(6))
     cliente = Field(Unicode(100), required=True)
@@ -78,29 +78,29 @@ class Recibo(Entity):
     impreso = Field(Boolean, default=False)
     ventas = OneToMany("Venta")
     alquileres = OneToMany('Alquiler')
-    
+
     def total(self):
-        
+
         """Retorna el total de las ventas de un recibo"""
-        
+
         return sum(venta.valor() for venta in self.ventas)
-    
+
     def anular(self):
-        
+
         self.cliente = "Nulo"
         self.afiliado = None
         for venta in self.ventas:
-            
+
             venta.delete()
 
 class Venta(Entity):
-    
+
     """Descripción de Venta
-    
+
     Contiene los datos sobre la venta de determinado producto en un recibo."""
-    
+
     using_options(tablename='venta')
-    
+
     recibo = ManyToOne("Recibo")
     producto = ManyToOne("Producto")
     descripcion = Field(Text)
@@ -108,83 +108,83 @@ class Venta(Entity):
     # No siempre el precio unitario esta determinado por el precio nominal de un
     # producto, este puede cambiar como en el caso de los préstamos
     unitario = Field(Currency, required=True)
-    
+
     def valor(self):
-        
+
         """Retorna el total de una venta"""
-        
+
         return self.cantidad * self.unitario
 
 class Organizacion(Entity):
-    
+
     """Beneficiario de las Ventas
-    
+
     Contiene la información sobre las estructuras organizacionales que se
     benefician en la venta de determinados productos.
     """
-    
+
     using_options(tablename='organizacion')
-    
+
     nombre = Field(Unicode(50), required=True)
     detalles = OneToMany("Detalle")
 
 class Producto(Entity):
-    
+
     '''Servicios u Objetos a la venta
-    
+
     Guarda los datos de productos que se tienen a la disposición de los
     afiliados.'''
-    
+
     using_options(tablename='producto')
-    
+
     nombre = Field(Unicode(100), required=True)
     descripcion = Field(Text)
     detalles = OneToMany("Detalle")
     # Marca si el producto se encuentra disponible para ser facturado
     activo = Field(Boolean, default=True)
-    
+
     def valor(self):
-        
+
         """Retorna el precio real de un producto"""
-        
+
         return sum(detalle.valor for detalle in self.detalles)
 
 class Detalle(Entity):
-    
+
     """
     Expresa a que organización debe adjudicarse parte del valor de la venta de
     un producto."""
-    
+
     using_options(tablename='detalle_producto')
-    
+
     producto = ManyToOne("Producto")
     organizacion = ManyToOne("Organizacion")
     nombre = Field(Unicode(100))
     valor = Field(Currency, required=True)
 
 class Cubiculo(Entity):
-    
+
     using_options(tablename='cubiculo')
-    
+
     nombre = Field(Unicode(255))
     inquilino = Field(Unicode(255))
     precio = Field(Currency, required=True)
     enee = Field(Unicode(255))
     interes = Field(Currency, required=True, default=2)
     alquileres = OneToMany('Alquiler')
-    
+
     def impuesto(self):
-        
+
         return self.precio * Decimal('0.12')
-    
+
     def calcularInteres(self, meses):
-        
+
         return self.precio * self.interes * meses / Decimal(100)
 
 class Alquiler(Entity):
-    
+
     using_options(tablename='alquiler')
-    
+
     cubiculo = ManyToOne('Cubiculo')
     dia = Field(Date, required=True, default=date.today)
     descripcion = Field(Unicode(255), default=None)
@@ -195,9 +195,9 @@ class Alquiler(Entity):
     impuesto = Field(Currency, default=Decimal(0))
 
 class Consolidacion(Entity):
-    
+
     using_options(tablename='consolidacion')
-    
+
     afiliado = ManyToOne('Afiliado')
     cheque = Field(Unicode(100), default=None)
     monto = Field(Currency, required=True)
