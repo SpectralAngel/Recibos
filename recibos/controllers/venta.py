@@ -16,50 +16,49 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from turbogears	import controllers, validators, redirect, expose, validate
-from recibos	import model
-from decimal	import Decimal
+from decimal import Decimal
+
+from turbogears import controllers, validators, redirect, expose, validate
+
+from recibos import model
+
 
 class Venta(controllers.Controller):
-	
-	@expose()
-	def index(self,  tg_errors=None):
-		
-		if tg_errors:
-			tg_errors = [(param,inv.msg,inv.value) for param, inv in tg_errors.items()]
-		
-		return dict(tg_errors=tg_errors)
-	
-	@expose()
-	@validate(validators=dict(venta=validators.Int()))
-	def default(self, venta):
-		
-		return dict(venta=model.Venta.get(venta))
-	
-	@expose()
-	@validate(validators=dict(venta=validators.Int()))
-	def eliminar(self, venta):
-		
-		eliminando = model.Venta.get(venta)
-		recibo = eliminando.recibo
-		eliminando.delete()
-		
-		raise redirect('/recibo/{0}'.format(recibo.id))
-	
-	@expose()
-	@validate(validators=dict(recibo=validators.Int(),
-				   producto=validators.Int(),
-				   unitario=validators.String(),
-				   descripcion=validators.String(),
-				   cantidad=validators.Int()))
-	def agregar(self, recibo, producto, **kw):
-		
-		kw['unitario'] = Decimal(kw['unitario'])
-		venta = model.Venta(**kw)
-		
-		venta.producto = model.Producto.get(producto)
-		venta.recibo = model.Recibo.get(recibo)
-		
-		venta.flush()
-		
-		raise redirect('/recibo/{0}'.format(venta.recibo.id))
+    @expose()
+    def index(self, tg_errors=None):
+        if tg_errors:
+            tg_errors = [(param, inv.msg, inv.value) for param, inv in
+                         tg_errors.items()]
+
+        return dict(tg_errors=tg_errors)
+
+    @expose()
+    @validate(validators=dict(venta=validators.Int()))
+    def default(self, venta):
+        return dict(venta=model.Venta.get(venta))
+
+    @expose()
+    @validate(validators=dict(venta=validators.Int()))
+    def eliminar(self, venta):
+        eliminando = model.Venta.get(venta)
+        recibo = eliminando.recibo
+        eliminando.delete()
+
+        raise redirect('/recibo/{0}'.format(recibo.id))
+
+    @expose()
+    @validate(validators=dict(recibo=validators.Int(),
+                              producto=validators.Int(),
+                              unitario=validators.String(),
+                              descripcion=validators.String(),
+                              cantidad=validators.Int()))
+    def agregar(self, recibo, producto, **kw):
+        kw['unitario'] = Decimal(kw['unitario'])
+        venta = model.Venta(**kw)
+
+        venta.producto = model.Producto.get(producto)
+        venta.recibo = model.Recibo.get(recibo)
+
+        venta.flush()
+
+        raise redirect('/recibo/{0}'.format(venta.recibo.id))
