@@ -2,29 +2,28 @@
 
 body
 {
-	margin-left: 5px;
-	font-size: 75%;
-	font-weight: bold;
+    margin-left: 5px;
+    font-size: 90%;
+    font-weight: bold;
 }
-#afiliado, #cliente	{ padding-left: 80px; }
-#afiliado {	padding-top: 25px; }
+#afiliado, #cliente { padding-left: 30px; }
+#afiliado { padding-top: 15px; }
 
 #cliente { padding-top: 5px; padding-bottom: 40px; }
 
-table { width: 100%; }
-
+table { width: 100%; padding-top: 15px; }
 #cantidad, #unitario, #valor { width: 100px; }
+#cantidad { width: 75px; }
+#producto { width: 325px; }
 
-#producto { width: 350px; }
-
-#descripcion { width: 350px; }
+#descripcion { width: 400px; }
 
 #total, #fecha, #recibo, #cajero { position: absolute; }
 
-#total { top: 400px; right: 50px; }
+#total { top: 400px; right: 10px; }
 
-#fecha { top: 400px; left: 100px; }
-#cajero { top: 400px; left: 500px; }
+#fecha { top: 400px; left: 50px; }
+#cajero { top: 400px; left: 450px; }
 
 #recibo { position: fixed; top: 50px; right: 85px; }
 
