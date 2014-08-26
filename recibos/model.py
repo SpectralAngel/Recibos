@@ -31,10 +31,10 @@ options_defaults['autosetup'] = False
 
 
 class Casa(Entity):
-    '''Sucursal del COPEMH
+    """Sucursal del COPEMH
 
     Representa un lugar físico donde se encuentra una sede del COPEMH.
-    '''
+    """
 
     using_options(tablename='casa')
 
@@ -126,10 +126,10 @@ class Organizacion(Entity):
 
 
 class Producto(Entity):
-    '''Servicios u Objetos a la venta
+    """Servicios u Objetos a la venta
 
     Guarda los datos de productos que se tienen a la disposición de los
-    afiliados.'''
+    afiliados."""
 
     using_options(tablename='producto')
 
