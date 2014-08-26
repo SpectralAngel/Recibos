@@ -12,13 +12,12 @@ body
 
 #cliente { margin-top: 20px; padding-top: 5px; padding-bottom: 40px; }
 
-table { width: 100%; }
-
+table { width: 100%; padding-top: 15px; }
 #cantidad, #unitario, #valor { width: 100px; }
+#cantidad { width: 75px; }
+#producto { width: 325px; }
 
-#producto { width: 350px; }
-
-#descripcion { width: 350px; }
+#descripcion { width: 400px; }
 
 #total, #fecha, #recibo, #cajero { position: absolute; }
 
