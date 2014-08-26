@@ -16,21 +16,21 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
-from datetime    import datetime, date
-from elixir        import Entity, Field, OneToMany, ManyToOne, ManyToMany
-from elixir        import options_defaults, using_options, setup_all
-from elixir        import Integer, Boolean, Numeric
-from elixir        import String, Unicode, Text
-from elixir        import DateTime, Date
-from turbogears    import identity
+from datetime import datetime, date
 from decimal import Decimal
+
+from elixir import (Entity, Field, OneToMany, ManyToOne, ManyToMany,
+                    options_defaults, using_options, setup_all,
+                    Integer, Boolean, Numeric, String, Unicode, Text, DateTime,
+                    Date)
+
 
 Currency = Numeric
 
 options_defaults['autosetup'] = False
 
-class Casa(Entity):
 
+class Casa(Entity):
     '''Sucursal del COPEMH
 
     Representa un lugar físico donde se encuentra una sede del COPEMH.
@@ -44,8 +44,8 @@ class Casa(Entity):
     recibos = OneToMany("Recibo", order_by='dia')
     activa = Field(Boolean, default=True)
 
-class Afiliado(Entity):
 
+class Afiliado(Entity):
     """Datos sobre un miembro
 
     Contiene los datos básicos sobre un miembro del COPEMH. Estos datos son en
@@ -60,8 +60,8 @@ class Afiliado(Entity):
     cotizacion = Field(String(20), colname='payment')
     consolidaciones = OneToMany("Consolidacion")
 
-class Recibo(Entity):
 
+class Recibo(Entity):
     """Recibo extendido a un cliente
 
     Contiene los datos sobre  un recibo que haya sido extendido a un cliente,
@@ -80,21 +80,18 @@ class Recibo(Entity):
     alquileres = OneToMany('Alquiler')
 
     def total(self):
-
         """Retorna el total de las ventas de un recibo"""
 
         return sum(venta.valor() for venta in self.ventas)
 
     def anular(self):
-
         self.cliente = "Nulo"
         self.afiliado = None
         for venta in self.ventas:
-
             venta.delete()
 
-class Venta(Entity):
 
+class Venta(Entity):
     """Descripción de Venta
 
     Contiene los datos sobre la venta de determinado producto en un recibo."""
@@ -110,13 +107,12 @@ class Venta(Entity):
     unitario = Field(Currency, required=True)
 
     def valor(self):
-
         """Retorna el total de una venta"""
 
         return self.cantidad * self.unitario
 
-class Organizacion(Entity):
 
+class Organizacion(Entity):
     """Beneficiario de las Ventas
 
     Contiene la información sobre las estructuras organizacionales que se
@@ -128,8 +124,8 @@ class Organizacion(Entity):
     nombre = Field(Unicode(50), required=True)
     detalles = OneToMany("Detalle")
 
-class Producto(Entity):
 
+class Producto(Entity):
     '''Servicios u Objetos a la venta
 
     Guarda los datos de productos que se tienen a la disposición de los
@@ -144,13 +140,12 @@ class Producto(Entity):
     activo = Field(Boolean, default=True)
 
     def valor(self):
-
         """Retorna el precio real de un producto"""
 
         return sum(detalle.valor for detalle in self.detalles)
 
-class Detalle(Entity):
 
+class Detalle(Entity):
     """
     Expresa a que organización debe adjudicarse parte del valor de la venta de
     un producto."""
@@ -162,8 +157,8 @@ class Detalle(Entity):
     nombre = Field(Unicode(100))
     valor = Field(Currency, required=True)
 
-class Cubiculo(Entity):
 
+class Cubiculo(Entity):
     using_options(tablename='cubiculo')
 
     nombre = Field(Unicode(255))
@@ -174,15 +169,13 @@ class Cubiculo(Entity):
     alquileres = OneToMany('Alquiler')
 
     def impuesto(self):
-
         return self.precio * Decimal('0.12')
 
     def calcularInteres(self, meses):
-
         return self.precio * self.interes * meses / Decimal(100)
 
-class Alquiler(Entity):
 
+class Alquiler(Entity):
     using_options(tablename='alquiler')
 
     cubiculo = ManyToOne('Cubiculo')
@@ -194,8 +187,8 @@ class Alquiler(Entity):
     mora = Field(Currency, default=Decimal(0))
     impuesto = Field(Currency, default=Decimal(0))
 
-class Consolidacion(Entity):
 
+class Consolidacion(Entity):
     using_options(tablename='consolidacion')
 
     afiliado = ManyToOne('Afiliado')
@@ -204,6 +197,7 @@ class Consolidacion(Entity):
     institucion = Field(Unicode(100), default=None)
     dia = Field(Date, required=True, default=date.today)
     recibo = ManyToOne("Recibo")
+
 
 # the identity model
 
@@ -253,7 +247,7 @@ class User(Entity):
     """
     using_options(tablename='tg_user')
 
-    user_id = Field(Integer, primary_key=True,colname="id")
+    user_id = Field(Integer, primary_key=True, colname="id")
     user_name = Field(Unicode(16), unique=True)
     email_address = Field(Unicode(255), unique=True)
     display_name = Field(Unicode(255))
