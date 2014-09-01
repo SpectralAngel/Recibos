@@ -20,7 +20,7 @@ import locale
 locale.setlocale(locale.LC_ALL, locale_name)
 
 turbogears.update_config(configfile="dev.cfg", modulename="recibos.config")
-turbogears.config.update({'global': {'server.webpath': '/caja/tegucigalpa/',
+turbogears.config.update({'global': {'server.webpath': '/caja/ceiba/',
                                      'engine.start': False}})
 
 from recibos import commands
