@@ -4,13 +4,6 @@
  * Quick mash-up of CSS for the TG quick start page.
  */
 
-html, body {
-  color: black;
-  font: x-small "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
-  margin: 0;
-  padding: 0;
-}
-
 #header
 {
 	height: 55px;
