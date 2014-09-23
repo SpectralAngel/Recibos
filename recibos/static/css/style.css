@@ -6,10 +6,8 @@
 body {
     padding-top: 60px;
 }
-#header
+.navbar-inverse
 {
-	height: 55px;
-	position: relative;
 	background: #cec;
 }
 
