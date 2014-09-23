@@ -63,6 +63,14 @@ class Producto(controllers.Controller, identity.SecureResource):
 
     @error_handler(index)
     @expose()
+    def activos(self):
+
+        """Responde con un listado de todas las casas disponibles"""
+
+        return dict(productos=model.Producto.query.filter_by(activo=True).all())
+
+    @error_handler(index)
+    @expose()
     @validate(validators=dict(producto=validators.Int(),
                               nombre=validators.String(),
                               descripcion=validators.String()))

@@ -35,6 +35,25 @@ var Producto = {
 			});
 		});
 	},
+    activos : function()
+    {
+        $.getJSON(this.url + 'producto/activos?tg_format=json', function(data)
+        {
+            $('.productos').append($('<option/>'));
+            $.each(data.productos, function(i, producto)
+            {
+                var option = $('<option/>');
+                producto_id = "";
+                if(producto.id < 100)
+                    producto_id = "0" + producto.id;
+                else
+                    producto_id = producto.id;
+                option.val(producto.id);
+                option.text(producto_id + ' - ' + producto.nombre);
+                $('.productos').append(option);
+            });
+        });
+    },
 	lista : function()
 	{
 		$.getJSON(this.url + 'organizacion/todas?tg_format=json', function(data)

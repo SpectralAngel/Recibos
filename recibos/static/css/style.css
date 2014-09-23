@@ -3,14 +3,9 @@
 /*
  * Quick mash-up of CSS for the TG quick start page.
  */
-
-html, body {
-  color: black;
-  font: x-small "Lucida Grande", "Lucida Sans Unicode", geneva, verdana, sans-serif;
-  margin: 0;
-  padding: 0;
+body {
+    padding-top: 60px;
 }
-
 #header
 {
 	height: 55px;
@@ -86,8 +81,6 @@ a.link, a, a.active {
 
 
 #main_content {
-  color: black;
-  font-size: 127%;
   background-color: white;
   margin: 0 auto 0 auto;
   border-left: 1px solid #aaa;
@@ -112,11 +105,6 @@ a.link, a, a.active {
 #sidebar ul {
   margin-left: 1.5em;
   padding-left: 0;
-}
-
-h1,h2,h3,h4,h5,h6,#getting_started_steps {
-  font-family: "Century Schoolbook L", Georgia, serif;
-  font-weight: bold;
 }
 
 h2 {
