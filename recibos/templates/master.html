@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" py:strip="">
 <head py:match="head" py:attrs="select('@*')">
     <meta charset="utf-8"/>
@@ -31,8 +31,7 @@
             $('.stripe tr:even').addClass("even");
         });
     </script>
-    <meta content="text/html; charset=UTF-8" http-equiv="content-type"
-          py:replace="''"/>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title py:replace="''">Sistema Gestor de Ingresos</title>
     <link py:for="css in tg_css" py:replace="ET(css.display())"/>
     <link py:for="js in tg_js_head" py:replace="ET(js.display())"/>
@@ -53,9 +52,7 @@
         </div>
         <div class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="active">
-                    <a href="${tg.url('/recibo')}">Recibos</a>
-                </li>
+                <li><a href="${tg.url('/recibo')}">Recibos</a></li>
                 <li><a href="${tg.url('/casa')}">Casas</a></li>
                 <li><a href="${tg.url('/reporte')}">Reportes</a></li>
                 <li><a href="${tg.url('/organizacion')}">Organizaciones</a></li>
@@ -113,12 +110,12 @@
     </div>
 </nav>
 <div class="flash" py:if="tg_flash" py:content="tg_flash"/>
-<div id="main_content">
+<div class="container-fluid">
     <div py:for="js in tg_js_bodytop" py:replace="ET(js.display())"/>
     <div py:replace="select('*|text()')"/>
     <div py:for="js in tg_js_bodybottom" py:replace="ET(js.display())"/>
 </div>
-<div id="footer"><p class="copyright">Copyright 2008 - 2012 Carlos Flores</p>
+<div id="footer"><p class="copyright">Copyright 2008 - 2015 Carlos Flores</p>
 </div>
 </body>
 </html>
