@@ -254,3 +254,20 @@ class Recibo(controllers.Controller, identity.SecureResource):
             model.Recibo.cliente.like(u"%{0}%".format(nombre))
         ).filter(between(model.Recibo.dia, inicio, fin)).all())
 
+    @expose(template="recibos.templates.recibo.dia")
+    @validate(validators=dict(inicio=validators.DateConverter(month_style="dd/mm/yyyy"),
+                              fin=validators.DateConverter(month_style="dd/mm/yyyy"),
+                              casa=validators.Int()))
+    def periodoCasa(self, inicio, fin, casa):
+
+        """Muestra los ingresos por caja en un dia, una sucursal y una
+        organización en especifico"""
+
+        casa = model.Casa.get(casa)
+        inicio = datetime(inicio.year, inicio.month, inicio.day, 0, 0)
+        fin = datetime(fin.year, fin.month, fin.day, 23, 59)
+
+        recibos = model.Recibo.query.filter_by(casa=casa).filter(
+            between(model.Recibo.dia, inicio, fin)).all()
+
+        return dict(recibos=recibos, inicio=inicio, fin=fin, casa=casa, dia=fin)
