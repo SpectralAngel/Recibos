@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-#header, #breadcrumb, #footer, #sidebar, .noimprimir, form
+#header, #breadcrumb, #footer, #sidebar, .noimprimir, form, .noprint, .no-print
 {
 	display: none;
 }
