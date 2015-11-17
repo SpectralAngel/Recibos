@@ -71,7 +71,7 @@ class Recibo(Entity):
     using_options(tablename='recibo')
 
     casa = ManyToOne("Casa")
-    afiliado = Field(Integer(6))
+    afiliado = Field(Integer)
     cliente = Field(Unicode(100), required=True)
     dia = Field(DateTime, required=True, default=datetime.now)
     # Marca si el recibo ya ha sido impreso
@@ -101,7 +101,7 @@ class Venta(Entity):
     recibo = ManyToOne("Recibo")
     producto = ManyToOne("Producto")
     descripcion = Field(Text)
-    cantidad = Field(Integer(3), required=True)
+    cantidad = Field(Integer, required=True)
     # No siempre el precio unitario esta determinado por el precio nominal de un
     # producto, este puede cambiar como en el caso de los préstamos
     unitario = Field(Currency, required=True)
