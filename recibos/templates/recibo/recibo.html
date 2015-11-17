@@ -1,93 +1,118 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:py="http://genshi.edgewall.org/" xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="../master.html" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html"/>
 <head>
-  <title>Recibo ${recibo.id}</title>
-  <meta content="text/html; charset=UTF-8" http-equiv="content-type" />
-  <script type="text/javascript" src="${tg.url('/static/javascript/producto.js')}"></script>
-  <script type="text/javascript" src="${tg.url('/static/javascript/venta.js')}"></script>
-  <script type="text/javascript">
-    $(document).ready(function()
-    {
-      Producto.url = '${tg.url('/')}';
-    	Producto.activos();
-    	Producto.cambiado();
-    	Venta.agregando();
-    });
-  </script>
+    <title>Recibo ${recibo.id}</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
+    <script type="text/javascript"
+            src="${tg.url('/static/javascript/producto.js')}"></script>
+    <script type="text/javascript"
+            src="${tg.url('/static/javascript/venta.js')}"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            Producto.url = '${tg.url('/')}';
+            Producto.activos();
+            Producto.cambiado();
+            Venta.agregando();
+        });
+    </script>
 </head>
 <body>
-  <div id="sidebar">
-    <ul>
-      <li><a href="${tg.url('impresion/{0}'.format(recibo.id))}">Imprimir y Cerrar</a></li>
-      <li><a href="${tg.url('anular/{0}'.format(recibo.id))}">Anular</a></li>
-      <li><a href="${tg.url('eliminar/{0}'.format(recibo.id))}">Eliminar</a></li>
-    </ul>
-  </div>
-  <div id="getting_started">
-    <h1>Recibo ${recibo.id}</h1>
-    <h2>
-      <span py:if="recibo.afiliado != None">${recibo.afiliado}</span>
-      <span>${recibo.cliente}</span>
-      <span id="fecha">${recibo.dia.strftime('%A %d de %B de %Y').decode('utf8')}</span>
-    </h2>
-    <table class="stripe">
-      <caption>Ventas del Recibo</caption>
-      <colgroup width="16%">
-        <col />
-        <col />
-        <col />
-        <col />
-        <col />
-      </colgroup>
-      <thead>	
-        <tr>
-          <th>Cantidad</th>
-          <th>Concepto</th>
-          <th>Detalle</th>
-          <th>Precio Unitario</th>
-          <th>Valor</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr py:for="venta in recibo.ventas" id="venta-${venta.id}">
-          <td>${venta.cantidad}</td>
-          <td>${venta.producto.nombre}</td>
-          <td>${venta.descripcion}</td>
-          <td>${locale.currency(venta.unitario, True, True)}</td>
-          <td>${locale.currency(venta.valor(), True, True)}</td>
-          <td><button onclick="Venta.eliminar('${tg.url('venta/eliminar/{0}'.format(venta.id))}')">Eliminar</button></td>
-        </tr>
-      </tbody>
-      <tfoot>
-        <tr>
-          <th colspan="4">Total:</th>
-          <th colspan="4">${locale.currency(recibo.total(), True, True)}</th>
-        </tr>
-      </tfoot>
-    </table>
-    <form action="venta/agregar">
-      <table>
-        <colgroup width="16%">
-          <col />
-          <col />
-          <col />
-          <col />
-          <col />
-        </colgroup>
-        <tr>
-          <td><input tabindex="1" name="cantidad" id="cantidad" /></td>
-          <td><select tabindex="2" name="producto" class="productos" id="producto" /></td>
-          <td><input tabindex="2" name="descripcion" /></td>
-          <td><input tabindex="3" name="unitario" id="unitario" /></td>
-          <td id="valor"></td>
-          <td><input type="hidden" value="${recibo.id}" name="recibo" />
-          <input tabindex="4" type="submit" value="Agregar" />
-          </td>
-        </tr>
-      </table>
-    </form>
-  </div>
+<div class="row">
+    <div class="col-md-10">
+        <div class="page-header">
+            <h1>Recibo ${recibo.id}</h1>
+            <h2>
+                <span py:if="recibo.afiliado != None">${recibo.afiliado}</span>
+                <span>${recibo.cliente}</span>
+                <span id="fecha">${recibo.dia.strftime('%A %d de %B de %Y').decode('utf8')}</span>
+            </h2>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <nav class="well">
+            <ul class="nav nav-pills nav-stacked">
+                <li><a href="${tg.url('impresion/{0}'.format(recibo.id))}">Imprimir
+                    y Cerrar</a></li>
+                <li>
+                    <a href="${tg.url('anular/{0}'.format(recibo.id))}">Anular</a>
+                </li>
+                <li><a href="${tg.url('eliminar/{0}'.format(recibo.id))}">Eliminar</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <caption>Ventas del Recibo</caption>
+            <colgroup width="16%">
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+                <col/>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>Cantidad</th>
+                <th>Concepto</th>
+                <th>Detalle</th>
+                <th>Precio Unitario</th>
+                <th>Valor</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr py:for="venta in recibo.ventas" id="venta-${venta.id}">
+                <td>${venta.cantidad}</td>
+                <td>${venta.producto.nombre}</td>
+                <td>${venta.descripcion}</td>
+                <td>${locale.currency(venta.unitario, True, True)}</td>
+                <td>${locale.currency(venta.valor(), True, True)}</td>
+                <td>
+                    <button class="btn btn-danger" onclick="Venta.eliminar('${tg.url('venta/eliminar/{0}'.format(venta.id))}')">
+                        Eliminar
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th colspan="4">Total:</th>
+                <th colspan="4">${locale.currency(recibo.total(), True, True)}</th>
+            </tr>
+            </tfoot>
+        </table>
+        <form action="venta/agregar">
+            <table>
+                <colgroup width="16%">
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                    <col/>
+                </colgroup>
+                <tr>
+                    <td><div class="form-group col-md-12"><input class="form-control" tabindex="1" name="cantidad" id="cantidad"/></div></td>
+                    <td><div class="form-group col-md-12"><select tabindex="2" name="producto" class="productos form-control" id="producto"/></div></td>
+                    <td><div class="form-group col-md-12"><input class="form-control" tabindex="2" name="descripcion"/></div></td>
+                    <td><div class="form-group col-md-12"><input class="form-control" tabindex="3" name="unitario" id="unitario"/></div></td>
+                    <td id="valor"></td>
+                    <td>
+                        <div class="form-group col-md-12">
+                            <input type="hidden" value="${recibo.id}" name="recibo"/>
+                            <input tabindex="4" class="btn btn-primary" type="submit" value="Agregar"/>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
 </body>
 </html>
