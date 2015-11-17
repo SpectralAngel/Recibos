@@ -67,12 +67,6 @@ body {
 }
 .valor { text-align: right; }
 
-table { width: 100%; }
-td, th {padding:3px;border:none;}
-tr th {text-align:left;background-color:#f0f0f0;color:#333;}
-tr.odd td {background-color:#edf3fe;}
-tr.even td {background-color:#fff;}
-
 a.link, a, a.active {
   color: #369;
 }
