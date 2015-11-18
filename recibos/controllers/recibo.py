@@ -17,7 +17,6 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from datetime import datetime
-import sys
 from turbogears import (controllers, identity, validators, flash, redirect,
                         expose, validate, error_handler)
 from sqlalchemy.sql.expression import between
@@ -76,20 +75,6 @@ class Recibo(controllers.Controller, identity.SecureResource):
 
     @error_handler(index)
     @expose()
-    @validate(validators=dict(recibo=validators.Int()))
-    def eliminar(self, recibo):
-
-        """Elimina un recibo de la base de datos"""
-
-        eliminando = model.Recibo.get(recibo)
-        eliminando.delete()
-
-        flash('El recibo ha sido eliminado')
-
-        return self.index()
-
-    @error_handler(index)
-    @expose()
     @validate(validators=dict(id=validators.Int(),
                               afiliado=validators.Int(),
                               casa=validators.Int(),
@@ -112,8 +97,7 @@ class Recibo(controllers.Controller, identity.SecureResource):
                                               afiliado.apellidos)
 
         recibo = model.Recibo.get(kw['id'])
-        if recibo == None:
-
+        if recibo is None:
             recibo = model.Recibo(**kw)
         else:
             try:
@@ -140,10 +124,8 @@ class Recibo(controllers.Controller, identity.SecureResource):
 
         afiliado = model.Afiliado.get(afiliado)
 
-        kw = dict()
-        kw['cliente'] = u"{0} {1}".format(afiliado.nombre, afiliado.apellidos)
-        kw['afiliado'] = afiliado.id
-        kw['dia'] = datetime.now()
+        kw = {'cliente': u"{0} {1}".format(afiliado.nombre, afiliado.apellidos),
+              'afiliado': afiliado.id, 'dia': datetime.now()}
 
         recibo = model.Recibo(**kw)
         recibo.flush()
