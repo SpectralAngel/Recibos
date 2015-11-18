@@ -17,7 +17,7 @@
 # Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
 
 from datetime import datetime
-
+import sys
 from turbogears import (controllers, identity, validators, flash, redirect,
                         expose, validate, error_handler)
 from sqlalchemy.sql.expression import between
@@ -42,8 +42,11 @@ class Recibo(controllers.Controller, identity.SecureResource):
     def default(self, recibo):
 
         """Muestra un recibo junto con su interfaz para agregar ventas"""
+        recibo = model.Recibo.get(recibo)
+        fecha = recibo.dia.strftime(u'%d de %B de %Y')
 
-        return dict(recibo=model.Recibo.get(recibo),
+        return dict(recibo=recibo,
+                    fecha=fecha,
                     productos=model.Producto.query.filter_by(activo=True).all())
 
     @error_handler(index)
@@ -68,8 +71,6 @@ class Recibo(controllers.Controller, identity.SecureResource):
         if not recibo.impreso:
             recibo.impreso = True
             recibo.flush()
-        else:
-            flash(u'El recibo ya ha sido impreso')
 
         return dict(recibo=recibo)
 
