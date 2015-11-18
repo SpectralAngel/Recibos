@@ -35,12 +35,13 @@
     <div class="col-md-2">
         <nav class="well">
             <ul class="nav nav-pills nav-stacked">
-                <li><a href="${tg.url('impresion/{0}'.format(recibo.id))}">Imprimir
-                    y Cerrar</a></li>
+                <li>
+                    <a href="${tg.url('impresion/{0}'.format(recibo.id))}">
+                        Imprimir y Cerrar
+                    </a>
+                </li>
                 <li>
                     <a href="${tg.url('anular/{0}'.format(recibo.id))}">Anular</a>
-                </li>
-                <li><a href="${tg.url('eliminar/{0}'.format(recibo.id))}">Eliminar</a>
                 </li>
             </ul>
         </nav>
@@ -88,7 +89,7 @@
             </tr>
             </tfoot>
         </table>
-        <form action="venta/agregar">
+        <form action="venta/agregar" py:if="not recibo.impreso">
             <table>
                 <colgroup width="16%">
                     <col/>
