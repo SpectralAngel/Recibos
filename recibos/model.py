@@ -254,6 +254,7 @@ class User(Entity):
     password = Field(Unicode(40))
     created = Field(DateTime, default=datetime.now)
     groups = ManyToMany('Group', tablename='user_group')
+    casa = ManyToOne("Casa")
 
     @property
     def permissions(self):
