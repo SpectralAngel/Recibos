@@ -24,13 +24,6 @@
 
     locale.setlocale(locale.LC_ALL, locale_name)
 ?>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $('.dia').datepicker({ changeMonth: true, changeYear: true, dateFormat: 'dd/mm/yy'}, $.datepicker.regional['es']);
-            $('.stripe tr:odd').addClass("odd");
-            $('.stripe tr:even').addClass("even");
-        });
-    </script>
     <meta content="text/html; charset=UTF-8" http-equiv="content-type" py:replace="''"/>
     <title py:replace="''">Sistema Gestor de Ingresos</title>
     <link py:for="css in tg_css" py:replace="ET(css.display())"/>
@@ -94,10 +87,7 @@
                     <ul class="dropdown-menu">
                         <li>
                             <a onclick="javascript:$('.calculadora').dialog('open');">Calculadora
-                                de Pr&eacute;stamos</a></li>
-                        <li>
-                            <a href="{% url 'userena_profile_detail' user.username %}">{%
-                                trans 'View profile' %}</a>
+                                de Pr&eacute;stamos</a>
                         </li>
                         <li>
                             <a href="${tg.url('/logout')}" class="navbar-link">Cerrar
@@ -117,5 +107,12 @@
 </div>
 <div id="footer"><p class="copyright">Copyright 2008 - 2015 Carlos Flores</p>
 </div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.dia').datepicker({ changeMonth: true, changeYear: true, dateFormat: 'dd/mm/yy'}, $.datepicker.regional['es']);
+        $('.stripe tr:odd').addClass("odd");
+        $('.stripe tr:even').addClass("even");
+    });
+</script>
 </body>
 </html>

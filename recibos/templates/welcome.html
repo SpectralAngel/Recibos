@@ -29,7 +29,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Casa:</label>
                         <div class="controls col-md-7">
-                            <select name="casa" class="activas form-control" />
+                            <input class="form-control" disabled="disabled" value="${tg.identity.user.casa.nombre}" />
+                            <input name="casa" class="form-control" value="${tg.identity.user.casa.id}" type="hidden" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -49,7 +50,8 @@
                     <div class="form-group">
                         <label class="control-label col-md-4">Casa:</label>
                         <div class="controls col-md-7">
-                            <select name="casa" class="activas form-control" />
+                            <input class="form-control" disabled="disabled" value="${tg.identity.user.casa.nombre}" />
+                            <input name="casa" class="form-control" value="${tg.identity.user.casa.id}" type="hidden" />
                         </div>
                     </div>
                     <div class="form-group">
@@ -106,6 +108,36 @@
                     </div>
                     <div class="form-actions">
                         <input class="btn btn-primary" type="submit" value="Guardar" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="col-md-4">
+            <form class="form-horizontal" role="form" action="${tg.url('/recibo/nombre')}" method="post">
+                <fieldset>
+                    <legend>Buscar Recibos por Nombre</legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">Nombre:</label>
+                        <div class="controls col-md-7">
+                            <input name="nombre" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input class="btn btn-primary" type="submit" value="Buscar" />
+                    </div>
+                </fieldset>
+            </form>
+            <form class="form-horizontal" role="form" action="${tg.url('/recibo/mostrar')}" method="post">
+                <fieldset>
+                    <legend>Mostrar un Recibo</legend>
+                    <div class="form-group">
+                        <label class="control-label col-md-4">N&uacute;mero:</label>
+                        <div class="controls col-md-7">
+                            <input name="recibo" class="form-control" />
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <input class="btn btn-primary" type="submit" value="Buscar" />
                     </div>
                 </fieldset>
             </form>
