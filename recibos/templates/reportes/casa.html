@@ -6,31 +6,40 @@
 	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
 </head>
 <body>
-	<div id="getting_started">
-		<h1>COPEMH</h1>
-		<h2>Reporte Diario de Ingresos</h2>
-		<h2 py:content="casa.nombre" />
-		<table class="stripe">
-			<caption py:content="dia.strftime('%A %d de %B de %Y').decode('utf8')" />
-			<thead>
-				<tr>
-					<th>Concepto</th>
-					<th>Valor</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr py:for="key in detalles.keys()">
-					<td py:content="key.nombre" />
-					<td py:content="locale.currency(detalles[key], True, True)" />
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th>Total de Ingresos</th>
-					<th py:content="locale.currency(sum(detalles[key] for key in detalles.keys()), True, True)" />
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>
+                COPEMH
+                <small>Reporte Diario de Ingresos en ${casa.nombre}</small>
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-striped">
+            <caption>${dia.strftime('%d de %B de %Y')}</caption>
+            <thead>
+            <tr>
+                <th>Concepto</th>
+                <th>Valor</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr py:for="key in detalles">
+                <td>${key.nombre}</td>
+                <td>${locale.currency(detalles[key], True, True)}</td>
+            </tr>
+            </tbody>
+            <tfoot>
+            <tr>
+                <th>Total de Ingresos</th>
+                <th>${locale.currency(sum(detalles[key] for key in detalles), True, True)}</th>
+            </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
 </body>
 </html>
