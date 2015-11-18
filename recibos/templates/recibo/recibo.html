@@ -28,7 +28,7 @@
             <h2>
                 <span py:if="recibo.afiliado != None">${recibo.afiliado}</span>
                 <span>${recibo.cliente}</span>
-                <span id="fecha">${recibo.dia.strftime('%A %d de %B de %Y').decode('utf8')}</span>
+                <span id="fecha">${fecha}</span>
             </h2>
         </div>
     </div>
@@ -75,7 +75,7 @@
                 <td>${locale.currency(venta.unitario, True, True)}</td>
                 <td>${locale.currency(venta.valor(), True, True)}</td>
                 <td>
-                    <button class="btn btn-danger" onclick="Venta.eliminar('${tg.url('venta/eliminar/{0}'.format(venta.id))}')">
+                    <button py:if="not recibo.impreso" class="btn btn-danger" onclick="Venta.eliminar('${tg.url('venta/eliminar/{0}'.format(venta.id))}')">
                         Eliminar
                     </button>
                 </td>
