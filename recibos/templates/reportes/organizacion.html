@@ -1,89 +1,97 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:py="http://genshi.edgewall.org/"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
-<xi:include href="../master.html" />
+      xmlns:py="http://genshi.edgewall.org/"
+      xmlns:xi="http://www.w3.org/2001/XInclude">
+<xi:include href="../master.html"/>
 <head>
-	<title>Reporte de Ingresos</title>
-	<meta content="text/html; charset=UTF-8" http-equiv="content-type" />
+    <title>Reporte de Ingresos</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type"/>
 </head>
 <body>
-	<div id="getting_started">
-		<h1>COPEMH</h1>
-		<h2>Reporte de Ingresos</h2>
-		<h3>
-			<span py:content="organizacion.nombre" /> en <span py:content="casa.nombre" />
-		</h3>
-		<table class="stripe">
-			<caption py:content="dia.strftime('%A %d de %B de %Y').decode('cp1252')" />
-			<thead>
-				<tr>
-					<th>Concepto</th>
-					<th>Valor</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr py:if="'Leyes Educativas' in detalles">
-					<td>Leyes Educativas</td>
-					<td py:content="locale.currency(detalles['Leyes Educativas'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Alquiler Fondo AutoSeguro' in detalles">
-					<td>Alquiler Fondo AutoSeguro</td>
-					<td py:content="locale.currency(detalles['Alquiler Fondo AutoSeguro'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Impuesto sobre Ventas' in detalles">
-					<td>Impuesto sobre Ventas</td>
-					<td py:content="locale.currency(detalles['Impuesto sobre Ventas'], True, True)" class="valor" />
-				</tr>
-				<tr py:for="detalle in detalles" py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones', 'Fondo de Emergencia', 'Fondo AutoSeguro', 'Defensa Legal', 'Aseguradora Hondureña', 'Beneficio de Sobrevivencia', 'Alquiler Fondo AutoSeguro', 'Leyes Educativas', 'Impuesto sobre Ventas')">
-					<td py:content="detalle" />
-					<td py:content="locale.currency(detalles[detalle], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Filiales' in detalles">
-					<td>Filiales</td>
-					<td py:content="locale.currency(detalles['Filiales'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'CIAPS' in detalles">
-					<td>CIAPS</td>
-					<td py:content="locale.currency(detalles['CIAPS'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Filiales Departamentales' in detalles">
-					<td>Filiales Departamentales</td>
-					<td py:content="locale.currency(detalles['Filiales Departamentales'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Capacitaciones' in detalles">
-					<td>Capacitaciones</td>
-					<td py:content="locale.currency(detalles['Capacitaciones'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Fondo AutoSeguro' in detalles">
-					<td>Fondo AutoSeguro</td>
-					<td py:content="locale.currency(detalles['Fondo AutoSeguro'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Fondo de Emergencia' in detalles">
-					<td>Fondo de Emergencia</td>
-					<td py:content="locale.currency(detalles['Fondo de Emergencia'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Beneficio de Sobrevivencia' in detalles">
-					<td>Beneficio de Sobrevivencia</td>
-					<td py:content="locale.currency(detalles['Beneficio de Sobrevivencia'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Defensa Legal' in detalles">
-					<td>Defensa Legal</td>
-					<td py:content="locale.currency(detalles['Defensa Legal'], True, True)" class="valor" />
-				</tr>
-				<tr py:if="'Aseguradora Hondureña' in detalles">
-					<td>Aseguradora Hondureña</td>
-					<td py:content="locale.currency(detalles['Aseguradora Hondureña'], True, True)" class="valor" />
-				</tr>
-			</tbody>
-			<tfoot>
-				<tr>
-					<th>Total de Ingresos</th>
-					<th py:content="locale.currency(sum(detalles[key] for key in detalles), True, True)" class="valor" />
-				</tr>
-			</tfoot>
-		</table>
-	</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h1>
+                COPEMH
+                <small>Reporte de Ingresos de ${organizacion.nombre}
+                    en ${casa.nombre}</small>
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <table class="stripe">
+        <caption>${dia.strftime('%d de %B de %Y')}</caption>
+        <thead>
+        <tr>
+            <th>Concepto</th>
+            <th>Valor</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr py:if="'Leyes Educativas' in detalles">
+            <td>Leyes Educativas</td>
+            <td class="valor">${locale.currency(detalles['Leyes Educativas'], True, True)}</td>
+        </tr>
+        <tr py:if="'Alquiler Fondo AutoSeguro' in detalles">
+            <td>Alquiler Fondo AutoSeguro</td>
+            <td class="valor">${locale.currency(detalles['Alquiler Fondo AutoSeguro'], True, True)}</td>
+        </tr>
+        <tr py:if="'Impuesto sobre Ventas' in detalles">
+            <td>Impuesto sobre Ventas</td>
+            <td class="valor">${locale.currency(detalles['Impuesto sobre Ventas'], True, True)}</td>
+        </tr>
+        <tr py:for="detalle in detalles"
+            py:if="detalle not in ('Filiales', 'CIAPS', 'Filiales Departamentales', 'Capacitaciones', 'Fondo de Emergencia', 'Fondo AutoSeguro', 'Defensa Legal', 'Aseguradora Hondureña', 'Beneficio de Sobrevivencia', 'Alquiler Fondo AutoSeguro', 'Leyes Educativas', 'Impuesto sobre Ventas')">
+            <td py:content="detalle"/>
+            <td class="valor">${locale.currency(detalles[detalle], True, True)}</td>
+        </tr>
+        <tr py:if="'Filiales' in detalles">
+            <td>Filiales</td>
+            <td class="valor">${locale.currency(detalles['Filiales'], True, True)}</td>
+        </tr>
+        <tr py:if="'CIAPS' in detalles">
+            <td>CIAPS</td>
+            <td class="valor">${locale.currency(detalles['CIAPS'], True, True)}</td>
+        </tr>
+        <tr py:if="'Filiales Departamentales' in detalles">
+            <td>Filiales Departamentales</td>
+            <td class="valor">${locale.currency(detalles['Filiales Departamentales'], True, True)}</td>
+        </tr>
+        <tr py:if="'Capacitaciones' in detalles">
+            <td>Capacitaciones</td>
+            <td class="valor">${locale.currency(detalles['Capacitaciones'], True, True)}</td>
+        </tr>
+        <tr py:if="'Fondo AutoSeguro' in detalles">
+            <td>Fondo AutoSeguro</td>
+            <td class="valor">${locale.currency(detalles['Fondo AutoSeguro'], True, True)}</td>
+        </tr>
+        <tr py:if="'Fondo de Emergencia' in detalles">
+            <td>Fondo de Emergencia</td>
+            <td class="valor">${locale.currency(detalles['Fondo de Emergencia'], True, True)}</td>
+        </tr>
+        <tr py:if="'Beneficio de Sobrevivencia' in detalles">
+            <td>Beneficio de Sobrevivencia</td>
+            <td class="valor">${locale.currency(detalles['Beneficio de Sobrevivencia'], True, True)}</td>
+        </tr>
+        <tr py:if="'Defensa Legal' in detalles">
+            <td>Defensa Legal</td>
+            <td class="valor">${locale.currency(detalles['Defensa Legal'], True, True)}</td>
+        </tr>
+        <tr py:if="'Aseguradora Hondureña' in detalles">
+            <td>Aseguradora Hondureña</td>
+            <td class="valor">${locale.currency(detalles['Aseguradora Hondureña'], True, True)}</td>
+        </tr>
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>Total de Ingresos</th>
+            <td class="valor">${locale.currency(sum(detalles[key] for key in detalles), True, True)}</td>
+        </tr>
+        </tfoot>
+    </table>
+</div>
 </body>
 </html>
 
