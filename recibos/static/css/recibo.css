@@ -21,10 +21,10 @@ table { width: 100%; }
 
 #total, #fecha, #recibo, #cajero { position: absolute; }
 
-#total { top: 400px; right: 50px; }
+#total { top: 600px; right: 50px; }
 
-#fecha { top: 400px; left: 100px; }
-#cajero { top: 400px; left: 500px; }
+#fecha { top: 600px; left: 80px; }
+#cajero { top: 600px; left: 400px; }
 
-#recibo { position: fixed; top: 50px; right: 85px; }
+#recibo { position: fixed; top: 50px; right: 90px; }
 
