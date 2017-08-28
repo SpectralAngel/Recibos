@@ -8,9 +8,9 @@ body
 	font-weight: bold;
 }
 #afiliado, #cliente	{ padding-left: 80px; }
-#afiliado {	padding-top: 25px; }
+#afiliado {	padding-top: 25px; margin-top: 20px; }
 
-#cliente { padding-top: 5px; padding-bottom: 40px; }
+#cliente { margin-top: 20px; padding-top: 5px; padding-bottom: 40px; }
 
 table { width: 100%; }
 
@@ -24,8 +24,8 @@ table { width: 100%; }
 
 #total { top: 600px; right: 50px; }
 
-#fecha { top: 600px; left: 80px; }
-#cajero { top: 600px; left: 400px; }
+#fecha { top: 500px; left: 80px; }
+#cajero { top: 500px; left: 400px; }
 
 #recibo { position: fixed; top: 50px; right: 90px; }
 
