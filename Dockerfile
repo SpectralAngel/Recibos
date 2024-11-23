@@ -21,7 +21,7 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-ENV DEBIAN_FRONTEND noninteractive
+ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
     &&  apt-get install -y \
@@ -50,4 +50,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD python2 start-recibos.py
+CMD ["python2", "start-recibos.py"]

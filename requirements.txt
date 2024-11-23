@@ -1,6 +1,6 @@
 python-dotenv
 Genshi
 PyMySQL
-http://peak.telecommunity.com/snapshots/PEAK-Rules-0.5a1.dev-r2713.tar.gz#egg=PEAK-Rules
+https://turbogears.org/2.0/downloads/current/PEAK-Rules-0.5a1.dev-r2686.tar.gz#egg=PEAK-Rules
 TurboGears
 git+https://github.com/ChowNow/elixir.git#egg=Elixir
