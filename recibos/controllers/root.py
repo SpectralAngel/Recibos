@@ -47,9 +47,12 @@ class Root(controllers.RootController):
 
     @expose(template="recibos.templates.login")
     def login(self, forward_url=None, previous_url=None, *args, **kw):
+
         if not identity.current.anonymous \
                 and identity.was_login_attempted() \
                 and not identity.get_identity_errors():
+            if not forward_url:
+                forward_url = url('/')
             raise redirect(forward_url)
 
         forward_url = None
