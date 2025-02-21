@@ -1,31 +1,67 @@
-@CHARSET "UTF-8";
+@charset "UTF-8";
 
-body
-{
-	margin-top: 20px;
-	margin-left: 5px;
-	font-size: 75%;
-	font-weight: bold;
+body {
+  margin-top: 20px;
+  margin-left: 5px;
+  font-size: 75%;
+  font-weight: bold;
 }
-#afiliado, #cliente	{ padding-left: 80px; }
-#afiliado {	padding-top: 25px; margin-top: 20px; }
+#afiliado,
+#cliente {
+  padding-left: 80px;
+}
+#afiliado {
+  padding-top: 25px;
+  margin-top: 20px;
+}
 
-#cliente { margin-top: 20px; padding-top: 5px; padding-bottom: 40px; }
+#cliente {
+  margin-top: 20px;
+  padding-top: 5px;
+  padding-bottom: 40px;
+}
 
-table { width: 100%; }
+table {
+  width: 100%;
+}
 
-#cantidad, #unitario, #valor { width: 100px; }
+#cantidad,
+#unitario,
+#valor {
+  width: 100px;
+}
 
-#producto { width: 350px; }
+#producto {
+  width: 350px;
+}
 
-#descripcion { width: 350px; }
+#descripcion {
+  width: 350px;
+}
 
-#total, #fecha, #recibo, #cajero { position: absolute; }
+#total,
+#fecha,
+#recibo,
+#cajero {
+  position: absolute;
+}
 
-#total { top: 600px; right: 50px; }
+#total {
+  top: 600px;
+  right: 50px;
+}
 
-#fecha { top: 500px; left: 80px; }
-#cajero { top: 500px; left: 400px; }
+#fecha {
+  top: 500px;
+  left: 80px;
+}
+#cajero {
+  top: 500px;
+  left: 400px;
+}
 
-#recibo { position: fixed; top: 50px; right: 90px; }
-
+#recibo {
+  position: fixed;
+  top: 50px;
+  right: 90px;
+}
