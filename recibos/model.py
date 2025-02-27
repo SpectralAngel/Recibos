@@ -205,7 +205,7 @@ class Visit(Entity):
     """
     A visit to your site
     """
-    using_options(tablename='visit_sps')
+    using_options(tablename='visit')
 
     visit_key = Field(String(40), primary_key=True)
     created = Field(DateTime, nullable=False, default=datetime.now)
@@ -220,7 +220,7 @@ class VisitIdentity(Entity):
     """
     A Visit that is link to a User object
     """
-    using_options(tablename='visit_identity_sps')
+    using_options(tablename='visit_identity')
 
     visit_key = Field(String(40), primary_key=True)
     user = ManyToOne('User', colname='user_id', use_alter=True)
